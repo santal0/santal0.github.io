@@ -1,6 +1,6 @@
 # 这是沈檀的妙妙屋
 
-![Desktop](../pictures/index/Desktop.jpg)
+![Desktop](../assets/pictures/index/Desktop.jpg)
 
 # 关于我
 

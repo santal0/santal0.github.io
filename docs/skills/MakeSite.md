@@ -92,3 +92,18 @@ mkdocs serve
 检查 action 状态，等待部署完成。
 
 10. 访问网站：https://yourusername.github.io/
+
+## 使用卡片
+引用自 [shrike505 的友站](https://nest.shrike505.cc/friends/)
+```shell
+pip install neoteroi-mkdocs
+```
+官方文档讲的不是很详细，需要把他仓库里的 `scss` 文件拉到本地用 `sass` 编译成 `css` 再引用
+可以到我的仓库里下载编译好的 `css/cards.css` 文件，再在 `mkdocs.yml` 里引用：
+```yaml
+markdown_extensions:
+  - neoteroi.cards
+extra_css:
+  - css/cards.css
+```
+

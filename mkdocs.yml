@@ -1,7 +1,11 @@
 site_name: 沈檀的妙妙屋
 site_url: https://santal0.github.io/
+markdown_extensions:
+  - neoteroi.cards
+extra_css:
+  - css/cards.css
 theme:
-  logo: pictures/logo.jpg
+  logo: assets/pictures/logo.jpg
   name: material
   language: zh
   palette:
@@ -27,5 +31,10 @@ theme:
         name: 切换至日间模式
 nav:
   - 首页: index.md
+  - cs 相关: 
+    - Git 速查: ./cs/Git.md
+    - Linux 速查: ./cs/Linux.md
+    - Vim 速查: ./cs/Vim.md
   - 奇妙技能: 
     - 如何制作网站: ./skills/MakeSite.md
+  - 友站: ./friends.md
