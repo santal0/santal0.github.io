@@ -8,7 +8,7 @@ theme:
   logo: assets/pictures/logo.jpg
   name: material
   language: zh
-  custom_dir: docs/overrides # 评论系统
+  custom_dir: docs/overrides/partials # 评论系统
   palette:
     # 日间模式
     - scheme: default

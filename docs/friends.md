@@ -1,7 +1,7 @@
----
+<!-- ---
 comments: true
 nonstatistics: true
----
+--- -->
 
 # 友站
 
