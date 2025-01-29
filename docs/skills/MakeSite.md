@@ -107,3 +107,11 @@ extra_css:
   - css/cards.css
 ```
 
+## 增加评论系统
+refer to [为MKdocs博客网站添加评论系统](https://zhuanlan.zhihu.com/p/688317464)
+`mkdocs.yml` 中添加
+```yaml
+theme:
+  name: material
+  custom_dir: docs/overrides  #主要是这一行
+```

@@ -8,6 +8,7 @@ theme:
   logo: assets/pictures/logo.jpg
   name: material
   language: zh
+  custom_dir: docs/overrides # 评论系统
   palette:
     # 日间模式
     - scheme: default
@@ -38,3 +39,6 @@ nav:
   - 奇妙技能: 
     - 如何制作网站: ./skills/MakeSite.md
   - 友站: ./friends.md
+  - 杂书:
+    - 社会科学:
+      - 《韧性：县乡政府如何运行》: ./books/political/韧性：县乡政府如何运行.md

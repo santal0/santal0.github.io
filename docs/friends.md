@@ -26,12 +26,12 @@ nonstatistics: true
   url: https://clovers2333.github.io/Clovers-Blog/
 
 - title: kailqq
-  content: 普物与概率论的拯救者
+  content: zjkgg
   image: assets/pictures/friends/kailqq.jpg
   url: https://note.kailqq.cc/
 
 - title: Silvermilight
   content: 任佬
   image: assets/pictures/friends/Silvermilight.jpg
-  url: https://rzm0572.github.io/
+  url: https://rzm0572.github.io/KnowledgeBase
 ::/cards::  
