@@ -8,7 +8,7 @@ theme:
   logo: assets/pictures/logo.jpg
   name: material
   language: zh
-  custom_dir: docs/overrides/partials # 评论系统
+  custom_dir: docs/overrides # 评论系统
   palette:
     # 日间模式
     - scheme: default
@@ -36,6 +36,7 @@ nav:
     - Git 速查: ./cs/Git.md
     - Linux 速查: ./cs/Linux.md
     - Vim 速查: ./cs/Vim.md
+    - CMake 速查: ./cs/CMake.md
   - 奇妙技能: 
     - 如何制作网站: ./skills/MakeSite.md
   - 友站: ./friends.md

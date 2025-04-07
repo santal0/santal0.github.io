@@ -20,6 +20,8 @@ git remote add upstream <url>
 git remote -v  #检查
 ```
 
+https://blog.csdn.net/inthat/article/details/124779375
+
 从上游仓库fetch最新更改
 ```bash
 git fetch upstream
@@ -41,8 +43,45 @@ git push origin main --force
 
 转载自：[Github操作：Fork仓库与上游仓库的同步 - 乔拾壹的文章 - 知乎](https://zhuanlan.zhihu.com/p/715381563)
 
-## 4. 推送代码
+从 fork 后的仓库抓取新的分支到本地
 
 ```bash
-git push origin master --force
+git checkout -b feat-lab1-3-DiskManager origin/feat-lab1-3-DiskManager
 ```
+
+
+
+## 4. 分支指令
+
+查看所有分支
+```bash
+git branch
+```
+
+创建分支
+```bash
+git branch <branch-name>
+```
+
+切换分支
+```bash
+git checkout <branch-name>
+```
+
+创建并切换分支
+```bash
+git checkout -b <branch-name>
+```
+
+合并分支：
+先切换回主分支，然后执行
+```bash
+git merge <branch-name>
+# 这里的 branch-name 是要被合并的分支名
+```
+
+删除已经合并的分支
+```bash
+git branch -d <branch-name>
+```
+
