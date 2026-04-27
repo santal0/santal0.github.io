@@ -1,0 +1,53 @@
+site_name: 沈檀的妙妙屋
+site_url: https://santal0.github.io/
+markdown_extensions:
+  - neoteroi.cards
+  - pymdownx.arithmatex:
+      generic: true
+extra_css:
+  - css/cards.css
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+theme:
+  logo: assets/pictures/logo.jpg
+  name: material
+  language: zh
+  custom_dir: docs/overrides # 评论系统
+  palette:
+    # 日间模式
+    - scheme: default
+      # 主颜色
+      # https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#primary-color
+      primary: cyan
+      # 链接等可交互元件的高亮色
+      # https://squidfunk.github.io/mkdocs-material/setup/changing-the-colors/#accent-color
+      accent: orange
+      toggle:
+        # 图标
+        icon: material/weather-night
+        # 鼠标悬浮提示
+        name: 切换至夜间模式
+    # 夜间模式
+    - scheme: slate
+      primary: cyan
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: 切换至日间模式
+nav:
+  - 首页: index.md
+  - 课程: 
+    - 编译原理:
+      - chapter2 词法分析: ./courses/CompilerPrinciple/chapter2.md
+  - cs 相关: 
+    - Git 速查: ./cs/Git.md
+    - Linux 速查: ./cs/Linux.md
+    - Vim 速查: ./cs/Vim.md
+    - CMake 速查: ./cs/CMake.md
+  - 奇妙技能: 
+    - 如何制作网站: ./skills/MakeSite.md
+  - 友站: ./friends.md
+  - 杂书:
+    - 社会科学:
+      - 《韧性：县乡政府如何运行》: ./books/political/韧性：县乡政府如何运行.md
