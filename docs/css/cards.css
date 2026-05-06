@@ -113,3 +113,41 @@
   }
   
   /*# sourceMappingURL=cards.css.map */
+
+/* Override markdown heading sizes so h1-h5 remain larger than body text */
+.md-typeset h1, .md-content h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+}
+.md-typeset h2, .md-content h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-top: 1.1em;
+  margin-bottom: 0.55em;
+}
+.md-typeset h3, .md-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.05em;
+  margin-bottom: 0.5em;
+}
+.md-typeset h4, .md-content h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1em;
+  margin-bottom: 0.45em;
+}
+.md-typeset h5, .md-content h5 {
+  font-size: 1.05rem; /* slightly larger than body (1rem) */
+  font-weight: 600;
+  margin-top: 0.95em;
+  margin-bottom: 0.4em;
+}
+.md-typeset h6, .md-content h6 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 0.9em;
+  margin-bottom: 0.35em;
+}

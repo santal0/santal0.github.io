@@ -4,6 +4,11 @@ markdown_extensions:
   - neoteroi.cards
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 extra_css:
   - css/cards.css
 extra_javascript:
@@ -13,6 +18,9 @@ theme:
   logo: assets/pictures/logo.jpg
   name: material
   language: zh
+  features:
+    - navigation.sections
+    - toc.integrate
   custom_dir: docs/overrides # 评论系统
   palette:
     # 日间模式
@@ -40,6 +48,12 @@ nav:
   - 课程: 
     - 编译原理:
       - chapter2 词法分析: ./courses/CompilerPrinciple/chapter2.md
+      - chapter3 语法分析: ./courses/CompilerPrinciple/Chapter3.md
+      - chapter4 抽象语法: ./courses/CompilerPrinciple/Chapter4.md
+      - chapter5 语义分析: ./courses/CompilerPrinciple/Chapter5.md
+      - chapter6 : ./courses/CompilerPrinciple/Chapter6.md
+      - chapter7 中间代码生成: ./courses/CompilerPrinciple/Chapter7.md
+      - Tiger 语言: ./courses/CompilerPrinciple/Tiger.md
   - cs 相关: 
     - Git 速查: ./cs/Git.md
     - Linux 速查: ./cs/Linux.md
