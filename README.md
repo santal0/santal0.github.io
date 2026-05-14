@@ -18,3 +18,7 @@ pip install -r requirements.txt
 ```
 
 * 预览网页
+
+```shell
+mkdocs serve
+```

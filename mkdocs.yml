@@ -53,6 +53,8 @@ nav:
       - chapter5 语义分析: ./courses/CompilerPrinciple/Chapter5.md
       - chapter6 : ./courses/CompilerPrinciple/Chapter6.md
       - chapter7 中间代码生成: ./courses/CompilerPrinciple/Chapter7.md
+      - chapter8 基本块: ./courses/CompilerPrinciple/Chapter8.md
+      - chapter9 指令选择: ./courses/CompilerPrinciple/Chapter9.md
       - Tiger 语言: ./courses/CompilerPrinciple/Tiger.md
   - cs 相关: 
     - Git 速查: ./cs/Git.md
