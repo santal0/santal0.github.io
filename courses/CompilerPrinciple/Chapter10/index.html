@@ -1,0 +1,1966 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/Chapter10/">
+      
+      
+        <link rel="prev" href="../Chapter9/">
+      
+      
+        <link rel="next" href="../Chapter11/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>chapter10 Liveness Analysis（活跃分析） - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter10-liveness-analysis" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chapter10 Liveness Analysis（活跃分析）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        chapter2 词法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter6/" class="md-nav__link">
+        chapter6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter8/" class="md-nav__link">
+        chapter8 基本块
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter9/" class="md-nav__link">
+        chapter9 指令选择
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          chapter10 Liveness Analysis（活跃分析）
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-liveness-analysis" class="md-nav__link">
+    10.1 Liveness Analysis（活跃分析）
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1 Liveness Analysis（活跃分析）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1011-why-liveness-analysis" class="md-nav__link">
+    10.1.1 Why Liveness Analysis（为什么需要活跃分析）？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1012-liveness-analysis-how" class="md-nav__link">
+    10.1.2. liveness Analysis - How
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1013-control-flow-graph-cfg" class="md-nav__link">
+    10.1.3. 控制流图 control flow graph（ CFG） 示例
+  </a>
+  
+    <nav class="md-nav" aria-label="10.1.3. 控制流图 control flow graph（ CFG） 示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10131-b" class="md-nav__link">
+    10.1.3.1. b 在哪里活着？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10132-a" class="md-nav__link">
+    10.1.3.2. 变量 a 的活跃性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10133-c" class="md-nav__link">
+    10.1.3.3. 变量 c 的活跃性
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10134" class="md-nav__link">
+    10.1.3.4. 总结
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-flow-graph-terminology" class="md-nav__link">
+    10.2 Flow Graph Terminology
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Flow Graph Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1021" class="md-nav__link">
+    10.2.1. 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1022-uses-and-defs" class="md-nav__link">
+    10.2.2. Uses and Defs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1023-liveness" class="md-nav__link">
+    10.2.3. Liveness 正式定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103" class="md-nav__link">
+    10.3. 活跃分析数据流方程
+  </a>
+  
+    <nav class="md-nav" aria-label="10.3. 活跃分析数据流方程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1031" class="md-nav__link">
+    10.3.1. 规则：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1032" class="md-nav__link">
+    10.3.2. 例子
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1033" class="md-nav__link">
+    10.3.3 活跃方程
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104" class="md-nav__link">
+    10.4. 求解
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4. 求解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1041" class="md-nav__link">
+    10.4.1. 如何求解数据流方程
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4.1. 如何求解数据流方程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    核心算法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1042-calculation-of-liveness" class="md-nav__link">
+    10.4.2. Calculation of Liveness（活跃性计算）
+  </a>
+  
+    <nav class="md-nav" aria-label="10.4.2. Calculation of Liveness（活跃性计算）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10421" class="md-nav__link">
+    10.4.2.1. 自顶向下分析
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10422" class="md-nav__link">
+    10.4.2.2. 自底向上分析
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105" class="md-nav__link">
+    10.5. 性能提升
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5. 性能提升">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1051-variants-of-the-calculation" class="md-nav__link">
+    10.5.1. Variants of the Calculation 计算方式的变体
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.1. Variants of the Calculation 计算方式的变体">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10511-basic-blocks" class="md-nav__link">
+    10.5.1.1. Basic blocks 基本块
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10512-one-variable-at-a-time" class="md-nav__link">
+    10.5.1.2. One variable at a time 一次只分析一个变量
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1052-inn-outn" class="md-nav__link">
+    10.5.2. in[n] 和 out[n] 集合表示方式
+  </a>
+  
+    <nav class="md-nav" aria-label="10.5.2. in[n] 和 out[n] 集合表示方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10521-bit-arrays" class="md-nav__link">
+    10.5.2.1. Bit Arrays 位数组
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#10522-sorted-lists" class="md-nav__link">
+    10.5.2.2. Sorted Lists 排序链表
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#106" class="md-nav__link">
+    10.6. 复杂度分析
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1071-least-fixed-points" class="md-nav__link">
+    10.7.1. 最小不动点 Least Fixed Points
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1072-fixed-point" class="md-nav__link">
+    10.7.2. 最小 fixed point 定理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1073-static-and-dynamic-liveness" class="md-nav__link">
+    10.7.3. Static and Dynamic Liveness
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1074" class="md-nav__link">
+    10.7.4. 保守近似
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1075" class="md-nav__link">
+    10.7.5. 动态活跃性与静态活跃性定义
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#108-interference-graphs" class="md-nav__link">
+    10.8. Interference Graphs 冲突图 / 干涉图
+  </a>
+  
+    <nav class="md-nav" aria-label="10.8. Interference Graphs 冲突图 / 干涉图">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1081" class="md-nav__link">
+    10.8.1. 冲突
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1082-move" class="md-nav__link">
+    10.8.2. MOVE 指令的特殊处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1083" class="md-nav__link">
+    10.8.3. 如何添加冲突边
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1084" class="md-nav__link">
+    10.8.4. 零长度活跃区间
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tiger/" class="md-nav__link">
+        Tiger 语言
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="chapter10-liveness-analysis">Chapter10 - Liveness Analysis（活跃分析）</h1>
+<h2 id="101-liveness-analysis">10.1 Liveness Analysis（活跃分析）</h2>
+<h3 id="1011-why-liveness-analysis">10.1.1 Why Liveness Analysis（为什么需要活跃分析）？</h3>
+<p>中间表示（IR）可以使用无限多个临时变量（temporaries）。真实机器，只有有限数量的寄存器。这是编译器中的巨大矛盾。</p>
+<ol>
+<li>
+<p>如果临时变量 a 和 b 不会同时“正在使用”，那么它们可以放进同一个寄存器。</p>
+</li>
+<li>
+<p>如果寄存器不够，多余变量可以存进内存。</p>
+</li>
+</ol>
+<p>编译器必须知道哪些变量会同时使用。</p>
+<p>活跃变量分析：用于确定每个变量的活跃性。如果一个变量保存的值未来可能还会被使用，那么它是活跃的（live）。</p>
+<h3 id="1012-liveness-analysis-how">10.1.2. liveness Analysis - How</h3>
+<p>如何进行活跃分析？</p>
+<p>问题变成：变量 x 在语句 n 之后会不会再被使用？</p>
+<ul>
+<li>哪些语句可能在 n 之后执行？</li>
+<li>建立控制流图（control flow graph）</li>
+<li>x 是否在这些语句中被使用？</li>
+<li>分析语句</li>
+</ul>
+<p>活跃分析是：逆向分析（Backward Analysis）,从未来往过去推。</p>
+<h3 id="1013-control-flow-graph-cfg">10.1.3. 控制流图 control flow graph（ CFG） 示例</h3>
+<p>构建控制流图：</p>
+<ul>
+<li>节点（node）一条语句。</li>
+<li>边（edge）控制流。如果语句 m 后可能执行语句 n：则有边：m → n</li>
+</ul>
+<p>代码：</p>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p>形成：</p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<p>因为if 可能跳回,所以形成循环。</p>
+<h4 id="10131-b">10.1.3.1. b 在哪里活着？</h4>
+<p>代码：</p>
+<p><code>c
+2: b := a+1
+3: c := c+b
+4: a := b*2</code></p>
+<p>第3句用了 b，第4句也用了 b，因此在 2→3，3→4 这两条边上，b 是 live </p>
+<p>但 4 之后，b 不再被用。所以 4 后面 b 不再活跃。</p>
+<p>2 前面 b 不活着，因为但凡跳转到 2 或者执行到 2 的指令，b 都会被覆盖，前面 b 根本不影响。</p>
+<h4 id="10132-a">10.1.3.2. 变量 a 的活跃性</h4>
+<p>代码：</p>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p>形成：</p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<p>a 在 if 判断中被使用。因此 4 定义的 a，在 5 使用，所以 4→5 上，a live。</p>
+<p>因为存在循环 5 -&gt; 2 a 的活跃性会“绕回来”。5 -&gt; 2 a 活跃</p>
+<p>1 -&gt; 2 a 活着，因为 1 被赋值 2 时使用</p>
+<p>其他时候都不活跃。</p>
+<h4 id="10133-c">10.1.3.3. 变量 c 的活跃性</h4>
+<p>1 -&gt; 2 , 2-&gt;3 , 3-&gt;4 , 4-&gt;5 , 5 -&gt; 2 , 2-&gt; 3 c 都是活跃的，因为数据要在 3 被使用</p>
+<p>但是这个程序我们发现 c 没有被定义，所以要么是参数要么是局部变量</p>
+<h4 id="10134">10.1.3.4. 总结</h4>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<table>
+<thead>
+<tr>
+<th>边</th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1-&gt;2</td>
+<td>live</td>
+<td></td>
+<td>live</td>
+</tr>
+<tr>
+<td>2-&gt;3</td>
+<td></td>
+<td>live</td>
+<td>live</td>
+</tr>
+<tr>
+<td>3-&gt;4</td>
+<td></td>
+<td>live</td>
+<td>live</td>
+</tr>
+<tr>
+<td>4-&gt;5</td>
+<td>live</td>
+<td></td>
+<td>live</td>
+</tr>
+<tr>
+<td>5-&gt;2</td>
+<td>live</td>
+<td></td>
+<td>live</td>
+</tr>
+<tr>
+<td>5-&gt;6</td>
+<td></td>
+<td></td>
+<td>live</td>
+</tr>
+</tbody>
+</table>
+<p>由于 a 和 b 从不会同时活跃，它们可以放进同一个寄存器。</p>
+<h2 id="102-flow-graph-terminology">10.2 Flow Graph Terminology</h2>
+<h3 id="1021">10.2.1. 定义</h3>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<ul>
+<li>
+<p>out-edges 出边</p>
+<ul>
+<li>例如 5 的出边是 5-&gt;2 和 5-&gt;6</li>
+</ul>
+</li>
+<li>
+<p>in-edges 入边</p>
+<ul>
+<li>例如 2 的入边是 1-&gt;2 和 5-&gt;2</li>
+</ul>
+</li>
+<li>
+<p>pred[n] 节点 n 的前驱集合</p>
+<ul>
+<li>例如 pred[2] = {1,5}</li>
+</ul>
+</li>
+<li>
+<p>succ[n] 节点 n 的后继集合</p>
+<ul>
+<li>例如 succ[5] = {2,6}</li>
+</ul>
+</li>
+</ul>
+<h3 id="1022-uses-and-defs">10.2.2. Uses and Defs</h3>
+<p>定义：</p>
+<ul>
+<li>use：使用变量的节点，或者该节点使用的变量</li>
+<li>def：定义变量的节点，或者该节点定义的变量</li>
+</ul>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<p><code>text
+def(a) = {1,4}
+def(3) = {c}
+use(a) = {2,5}
+use(3) = {b, c}</code></p>
+<h3 id="1023-liveness">10.2.3. Liveness 正式定义</h3>
+<p>如果从某条边开始，存在一条路径：</p>
+<ul>
+<li>能到达该变量的 use</li>
+<li>且中间没有经过新的 def</li>
+</ul>
+<p>则变量在该边上是 live。</p>
+<p>如果一个变量：在某节点某一条入边上是 live，那么它是该节点的 live-in 变量。</p>
+<p>如果变量：在节点的任意一条出边上 live，那么它是该节点的 live-out 变量。</p>
+<p>in[n]：节点 n 的 live-in 变量集合</p>
+<p>out[n]：节点 n 的 live-out 变量集合</p>
+<h2 id="103">10.3. 活跃分析数据流方程</h2>
+<h3 id="1031">10.3.1. 规则：</h3>
+<ol>
+<li>
+<p>If a ∈ in[m] for ∃m∈succ[n]，then a ∈ out[n]</p>
+<p>如果 n 的某个后继节点 m 的 in[m] 中有 a，则 a ∈ out[n]</p>
+<p>意思：如果后面 a 是 live 的。那么，当前节点出去时，a 必须 live。</p>
+</li>
+<li>
+<p>If a ∈ use[n]，then a ∈ in[n]</p>
+<p>如果语句 n 使用 a，那么 a 在进入 n 时必须 live。</p>
+</li>
+</ol>
+<p>辨析： If a ∈ out[n], then a ∈ in[n] 正确吗？错误！因为 n 可以定义 a</p>
+<ol>
+<li>
+<p>If a ∈ out[n] and a ∉ def[n]，then a ∈ in[n]</p>
+<p>如果：a 在离开 n 时 live，且 n 没有重新定义 a，那么 a 在进入 n 时也 live。</p>
+<p>如果未来还要用，且当前没覆盖，那现在必须保留。</p>
+</li>
+</ol>
+<h3 id="1032">10.3.2. 例子</h3>
+<p><code>p: b := c+1
+    |
+    v
+n: b &lt; 10
+  |    |
+  v    v
+  m1   m2</code></p>
+<p>假如 </p>
+<p><code>c
+in[m1] = {d}, in[m2] = {e}</code></p>
+<p>根据规则 1，out[n] =  in[m1] ∪ in[m2] = {d, e}</p>
+<p>根据规则 2 和 3， in[n] = {b} ∪ {{d, e}- ∅} = {b, d, e}</p>
+<p>out[p] = {b, d, e}</p>
+<p>in[p] = {c} ∪ ({b, d, e}- {b}) = {c, d, e}</p>
+<h3 id="1033">10.3.3 活跃方程</h3>
+<p>公式1</p>
+<div class="arithmatex">\[
+in[n] = use[n] \cup (out[n] - def[n])
+\]</div>
+<p>意思：进入 n 时 live 的变量 = 当前要用的变量 * 未来要用且当前没覆盖的变量</p>
+<p>公式2</p>
+<div class="arithmatex">\[
+out[n] = \bigcup_{s \in succ[n]} in[s]
+\]</div>
+<p>意思：出去时 live 的变量 = 所有后继入口 live 的并集</p>
+<h2 id="104">10.4. 求解</h2>
+<h3 id="1041">10.4.1. 如何求解数据流方程</h3>
+<h4 id="_1">核心算法</h4>
+<p>初始化：</p>
+<p><code>text
+in[n]={}
+out[n]={}</code></p>
+<p>然后：</p>
+<p>```text
+for each n
+  in[n] &lt;- {}; out[n] &lt;- {}</p>
+<p>repeat
+  for each n
+    in′[n] ← in[n]; out′[n] ← out[n]
+    in[n] ← use[n] ∪ (out[n] − def[n])
+    out[n] ← ⋃in[s] (for all s ∈ success [n]) <br />
+until in′[n] = in[n] and out′[n] = out[n] for all n</p>
+<p>```</p>
+<h3 id="1042-calculation-of-liveness">10.4.2. Calculation of Liveness（活跃性计算）</h3>
+<p>活跃变量方程（Liveness Equations）如何一步一步迭代求解</p>
+<p><code>c
+1 a := 0
+2 L1: b := a+1
+3 c := c+b
+4 a := b*2
+5 if a&lt;N goto L1
+6 return c</code></p>
+<p><code>text
+1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6
+     ^              |
+     |______________|</code></p>
+<p>左边表格中列出了：</p>
+<table>
+<thead>
+<tr>
+<th>节点</th>
+<th>use</th>
+<th>def</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>∅</td>
+<td>a</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a</td>
+<td>b</td>
+</tr>
+<tr>
+<td>3</td>
+<td>b,c</td>
+<td>c</td>
+</tr>
+<tr>
+<td>4</td>
+<td>b</td>
+<td>a</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a</td>
+<td>∅</td>
+</tr>
+<tr>
+<td>6</td>
+<td>c</td>
+<td>∅</td>
+</tr>
+</tbody>
+</table>
+<h4 id="10421">10.4.2.1. 自顶向下分析</h4>
+<div class="arithmatex">\[
+in[n] = use[n] \cup (out[n] - def[n])
+\]</div>
+<div class="arithmatex">\[
+out[n] = \bigcup_{s \in succ[n]} in[s]
+\]</div>
+<p>当前：</p>
+<div class="arithmatex">\[
+out[2]=\emptyset
+\]</div>
+<p>因此：</p>
+<div class="arithmatex">\[
+in[2] = use[2]\cup(out[2]-def[2])={a}
+\]</div>
+<div class="arithmatex">\[
+use[3]=\{b,c\}, def[3]=\{c\}
+\]</div>
+<p>但当前：</p>
+<div class="arithmatex">\[
+out[3]=\emptyset
+\]</div>
+<div class="arithmatex">\[
+in[3]=\{b,c\}\cup(\emptyset-\{c\})=\{b,c\}
+\]</div>
+<p>总之最后计算出：</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>use</th>
+<th>def</th>
+<th>1st in</th>
+<th>1st out</th>
+<th>2nd in</th>
+<th>2nd out</th>
+<th>3rd in</th>
+<th>3rd out</th>
+<th>4th in</th>
+<th>4th out</th>
+<th>5th in</th>
+<th>5th out</th>
+<th>6th in</th>
+<th>6th out</th>
+<th>7th in</th>
+<th>7th out</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td></td>
+<td>a</td>
+<td></td>
+<td></td>
+<td></td>
+<td>a</td>
+<td></td>
+<td>a</td>
+<td></td>
+<td>ac</td>
+<td>c</td>
+<td>ac</td>
+<td>c</td>
+<td>ac</td>
+<td>c</td>
+<td>ac</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a</td>
+<td>b</td>
+<td>a</td>
+<td></td>
+<td>a</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+</tr>
+<tr>
+<td>3</td>
+<td>bc</td>
+<td>c</td>
+<td>bc</td>
+<td></td>
+<td>bc</td>
+<td>b</td>
+<td>bc</td>
+<td>b</td>
+<td>bc</td>
+<td>b</td>
+<td>bc</td>
+<td>b</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+</tr>
+<tr>
+<td>4</td>
+<td>b</td>
+<td>a</td>
+<td>b</td>
+<td></td>
+<td>b</td>
+<td>a</td>
+<td>b</td>
+<td>a</td>
+<td>b</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a</td>
+<td></td>
+<td>a</td>
+<td>a</td>
+<td>a</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+</tr>
+<tr>
+<td>6</td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="10422">10.4.2.2. 自底向上分析</h4>
+<p>可以通过反方向计算来加快收敛。也就是不要从1算到6，而是从6算到1。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>use</th>
+<th>def</th>
+<th>1st out</th>
+<th>1st in</th>
+<th>2nd out</th>
+<th>2nd in</th>
+<th>3rd out</th>
+<th>3rd in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>c</td>
+<td></td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+<td></td>
+<td>c</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a</td>
+<td></td>
+<td>c</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+<td>ac</td>
+</tr>
+<tr>
+<td>4</td>
+<td>b</td>
+<td>a</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+</tr>
+<tr>
+<td>3</td>
+<td>bc</td>
+<td>c</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+<td>bc</td>
+</tr>
+<tr>
+<td>2</td>
+<td>a</td>
+<td>b</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+<td>bc</td>
+<td>ac</td>
+</tr>
+<tr>
+<td>1</td>
+<td></td>
+<td>a</td>
+<td>ac</td>
+<td>c</td>
+<td>ac</td>
+<td>c</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>为什么反向顺序这么快？</p>
+<p>因为当算节点4时，节点5的信息已经有了；算节点3时，节点4的信息已经有了；算节点2时，节点3的信息已经有了。信息一路顺着“活跃性传播方向”往前传，所以不用空等很多轮。</p>
+<p>用迭代法解数据流方程时，计算顺序应该尽量沿着信息流动方向。这会更加高效。</p>
+<p>活跃性信息沿控制流箭头的反方向传播，并且从 out 传到 in，所以计算也应该按这个方向进行。</p>
+<h2 id="105">10.5. 性能提升</h2>
+<h3 id="1051-variants-of-the-calculation">10.5.1. Variants of the Calculation  计算方式的变体</h3>
+<h4 id="10511-basic-blocks">10.5.1.1. Basic blocks 基本块</h4>
+<blockquote>
+<p>从以节点为单位到以块为单位构建控制流图，减少计算量。</p>
+</blockquote>
+<p>Basic blocks：如果控制流图中的某些节点只有一个前驱和一个后继，它们本身不太有趣。一串顺序执行的语句，可以合并成一个基本块。
+* 可以把这些节点和它们的前驱、后继合并
+* 得到一个节点更少的图，其中每个节点表示一个基本块。</p>
+<h4 id="10512-one-variable-at-a-time">10.5.1.2. One variable at a time 一次只分析一个变量</h4>
+<p>也就是说，不一定每次都维护所有变量的 in/out 集合。可以在需要某个变量信息时，只针对这个变量计算。</p>
+<p>很多临时变量的活跃区间很短。</p>
+<h3 id="1052-inn-outn">10.5.2. in[n] 和 out[n] 集合表示方式</h3>
+<blockquote>
+<p>在实现中，如何表示 in[n] 和 out[n]？</p>
+</blockquote>
+<p>需要支持集合并集、集合差集的操作：</p>
+<h4 id="10521-bit-arrays">10.5.2.1. Bit Arrays 位数组</h4>
+<p>假设程序中有 N 个变量，一个机器字有 K 位。那么每个集合用 N 个 bit 表示，如果第 i 个变量在集合里，就把第 i 位设为 1。集合并集可以用按位 OR。</p>
+<p>一次集合并操作需要 N/K 次机器字操作</p>
+<p>适合 dense set 稠密集合</p>
+<h4 id="10522-sorted-lists">10.5.2.2. Sorted Lists 排序链表</h4>
+<p>变量按某个全序 key 排序，例如变量名或编号。并集操作就像归并两个有序链表。</p>
+<p>当集合很稀疏时，排序链表更快。</p>
+<h2 id="106">10.6. 复杂度分析</h2>
+<blockquote>
+<p>迭代式数据流分析有多快？</p>
+</blockquote>
+<p>假设程序大小为 N，最多 N 个节点，最多 N 个变量</p>
+<ul>
+<li>
+<p>每次集合并操作需要 <span class="arithmatex">\(O(N)\)</span> </p>
+<ul>
+<li>in 集合大小小于 N，out 集合大小小于 N，所以一轮合并 <span class="arithmatex">\(O(N)\)</span></li>
+</ul>
+</li>
+<li>
+<p>for 循环中，每个节点做常数次集合操作，N 个节点，所以一轮 <span class="arithmatex">\(O(N^2)\)</span></p>
+</li>
+<li>
+<p>repeat 循环每次至少要增大一个 in 集合或者 out 集合，in 集合和 out 集合大小最大为 N，N 个节点最大能增大 <span class="arithmatex">\(O(N^2)\)</span> 次。所有 in 和 out 集合大小之和最多是 <span class="arithmatex">\(2N^2\)</span>，所以最多执行 <span class="arithmatex">\(O(N^2)\)</span> 次。</p>
+</li>
+</ul>
+<p>所以最坏情况：最多执行 <span class="arithmatex">\(O(N^2)\)</span> 次，N 个节点的 <span class="arithmatex">\(O(N)\)</span> 的归并</p>
+<div class="arithmatex">\[
+O(N^4)
+\]</div>
+<p>但实际中通常是 <span class="arithmatex">\(O(N)\)</span> 到 <span class="arithmatex">\(O(N^2)\)</span></p>
+<p>尤其是如果计算顺序合理，速度会快很多。</p>
+<h2 id="_2"></h2>
+<h3 id="1071-least-fixed-points">10.7.1. 最小不动点 Least Fixed Points</h3>
+<p>数据流方程不一定是唯一解的，例如假设还有一个程序变量 d，在这段程序中完全没有使用，那么包含不包含 d 都是可行的解。</p>
+<p>数据流方程的任何解都是一种保守近似。如果变量 a 在节点 n 后某次执行中确实需要，那么任何方程解都会把 a 放进 out[n]。</p>
+<p>但是反过来不一定成立，a ∈ out[n]，不一定表示 a 的值真的会被使用。</p>
+<p>如果编译器认为一个变量是 live，就会确保它的值在寄存器中。</p>
+<p>保守近似 conservative approximation 的意思是：</p>
+<ul>
+<li>可能错误地认为变量还活着</li>
+<li>但不会错误地认为活变量已经死了</li>
+</ul>
+<p>可能多用寄存器，但程序结果一定正确</p>
+<h3 id="1072-fixed-point">10.7.2. 最小 fixed point 定理</h3>
+<p>数据流方程可能有多个解。如果 X 是一个解，并且所有其他解都包含 X，那么 X 就叫 least solution/least fixed point/最小解 / 最小不动点</p>
+<p>方程 10.3 存在最小不动点，并且前面描述的迭代算法总能计算出这个最小不动点。</p>
+<h3 id="1073-static-and-dynamic-liveness">10.7.3. Static and Dynamic Liveness</h3>
+<p><code>text
+a = b*b --- c = a+b --- c &gt;= b --- return b
+                          |
+                        return c</code></p>
+<p>注意，根据 chapter 9 的分析，规范的顺序就是 true 跳转的 return b 是 node 5，而 false 分支是 node 4。</p>
+<p><code>text
+Node 1: a = b*b &gt;= 0
+Node 2: c = a+b &gt;= b
+Node 3: c &gt;= b, always be true
+Node 4: return c, will never be reached</code></p>
+<p>从数学上看，条件永远为真，所以节点4永远不会执行。但是数据流方程不知道这个条件一定为真。它只看控制流图上有没有边。方程不知道条件分支实际会走哪条路。</p>
+<p>如果方程更聪明，知道节点4不可达，就可能允许 a 和 c 分配到同一个寄存器。</p>
+<p>编译器不可能完全理解控制流。<strong>没有任何编译器能完全理解所有程序的控制流实际会如何运行。</strong></p>
+<p>定理（停机问题是 NP 难解问题）：不存在一个程序 H，可以对任意程序 P 和输入 X 判断 P(X) 会停机还是死循环，并且 H 自己不会死循环。</p>
+<p>推论：不存在一个通用程序 H'，可以判断任意程序 P 中的某个标签 L 是否会在执行中到达。如果能判断某个标签会不会到达，就能把“程序结束处”设成标签 L，从而判断程序会不会停机。这与停机问题不可判定矛盾。</p>
+<h3 id="1074">10.7.4. 保守近似</h3>
+<p>这个定理不是说我们永远不能判断某个标签是否可达；而是说不存在一个对所有程序都有效的通用算法。所以：</p>
+<ul>
+<li>编译器可以做一些特殊情况优化：</li>
+<li>但它不能总是判断变量是否真正会被需要。</li>
+<li>因此只能使用：conservative approximation 保守近似<ul>
+<li>具体做法：假设任何条件分支两边都有可能走。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1075">10.7.5. 动态活跃性与静态活跃性定义</h3>
+<p><strong>动态活跃性 dynamic liveness：</strong>变量 a 在节点 n 动态 live，如果程序的某次实际执行会从 n 到达 a 的一次使用，并且中途没有重新定义 a。</p>
+<p>重点是：某次真实执行</p>
+<p><strong>静态活跃性 static liveness：</strong>变量 a 在节点 n 静态 live，如果控制流图中存在一条从 n 到 a 的使用点的路径，并且中途没有重新定义 a。</p>
+<p>重点是：控制流图上存在某条路径</p>
+<p>如果 a 动态 live，那么 a 一定静态 live。但反过来不一定。因为控制流图上的某条路径可能实际永远不会走。</p>
+<h2 id="108-interference-graphs">10.8. Interference Graphs 冲突图 / 干涉图</h2>
+<h3 id="1081">10.8.1. 冲突</h3>
+<p>活跃变量分析最重要的应用之一是寄存器分配。</p>
+<p>我们有一堆临时变量：</p>
+<p><code>text
+a, b, c, ...</code></p>
+<p>也有有限个寄存器：</p>
+<p><code>text
+r1, ..., rk</code></p>
+<p>如果 a 和 b 不能分配到同一个寄存器，这种限制叫：interference 冲突 / 干涉</p>
+<p>两类冲突：</p>
+<ol>
+<li>
+<p><strong>overlapping live ranges</strong>：活跃区间重叠。如果两个变量同时 live，它们不能共用一个寄存器。</p>
+</li>
+<li>
+<p><strong>机器指令限制导致的冲突</strong>：如果某个变量 a 必须由一条不能访问 r1 的指令生成，那么 a 和 r1 也冲突。</p>
+</li>
+</ol>
+<p>冲突可以用两种方式表示：</p>
+<ul>
+<li>
+<p>matrix 矩阵：用 x 标记两个变量之间有冲突。</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>a</th>
+<th>b</th>
+<th>c</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td></td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>b</td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>c</td>
+<td>x</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>undirected graph 无向图</p>
+<p><code>text
+      a
+     / \
+    b   c</code></p>
+</li>
+</ul>
+<h3 id="1082-move">10.8.2. MOVE 指令的特殊处理</h3>
+<p>不要在 MOVE 指令的源和目标之间制造人为冲突。</p>
+<p>例子：</p>
+<p><code>text
+t := s   (copy)
+...
+x := ... s ...   (use of s)
+...
+y := ... t ...   (use of t)</code></p>
+<p>通常来说，如果 s 和 t 活跃区间重叠，可能会加边：</p>
+<p><code>text
+(s, t)</code></p>
+<p>但这里不应该加。</p>
+<p>原因：</p>
+<p><code>text
+t := s</code></p>
+<p>只是复制，s 和 t 保存的是同一个值。理想情况下，可以让 s 和 t 分配到同一个寄存器，这样 MOVE 指令甚至可以删掉。</p>
+<p>解决方案：不要为 move 的源和目标添加干涉边</p>
+<p>但如果后面有非 move 定义：</p>
+<p><code>text
+t := s       (copy)
+t := ...     (non-move)
+x := ... s ...
+y := ... t ...</code></p>
+<p>这时 t 已经变成新值，而 s 还活着，那么 t 和 s 就真的冲突，需要加边。</p>
+<h3 id="1083">10.8.3. 如何添加冲突边</h3>
+<p>对于任何定义变量 a 的非 move 指令 n，如果 out[n]={b1,...,bj}，就添加边：</p>
+<p><code>text
+(a,b1), ..., (a,bj)</code></p>
+<p>意思是：a 被定义之后，out[n] 中的变量还活着，所以 a 不能和它们共用寄存器。</p>
+<p>对于 move 指令：</p>
+<p><code>text
+a := s</code></p>
+<p>如果：</p>
+<p><code>text
+out[n]={b1,...,bk}</code></p>
+<p>则给 a 和每个 bi 加边，但跳过：</p>
+<p><code>text
+bi == s</code></p>
+<p>也就是不添加：</p>
+<p><code>text
+(a,s)</code></p>
+<p>因为希望 a 和 s 可以合并到同一个寄存器，消除 move。</p>
+<h3 id="1084">10.8.4. 零长度活跃区间</h3>
+<p>如果一个新定义的临时变量在定义之后立刻就不 live，怎么办？</p>
+<p>可能情况：变量被定义了，但从未使用，似乎不需要给它分配寄存器。</p>
+<p>但是只要定义它的指令会执行，它就会写入某个寄存器。这个寄存器不能正好装着另一个 live 变量，否则会把那个变量覆盖掉。因此：零长度活跃区间也会与和它重叠的活跃区间发生冲突。</p>
+<p>即使结果不用，只要指令会写寄存器，就不能破坏其他仍然活着的值。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>

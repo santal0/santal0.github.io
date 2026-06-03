@@ -1,0 +1,2501 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/Chapter9/">
+      
+      
+        <link rel="prev" href="../Chapter8/">
+      
+      
+        <link rel="next" href="../Chapter10/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>chapter9 指令选择 - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter9-instruction-selection" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chapter9 指令选择
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        chapter2 词法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter6/" class="md-nav__link">
+        chapter6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter8/" class="md-nav__link">
+        chapter8 基本块
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          chapter9 指令选择
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        chapter9 指令选择
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#90" class="md-nav__link">
+    9.0. 引入
+  </a>
+  
+    <nav class="md-nav" aria-label="9.0. 引入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#901" class="md-nav__link">
+    9.0.1. 为什么需要指令选择？
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#902" class="md-nav__link">
+    9.0.2. 实现技术
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-tree-patterns" class="md-nav__link">
+    9.1. 树模式（Tree Patterns）
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1. 树模式（Tree Patterns）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#911-jouette" class="md-nav__link">
+    9.1.1. Jouette 架构
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#912-ai-x" class="md-nav__link">
+    9.1.2. 覆盖示例 (a[i] := x)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#913-optimal-vs-optimum" class="md-nav__link">
+    9.1.3. 最佳与最优覆盖（Optimal vs. Optimum）
+  </a>
+  
+    <nav class="md-nav" aria-label="9.1.3. 最佳与最优覆盖（Optimal vs. Optimum）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9132" class="md-nav__link">
+    9.1.3.2. 例子
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-algorithms-for-instruction-selection" class="md-nav__link">
+    9.2. Algorithms for Instruction Selection（指令选择算法）
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2. Algorithms for Instruction Selection（指令选择算法）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#921-maximal-munch" class="md-nav__link">
+    9.2.1. Maximal Munch 算法
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2.1. Maximal Munch 算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9211" class="md-nav__link">
+    9.2.1.1. 算法流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9212" class="md-nav__link">
+    9.2.1.2. 示例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9213" class="md-nav__link">
+    9.2.1.3. 算法实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#922" class="md-nav__link">
+    9.2.2. 动态规划算法
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2.2. 动态规划算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9221" class="md-nav__link">
+    9.2.2.1. 算法流程
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9222" class="md-nav__link">
+    9.2.2.2. 动态规划细节
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9223-dp" class="md-nav__link">
+    9.2.2.3. DP 示例：
+  </a>
+  
+    <nav class="md-nav" aria-label="9.2.2.3. DP 示例：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    叶子节点
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    加法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mem" class="md-nav__link">
+    MEM 节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instruction-emission" class="md-nav__link">
+    指令流出（Instruction Emission）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#923-fast-matching" class="md-nav__link">
+    9.2.3. Fast Matching
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#924" class="md-nav__link">
+    9.2.4. 算法复杂度
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-cisc" class="md-nav__link">
+    9.3. CISC
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3. CISC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-risc-vs-cisc" class="md-nav__link">
+    9.3.1. RISC vs CISC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-cisc" class="md-nav__link">
+    9.3.2. CISC 问题
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3.2. CISC 问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#9321" class="md-nav__link">
+    9.3.2.1. 寄存器少
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9322" class="md-nav__link">
+    9.3.2.2. 多种寄存器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9323-two-address-instruction" class="md-nav__link">
+    9.3.2.3. Two-address instruction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9324-cisc" class="md-nav__link">
+    9.3.2.4. CISC 内存操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9325-cisc-addressing-modes" class="md-nav__link">
+    9.3.2.5. CISC Addressing Modes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9326" class="md-nav__link">
+    9.3.2.6. 可变长度指令：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9327-side-effects" class="md-nav__link">
+    9.3.2.7 Side Effects
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#933" class="md-nav__link">
+    9.3.3. 指令选择算法
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-tiger" class="md-nav__link">
+    9.4. Tiger 的指令选择
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    讲解
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter10/" class="md-nav__link">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tiger/" class="md-nav__link">
+        Tiger 语言
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="chapter9-instruction-selection">Chapter9 指令选择 Instruction Selection</h1>
+<blockquote>
+<p>把 IR tree 映射为具体的汇编指令</p>
+</blockquote>
+<h2 id="90">9.0. 引入</h2>
+<h3 id="901">9.0.1. 为什么需要指令选择？</h3>
+<p>IR 与实际机器指令之间的不匹配。</p>
+<ul>
+<li>IR 树语言在每个节点只表达一个操作（如：取值、存储、加法、跳转等） 。</li>
+<li>而真正的机器指令通常一条就能完成多个原始操作 。</li>
+</ul>
+<h3 id="902">9.0.2. 实现技术</h3>
+<p><strong>模式匹配技术：</strong> 寻找匹配 IR 片段的机器指令 。</p>
+<p>介绍了两种主流的匹配技术：</p>
+<ul>
+<li><strong>树形 IR：</strong> 建议使用树匹配。例如：基于<strong>动态规划</strong>的匹配 。</li>
+<li><strong>线性 IR：</strong> 建议使用字符串匹配。例如：文本匹配、<strong>窥孔优化</strong>匹配（Peephole matching） 。</li>
+</ul>
+<h2 id="91-tree-patterns">9.1. 树模式（Tree Patterns）</h2>
+<p>每条机器指令都可以表示为一个 IR 树片段，称为<strong>树模式</strong> 。</p>
+<p><strong>指令选择的过程：</strong> 用一组最小的不重叠的树模式（瓦片）来覆盖整棵 IR 树 。</p>
+<h3 id="911-jouette">9.1.1. Jouette 架构</h3>
+<ul>
+<li>本课件使用教材中发明的 <strong>Jouette 架构</strong> 来演示 。</li>
+</ul>
+<p>Jouette 架构指令集展示了模拟架构的指令、效果及其对应的 IR 树模式。</p>
+<p>以下是 Jouette 架构的部分指令对应关系表：</p>
+<table>
+    <thead>
+        <tr>
+            <th>指令名称</th>
+            <th>效果 (Effect)</th>
+            <th>对应的树模式描述 (Tree Pattern)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>—</strong></td>
+            <td> $r_i$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1[TEMP]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ADD</strong></td>
+            <td> $r_i \leftarrow r_j + r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>MUL</strong></td>
+            <td> $r_i \leftarrow r_j * r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(*) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>SUB</strong></td>
+            <td> $r_i \leftarrow r_j - r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(SUB) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>DIV</strong></td>
+            <td> $r_i \leftarrow r_j / r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(/) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ADDI</strong></td>
+            <td>$r_i \leftarrow r_j + c$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[ ]
+    A1 --&gt; A3[CONST]</code></pre>
+                </div>
+                <hr> 
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[CONST]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+                <hr> 
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1[CONST]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>SUBI</strong></td>
+            <td>$r_i \leftarrow r_j - c$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(SUB) --&gt; A2[ ]
+    A1 --&gt; A3[CONST]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>LOAD</strong></td>
+            <td>$r_i \leftarrow M[r_j + c]$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2(+)
+    A2 --&gt; A3[ ]
+    A2 --&gt; A4[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2(+)
+    A2 --&gt; A3[CONST]
+    A2 --&gt; A4[ ]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>STORE</strong></td>
+            <td>$M[r_j + c] \leftarrow r_i$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4(+)
+    A4 --&gt; A5[ ]
+    A4 --&gt; A6[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4(+)
+    A4 --&gt; A5[CONST]
+    A4 --&gt; A6[ ]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>MOVEM</strong></td>
+            <td>$M[r_j] \leftarrow M[r_i]$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3(MEM)
+    A2 --&gt; A4[ ]
+    A3 --&gt; A5[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p><strong>补充规范：</strong> </p>
+<ul>
+<li>寄存器 <code>r0</code> 始终包含 0；</li>
+<li>某些指令对应多种树模式 。</li>
+</ul>
+<h3 id="912-ai-x">9.1.2. 覆盖示例 (a[i] := x)</h3>
+<p>用 IR tree 表示为：</p>
+<pre class="mermaid"><code>graph TD
+    A[MOVE] --&gt; B[MEM]
+    A --&gt; C[MEM]
+
+    %% 左侧分支 (目标地址)
+    B --&gt; D[+]
+    D --&gt; E[MEM]
+    D --&gt; F[*]
+
+    E --&gt; G[+]
+    G --&gt; H[FP]
+    G --&gt; I[CONST a]
+
+    F --&gt; J[TEMP i]
+    F --&gt; K[CONST 4]
+
+    %% 右侧分支 (源数据)
+    C --&gt; L[+]
+    L --&gt; M[FP]
+    L --&gt; N[CONST x]</code></pre>
+<ul>
+<li>
+<p>同一棵树可以有多种覆盖方式 。</p>
+</li>
+<li>
+<p><strong>方案 (a)：</strong> 使用了较多的小指令，如普通的 <code>LOAD</code> 和 <code>STORE</code> 。</p>
+</li>
+</ul>
+<p><code>text
+LOAD r1, [fp + a]
+ADDI r2, r0, #4
+MUL r2, ri, r2
+ADD r1, r1, r2
+LOAD r2, [fp + x]
+STORE [r1 + 0], r2</code></p>
+<ul>
+<li><strong>方案 (b)：</strong> 使用了 <code>MOVEM</code> 等更大块的指令 。</li>
+</ul>
+<p><code>text
+LOAD   r1 ← M[fp + a]
+ADDI   r2 ← r0 + 4
+MUL    r2 ← ri × r2
+ADD    r1 ← r1 + r2
+ADDI   r2 ← fp + x
+MOVEM  M[r1] ← M[r2]</code></p>
+<ul>
+<li><strong>极端情况：</strong> 也可以每个节点都匹配，但这样效率极低，并不是很好的选择，所以需要选择合适的覆盖方式。</li>
+</ul>
+<p><code>text
+ADDI r1 ← r0 + a
+ADD r1 ← fp + r1
+LOAD r1 ← M[r1 + 0]
+ADDI r2 ← r0 + 4
+MUL r2 ← ri × r2
+ADD r1 ← r1 + r2
+ADDI r2 ← r0 + x
+ADD r2 ← fp + r2
+LOAD r2 ← M[r2 + 0]
+STORE M[r1 + 0] ← r2</code></p>
+<h3 id="913-optimal-vs-optimum">9.1.3. 最佳与最优覆盖（Optimal vs. Optimum）</h3>
+<p>IR 树可以采用多种方式进行分块。</p>
+<ul>
+<li><strong>最佳分块（Best tiling）</strong>：成本最低的指令序列。<ul>
+<li>对于单发射固定延迟机器，意味着最少的指令数。</li>
+</ul>
+</li>
+<li><strong>最优覆盖（Optimum tiling）：</strong> 所有可能覆盖中，所有瓦片成本之和最低。属于“全局最优” 。</li>
+<li><strong>最佳覆盖（Optimal tiling）：</strong> 没有两个相邻瓦片可以被合并成一个成本更低的瓦片。属于“局部最优” 。<ul>
+<li>如果存在某种块可以拆分成多个总成本更低的块，那么我们应该将该模式从我们的块集合中移除。因为这一个没有存在的意义</li>
+</ul>
+</li>
+</ul>
+<p>每个 Optimum 分块也是 Optimal 的，反之则不然。</p>
+<h4 id="9132">9.1.3.2. 例子</h4>
+<p>还是上面的例子：假设除 <code>MOVEM</code> 指令外，每条指令的成本均为 1 个单位；MOVEM 指令的成本为 m 个单位。</p>
+<ul>
+<li><strong>方案 (a)：</strong> 使用了较多的小指令，如普通的 <code>LOAD</code> 和 <code>STORE</code> 。</li>
+</ul>
+<p><code>text
+LOAD r1, [fp + a]
+ADDI r2, r0, #4
+MUL r2, ri, r2
+ADD r1, r1, r2
+LOAD r2, [fp + x]
+STORE [r1 + 0], r2</code></p>
+<ul>
+<li><strong>方案 (b)：</strong> 使用了 <code>MOVEM</code> 等更大块的指令 。</li>
+</ul>
+<p><code>text
+LOAD   r1 ← M[fp + a]
+ADDI   r2 ← r0 + 4
+MUL    r2 ← ri × r2
+ADD    r1 ← r1 + r2
+ADDI   r2 ← fp + x
+MOVEM  M[r1] ← M[r2]</code></p>
+<p>两个覆盖方式都是 <code>Optimal tiling</code> ，因为无法通过合并瓦片来降低成本。</p>
+<p>方案 a 需要 6 个单位，b 需要 5+m 个单位，所以判断 m 确定谁是 <code>Optimum</code> 覆盖。</p>
+<h2 id="92-algorithms-for-instruction-selection">9.2.  Algorithms for Instruction Selection（指令选择算法）</h2>
+<h3 id="921-maximal-munch">9.2.1. Maximal Munch 算法</h3>
+<h4 id="9211">9.2.1.1. 算法流程</h4>
+<p><strong>内容描述：</strong> 详细介绍了一种顶向下的贪心算法。</p>
+<ul>
+<li>
+<p><strong>算法逻辑 (Maximal Munch)：</strong></p>
+<ol>
+<li>从树根开始，找到能匹配根节点的<strong>最大</strong>瓦片 。<ul>
+<li><strong><em>最大：</em></strong> 子节点最多的的</li>
+</ul>
+</li>
+<li>覆盖根节点，并留下若干子树 。</li>
+<li>对每个子树重复此过程 。</li>
+<li>指令是按<strong>逆序</strong>生成的 。</li>
+</ol>
+</li>
+<li>
+<p><strong>特点：</strong> 总是能找到“最佳（Optimal）”覆盖，但不一定是“最优（Optimum）” 。</p>
+<ul>
+<li>原因：为了更加 optimal 总要有一个瓦片要合并相邻的指令，所以贪心算法不会成立，所以贪心算出来的一定是 optimal 的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="9212">9.2.1.2. 示例</h4>
+<p>依然 <code>a[i] := x</code>，用 IR tree 表示为：</p>
+<pre class="mermaid"><code>graph TD
+    A[MOVE] --&gt; B[MEM]
+    A --&gt; C[MEM]
+
+    %% 左侧分支 (目标地址)
+    B --&gt; D[+]
+    D --&gt; E[MEM]
+    D --&gt; F[*]
+
+    E --&gt; G[+]
+    G --&gt; H[FP]
+    G --&gt; I[CONST a]
+
+    F --&gt; J[TEMP i]
+    F --&gt; K[CONST 4]
+
+    %% 右侧分支 (源数据)
+    C --&gt; L[+]
+    L --&gt; M[FP]
+    L --&gt; N[CONST x]</code></pre>
+<table>
+    <thead>
+        <tr>
+            <th>指令名称</th>
+            <th>效果 (Effect)</th>
+            <th>对应的树模式描述 (Tree Pattern)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>—</strong></td>
+            <td> $r_i$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1[TEMP]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ADD</strong></td>
+            <td> $r_i \leftarrow r_j + r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>MUL</strong></td>
+            <td> $r_i \leftarrow r_j * r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(*) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>SUB</strong></td>
+            <td> $r_i \leftarrow r_j - r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(SUB) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>DIV</strong></td>
+            <td> $r_i \leftarrow r_j / r_k$ </td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(/) --&gt; A2[ ]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ADDI</strong></td>
+            <td>$r_i \leftarrow r_j + c$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[ ]
+    A1 --&gt; A3[CONST]</code></pre>
+                </div>
+                <hr> 
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(+) --&gt; A2[CONST]
+    A1 --&gt; A3[ ]</code></pre>
+                </div>
+                <hr> 
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1[CONST]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>SUBI</strong></td>
+            <td>$r_i \leftarrow r_j - c$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(SUB) --&gt; A2[ ]
+    A1 --&gt; A3[CONST]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>LOAD</strong></td>
+            <td>$r_i \leftarrow M[r_j + c]$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2(+)
+    A2 --&gt; A3[ ]
+    A2 --&gt; A4[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2(+)
+    A2 --&gt; A3[CONST]
+    A2 --&gt; A4[ ]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MEM) --&gt; A2[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>STORE</strong></td>
+            <td>$M[r_j + c] \leftarrow r_i$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4(+)
+    A4 --&gt; A5[ ]
+    A4 --&gt; A6[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4(+)
+    A4 --&gt; A5[CONST]
+    A4 --&gt; A6[ ]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4[CONST]</code></pre>
+                </div>
+                <hr>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>MOVEM</strong></td>
+            <td>$M[r_j] \leftarrow M[r_i]$</td>
+            <td>
+                <div class="mermaid">
+                    <pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3(MEM)
+    A2 --&gt; A4[ ]
+    A3 --&gt; A5[ ]</code></pre>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ol>
+<li>
+<p>首先头上可以匹配到 </p>
+<pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3(MEM)
+    A2 --&gt; A4[ ]
+    A3 --&gt; A5[ ]</code></pre>
+<p>和
+<pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3[ ]
+    A2 --&gt; A4[ ]</code></pre>
+这一组其他的 const 位置不符合只能匹配这个</p>
+<p>选最大的 </p>
+<pre class="mermaid"><code>graph TD
+    A1(MOVE) --&gt; A2(MEM)
+    A1 --&gt; A3(MEM)
+    A2 --&gt; A4[ ]
+    A3 --&gt; A5[ ]</code></pre>
+</li>
+</ol>
+<p>最终：</p>
+<pre class="mermaid"><code>flowchart TD
+    %% ===== Tree =====
+    M[MOVE]
+    ML[MEM]
+    MR[MEM]
+
+    P1["+"]
+    ML2[MEM]
+    MUL["*"]
+
+    P2["+"]
+    FP1[FP]
+    CA["CONST a"]
+
+    TI["TEMP i"]
+    C4["CONST 4"]
+
+    P3["+"]
+    FP2[FP]
+    CX["CONST x"]
+
+    M --&gt; ML
+    M --&gt; MR
+
+    ML --&gt; P1
+    P1 --&gt; ML2
+    P1 --&gt; MUL
+
+    ML2 --&gt; P2
+    P2 --&gt; FP1
+    P2 --&gt; CA
+
+    MUL --&gt; TI
+    MUL --&gt; C4
+
+    MR --&gt; P3
+    P3 --&gt; FP2
+    P3 --&gt; CX
+
+    %% ===== Cover boxes =====
+    C_move["cover: MOVE(MEM, MEM)"]
+    C_plus_left["cover: +(MEM, *)"]
+    C_mem_plus["cover: MEM(+(FP, CONST a))"]
+    C_fp1["cover: FP"]
+    C_mul["cover: *(TEMP i, CONST 4)"]
+    C_temp["cover: TEMP i"]
+    C_const4["cover: CONST 4"]
+    C_plus_right["cover: +(FP, CONST x)"]
+
+    %% ===== Coverage links =====
+    C_move -.-&gt; M
+    C_move -.-&gt; ML
+    C_move -.-&gt; MR
+
+    C_plus_left -.-&gt; P1
+    C_plus_left -.-&gt; ML2
+    C_plus_left -.-&gt; MUL
+
+    C_mem_plus -.-&gt; ML2
+    C_mem_plus -.-&gt; P2
+    C_mem_plus -.-&gt; FP1
+    C_mem_plus -.-&gt; CA
+
+    C_fp1 -.-&gt; FP1
+
+    C_mul -.-&gt; MUL
+    C_mul -.-&gt; TI
+    C_mul -.-&gt; C4
+
+    C_temp -.-&gt; TI
+    C_const4 -.-&gt; C4
+
+    C_plus_right -.-&gt; P3
+    C_plus_right -.-&gt; FP2
+    C_plus_right -.-&gt; CX
+
+    %% ===== Styles =====
+    classDef cover fill:#ffffff,stroke:#0074d9,stroke-width:2px,stroke-dasharray:6 4,color:#0074d9;
+    class C_move,C_plus_left,C_mem_plus,C_fp1,C_mul,C_temp,C_const4,C_plus_right cover;
+
+    linkStyle 14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30 stroke:#0074d9,stroke-width:1.5px,stroke-dasharray:4 4;</code></pre>
+<h4 id="9213">9.2.1.3. 算法实现</h4>
+<ul>
+<li>
+<p>两个递归函数：</p>
+<ul>
+<li>
+<p>munchStm 用于语句</p>
+</li>
+<li>
+<p>munchExp 用于表达式</p>
+</li>
+</ul>
+</li>
+<li>
+<p>munchExp 的每个子句将匹配一个图块。</p>
+</li>
+<li>
+<p>子句按图块优先级排序（最大的图块优先）。</p>
+</li>
+</ul>
+<h3 id="922">9.2.2. 动态规划算法</h3>
+<p>介绍了一种底向上的算法，旨在寻找“最优（Optimum）”覆盖。</p>
+<h4 id="9221">9.2.2.1. 算法流程</h4>
+<p><strong>算法逻辑：</strong></p>
+<ol>
+<li>
+<p><strong>底向上(bottom-up)计算成本：</strong> 为树中的每个节点分配一个成本 <span class="arithmatex">\(f(x)\)</span> 。</p>
+<ul>
+<li><code>f(x)</code>：覆盖以 x 为根的子树的最优 <code>cost</code>。</li>
+<li>ct：tile cost</li>
+<li>i：tile leaves</li>
+</ul>
+</li>
+<li>
+<p><strong>公式：</strong> 节点 <span class="arithmatex">\(x\)</span> 的成本 = <span class="arithmatex">\(\min(当前瓦片成本 + 瓦片叶子节点的预计算成本)\)</span> 。
+    $$
+        f(x)=
+        \min_{\substack{\forall\ \text{tile } t\ \text{covering } x}}
+        \left(
+        c_t+\sum_{\substack{\forall\ \text{leaf } i\ \text{of } t}} f(i)
+        \right)
+    $$</p>
+</li>
+<li><strong>指令发射：</strong> 从根节点开始，递归发射匹配到的最小成本指令 。</li>
+</ol>
+<h4 id="9222">9.2.2.2. 动态规划细节</h4>
+<p>步骤：</p>
+<ol>
+<li>递归计算子节点 cost</li>
+<li>枚举当前节点所有匹配 tile</li>
+<li>
+<p>计算：</p>
+<p>tile cost + leaves cost</p>
+</li>
+<li>
+<p>选择最小值</p>
+</li>
+</ol>
+<h4 id="9223-dp">9.2.2.3. DP 示例：</h4>
+<pre class="mermaid"><code>flowchart TB
+    MEM["MEM"] --&gt; PLUS["+"]
+    PLUS --&gt; C1["CONST 1"]
+    PLUS --&gt; C2["CONST 2"]</code></pre>
+<h5 id="_1">叶子节点</h5>
+<pre class="mermaid"><code>flowchart TB
+    MEM["MEM"] --&gt; PLUS["+"]
+    PLUS --&gt; C1["CONST 1"]
+    PLUS --&gt; C2["CONST 2"]
+
+    classDef blue fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
+    class C1 blue;</code></pre>
+<pre class="mermaid"><code>flowchart TB
+    MEM["MEM"] --&gt; PLUS["+"]
+    PLUS --&gt; C1["CONST 1"]
+    PLUS --&gt; C2["CONST 2"]
+
+    classDef blue fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
+    class C2 blue;</code></pre>
+<p>CONST 节点是叶子节点，所以没有 leaf 的 cost，只要考虑本身消耗</p>
+<table>
+<thead>
+<tr>
+<th>Pattern (Tile)</th>
+<th style="text-align: right;">Cost</th>
+<th style="text-align: right;">Leaves Cost</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(8) <code>CONST</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<h5 id="_2">加法</h5>
+<pre class="mermaid"><code>flowchart TB
+    MEM["MEM"] --&gt; PLUS["+"]
+    PLUS --&gt; C1["CONST 1"]
+    PLUS --&gt; C2["CONST 2"]
+
+    classDef blue fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
+    class PLUS blue;</code></pre>
+<p>有三种匹配方法：</p>
+<ol>
+<li>纯加号：本身消耗 1 ，两个叶子每个消耗 1，共 3。</li>
+<li>立即数左加法指令：本身消耗 1 ，吃掉了左侧的 const，右叶子每个消耗 1，共 2。</li>
+<li>立即数右加法指令：本身消耗 1 ，吃掉了右侧的 const，左叶子每个消耗 1，共 2。</li>
+</ol>
+<p>最后 2，3 随便选一个都可以</p>
+<table>
+<thead>
+<tr>
+<th>Pattern (Tile)</th>
+<th style="text-align: right;">Cost</th>
+<th style="text-align: right;">Leaves Cost</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(2) <code>+(e1, e2)</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>(6) <code>+(CONST, e1)</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>(7) <code>+(e1, CONST)</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>反正 + 这个节点消耗最小就是 2 了。</p>
+<h5 id="mem">MEM 节点</h5>
+<pre class="mermaid"><code>flowchart TB
+    MEM["MEM"] --&gt; PLUS["+"]
+    PLUS --&gt; C1["CONST 1"]
+    PLUS --&gt; C2["CONST 2"]
+
+    classDef blue fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#000;
+    class MEM blue;</code></pre>
+<p>MEM 节点可匹配：</p>
+<ol>
+<li><code>MEM(e1)</code>：本身消耗 1，子节点 + 消耗是 2，一共是 3。</li>
+<li><code>MEM(+(e1,CONST))</code> 或者 <code>MEM(+(CONST,e1))</code>：子节点都是只有一个 const，+和另一个 const被吃掉了</li>
+</ol>
+<p>后者更便宜，随便选一个。</p>
+<table>
+<thead>
+<tr>
+<th>Pattern (Tile)</th>
+<th style="text-align: right;">Cost</th>
+<th style="text-align: right;">Leaves Cost</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(13) <code>MEM(e1)</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td>(10) <code>MEM(+(e1, CONST))</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>(11) <code>MEM(+(CONST, e1))</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<h4 id="instruction-emission">指令流出（Instruction Emission）</h4>
+<p>找到 root 最优 cost 后，开始生成 instruction。</p>
+<p>算法：Emission(node n)</p>
+<ol>
+<li>对每个叶子节点递归 emission，emission(li)</li>
+<li>emit 当前 instruction</li>
+</ol>
+<h3 id="923-fast-matching">9.2.3. Fast Matching</h3>
+<p><em>我们称表格中每一格可供匹配的对应一条语句的部件结构为 tile</em> </p>
+<p>以上两种算法在匹配的时候，会且近会考虑每一个 match 节点的 tile（就是匹配上的一块），避免了所有 tile 都被扫一遍太慢</p>
+<ul>
+<li>
+<p>match 表示这个 tile 的每个非叶子节点都与当前节点以及其儿孙的 label 匹配。例如：</p>
+<p>switch(label)</p>
+<ul>
+<li>MEM</li>
+<li>BINOP</li>
+<li>CONST</li>
+</ul>
+</li>
+<li>
+<p>我们希望 IR tree 的每个节点都只被检查一次</p>
+</li>
+</ul>
+<h3 id="924">9.2.4. 算法复杂度</h3>
+<p>我们下面要分析贪心和动态规划的复杂度</p>
+<p>设：</p>
+<ul>
+<li>N：IR tree 节点数</li>
+<li>K：平均一个 tile 有 K 个节点<ul>
+<li>所以需要匹配出 <span class="arithmatex">\(N/K\)</span> 个 tile</li>
+</ul>
+</li>
+<li>K'：为了确定每个节点匹配哪个 tile 最多要看多少个节点</li>
+<li>T'：每个节点平均能和多少个 tile 匹配</li>
+</ul>
+<p>则：</p>
+<p>Maximal Munch 需要：</p>
+<div class="arithmatex">\[
+O((K'+T')N/K)
+\]</div>
+<p>次匹配，因为当且仅当每个成功匹配时要算一遍 <span class="arithmatex">\(K'+T'\)</span></p>
+<p>Dynamic Programming 需要：</p>
+<div class="arithmatex">\[
+O((K'+T')N)
+\]</div>
+<p>次匹配，因为每个节点都要算一遍 <span class="arithmatex">\(K'+T'\)</span></p>
+<p>因为常数固定，两者都近似线性。</p>
+<h2 id="93-cisc">9.3. CISC</h2>
+<h3 id="931-risc-vs-cisc">9.3.1.  RISC vs CISC</h3>
+<table>
+<thead>
+<tr>
+<th>RISC machine</th>
+<th>CISC machine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>32 个寄存器</td>
+<td>少量寄存器（16、8 或 6 个）</td>
+</tr>
+<tr>
+<td>只有一种整数/指针寄存器类别</td>
+<td>寄存器被划分为不同类别，某些操作只能用于特定寄存器</td>
+</tr>
+<tr>
+<td>算术运算只能在寄存器之间进行</td>
+<td>算术运算可以通过“寻址模式”访问寄存器或内存</td>
+</tr>
+<tr>
+<td>“三地址”指令形式：<code>r1 ← r2 ⊕ r3</code></td>
+<td>“二地址”指令形式：<code>r1 ← r1 ⊕ r2</code></td>
+</tr>
+<tr>
+<td>load/store 指令只支持 <code>M[reg+const]</code> 寻址模式</td>
+<td>支持多种不同的寻址模式</td>
+</tr>
+<tr>
+<td>每条指令长度固定为 32 位</td>
+<td>指令长度可变，由可变长度 opcode 与可变长度寻址模式组成</td>
+</tr>
+<tr>
+<td>每条指令只产生一个结果或效果</td>
+<td>指令可能具有副作用，例如“自动递增（autoincrement）”寻址模式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="932-cisc">9.3.2. CISC 问题</h3>
+<p>所以对于 CISC 机器我们需要做适配</p>
+<h4 id="9321">9.3.2.1. 寄存器少</h4>
+<p>指令选择阶段不需要关心，等寄存器分配阶段解决</p>
+<h4 id="9322">9.3.2.2. 多种寄存器</h4>
+<p>Pentium 上的乘法，左操作数必须是 eax 寄存器，结果的高位被放入 edx 寄存器</p>
+<p>显式 move 来解决。</p>
+<p>例如 <code>t1 ← t2 × t3</code></p>
+<p><code>mov eax, t2  /* eax ← t2 */
+mul t3    /* eax ← eax × t3;     edx ← garbage */
+mov t1, eax  /* t1 ← eax */</code></p>
+<h4 id="9323-two-address-instruction">9.3.2.3. Two-address instruction</h4>
+<p>例如 <code>add t1,t2</code> 表示 <code>t1 ← t1+t2</code></p>
+<p>为了将三地址指令转为两地址指令，需要插入额外 move。</p>
+<p>三地址：<code>a=b+c</code> 两地址：<code>a=a+c</code></p>
+<p>因此需要：
+<code>mov a,b
+add a,c</code></p>
+<p>然后我们希望寄存器分配器能够将 a 和 b 分配给同一个寄存器，以便删除 mov 指令。</p>
+<h4 id="9324-cisc">9.3.2.4. CISC 内存操作</h4>
+<p>CISC 的算术 instruction 可直接访问 memory。</p>
+<p>需要先 load 到 register。再操作。</p>
+<p>RISC 风格的</p>
+<p><code>mov eax, [ebp - 8]
+add eax, ecx                 
+mov [ebp - 8], eax</code></p>
+<p>实际上就是 CISC 风格的</p>
+<p><code>add [ebp - 8], ecx</code></p>
+<p>物理实现</p>
+<p>但是 CISC 风格的好处是不会破坏 eax 寄存器</p>
+<h4 id="9325-cisc-addressing-modes">9.3.2.5. CISC Addressing Modes</h4>
+<p>有多种寻址模式的复杂 addressing mode 优势：</p>
+<ul>
+<li>少用寄存器，避免影响更多寄存器</li>
+<li>instruction 更短</li>
+</ul>
+<p>但并不一定更快。因为例如复杂的六个功能的指令会被拆成六条单一功能</p>
+<h4 id="9326">9.3.2.6. 可变长度指令：</h4>
+<p>对编译器来说并非真正的问题；一旦选择了指令，汇编器生成编码就成了一件简单（尽管繁琐）的事情。</p>
+<h4 id="9327-side-effects">9.3.2.7 Side Effects</h4>
+<p>例如 autoincrement：</p>
+<p><code>r2 ← M[r1]
+r1 ← r1+4</code></p>
+<p>一个 instruction 两个 effect，一个是读内存，一个是自增。</p>
+<p>解决方法：</p>
+<ul>
+<li>直接不用了</li>
+<li>用一些方法实现</li>
+<li>匹配的时候换匹配方法</li>
+</ul>
+<h3 id="933">9.3.3. 指令选择算法</h3>
+<p>对于 RISC，optimal 与 optimum 基本没区别。因为 tile 小，cost 接近，因此简单算法足够。</p>
+<p>对于 CISC 架构，optimal 与 optimum 之间的差异很明显。有些指令可以完成多个操作。</p>
+<h2 id="94-tiger">9.4. Tiger 的指令选择</h2>
+<p>tile root 对应：</p>
+<p>某个 intermediate result。</p>
+<p>这个值放在哪个 register？</p>
+<p>由 register allocation 决定。</p>
+<p>寄存器分配放在 instruction selection 后面。</p>
+<hr />
+<h2 id="_3">讲解</h2>
+<p>这是经典设计：</p>
+<p>先生成：</p>
+<p>TEMP t1
+TEMP t2</p>
+<p>后续再：</p>
+<ul>
+<li>graph coloring</li>
+<li>linear scan</li>
+</ul>
+<p>映射到真实寄存器。</p>
+<hr />
+<h1 id="53">第53页</h1>
+<h2 id="_4">抽象汇编结构</h2>
+<h3 id="_5">翻译</h3>
+<p>定义：</p>
+<p>AS_instr</p>
+<p>包含：</p>
+<ul>
+<li>I_OPER</li>
+<li>I_LABEL</li>
+<li>I_MOVE</li>
+</ul>
+<hr />
+<h2 id="_6">讲解</h2>
+<p>这是 Tiger 编译器中的：</p>
+<p>Machine-independent assembly IR。</p>
+<p>非常重要。</p>
+<p>它已经：</p>
+<p>“像汇编”</p>
+<p>但还没：</p>
+<p>“真正绑定机器寄存器”。</p>
+<hr />
+<h1 id="54">第54页</h1>
+<h2 id="oper">OPER</h2>
+<h3 id="_7">翻译</h3>
+<p>OPER 包含：</p>
+<ul>
+<li>assem：汇编字符串</li>
+<li>src：源寄存器</li>
+<li>dst：目标寄存器</li>
+<li>jumps：跳转目标</li>
+</ul>
+<hr />
+<h2 id="_8">讲解</h2>
+<p>这是 dataflow analysis 的基础。</p>
+<p>后面 register allocation：</p>
+<p>会用：</p>
+<ul>
+<li>use</li>
+<li>def</li>
+</ul>
+<p>信息构建 interference graph。</p>
+<hr />
+<h1 id="55">第55页</h1>
+<h2 id="label">LABEL</h2>
+<h3 id="_9">翻译</h3>
+<p>LABEL 表示：</p>
+<p>程序中的跳转目标。</p>
+<hr />
+<h2 id="_10">讲解</h2>
+<p>例如：</p>
+<p>L1:</p>
+<p>就是 LABEL。</p>
+<p>CFG（控制流图）建立时会用到。</p>
+<hr />
+<h1 id="56">第56页</h1>
+<h2 id="move">MOVE</h2>
+<h3 id="_11">翻译</h3>
+<p>MOVE 只能做数据传输。</p>
+<p>AS_print：</p>
+<p>负责真正打印汇编。</p>
+<hr />
+<h2 id="_12">讲解</h2>
+<p>后续 register coalescing：</p>
+<p>会重点优化 MOVE。</p>
+<p>例如：</p>
+<p>mov r1,r1</p>
+<p>可以删除。</p>
+<hr />
+<h1 id="57">第57页</h1>
+<h2 id="machine-independence">Machine Independence</h2>
+<h3 id="_13">翻译</h3>
+<p>AS_instr 与具体机器无关。</p>
+<p>示例：</p>
+<p>LOAD <code>d0 &lt;- M[</code>s0+8]</p>
+<p>其中：</p>
+<ul>
+<li>`s0：第0个 source</li>
+<li>`d0：第0个 destination</li>
+</ul>
+<hr />
+<h2 id="_14">讲解</h2>
+<p>这其实是：</p>
+<p>模板汇编。</p>
+<p>真正 register allocation 后：</p>
+<p>`s0 → r27</p>
+<p>才会最终打印。</p>
+<hr />
+<h1 id="58">第58页</h1>
+<h2 id="machine-independence-2">Machine Independence 示例2</h2>
+<h3 id="_15">翻译</h3>
+<p>instruction selector 生成：</p>
+<ul>
+<li>t908</li>
+<li>t909</li>
+<li>t910</li>
+</ul>
+<p>这些 temporary。</p>
+<p>后续 register allocation：</p>
+<p>映射到：</p>
+<ul>
+<li>r1</li>
+<li>r2</li>
+</ul>
+<hr />
+<h2 id="_16">讲解</h2>
+<p>TEMP 是 SSA/value 的前身思想。</p>
+<p>编译器中：</p>
+<ul>
+<li>TEMP 无限多</li>
+<li>真寄存器有限</li>
+</ul>
+<p>register allocation：</p>
+<p>就是解决这个矛盾。</p>
+<hr />
+<h1 id="59">第59页</h1>
+<h2 id="two-address">Two-address 指令</h2>
+<h3 id="_17">翻译</h3>
+<p>例如：</p>
+<p>add t1,t2</p>
+<p>表示：</p>
+<p>t1 ← t1+t2</p>
+<hr />
+<h2 id="_18">讲解</h2>
+<p>注意：</p>
+<p>src 与 dst 重叠。</p>
+<p>因此：</p>
+<p>instruction representation</p>
+<p>必须支持：</p>
+<p>一个寄存器同时是 use 和 def。</p>
+<hr />
+<h1 id="60">第60页</h1>
+<h2 id="procedure-calls">Procedure Calls</h2>
+<h3 id="_19">翻译</h3>
+<p>CALL 会：</p>
+<ul>
+<li>破坏 caller-save registers</li>
+<li>修改 return register</li>
+</ul>
+<p>因此必须在 dst 中声明。</p>
+<hr />
+<h2 id="_20">讲解</h2>
+<p>这是 dataflow correctness 的关键。</p>
+<p>否则 register allocator：</p>
+<p>会错误认为：</p>
+<p>某寄存器值还存在。</p>
+<hr />
+<h1 id="61">第61页</h1>
+<h2 id="frame-pointer">没有 Frame Pointer</h2>
+<h3 id="_21">翻译</h3>
+<p>Virtual frame pointer：</p>
+<p>用 SP 替代 FP。</p>
+<p>FP+k</p>
+<p>改写成：</p>
+<p>SP+k+frameSize</p>
+<hr />
+<h2 id="_22">讲解</h2>
+<p>现代编译器经常：</p>
+<p>-fomit-frame-pointer</p>
+<p>节省一个寄存器。</p>
+<p>但会让调试更难。</p>
+<hr />
+<h1 id="62">第62页</h1>
+<h2 id="_23">作业</h2>
+<p>9.1</p>
+<hr />
+<h1 id="63">第63页</h1>
+<h2 id="munchstm">munchStm 续</h2>
+<h3 id="_24">讲解</h3>
+<p>这里补全了：</p>
+<p>MOVE(TEMP i,e2)</p>
+<p>情况。</p>
+<p>本质：</p>
+<p>把 expression 结果放入 TEMP。</p>
+<hr />
+<h1 id="64">第64页</h1>
+<h2 id="munchexp">munchExp 总结</h2>
+<h3 id="_25">翻译</h3>
+<p>不同 pattern：</p>
+<ul>
+<li>MEM(BINOP(...))</li>
+<li>CONST</li>
+<li>BINOP</li>
+</ul>
+<p>对应：</p>
+<ul>
+<li>LOAD</li>
+<li>ADDI</li>
+<li>ADD</li>
+</ul>
+<hr />
+<h2 id="_26">讲解</h2>
+<p>这页几乎是：</p>
+<p>instruction selector 的“规则表”。</p>
+<p>真实 compiler 会更大。</p>
+<p>LLVM x86 backend：</p>
+<p>有几万条 pattern。</p>
+<hr />
+<h1 id="65">第65页</h1>
+<h2 id="temp_map">Temp_map</h2>
+<h3 id="_27">翻译</h3>
+<p>Temp_map：</p>
+<p>TEMP → string</p>
+<p>支持 layered map。</p>
+<hr />
+<h2 id="_28">讲解</h2>
+<p>例如：</p>
+<p>TEMP t1 → rax</p>
+<p>就是通过 map 完成。</p>
+<p>layered map：</p>
+<p>允许：</p>
+<ul>
+<li>默认映射</li>
+<li>覆盖映射</li>
+</ul>
+<hr />
+<h1 id="66">第66页</h1>
+<h2 id="producing-assembly-instructions">Producing Assembly Instructions</h2>
+<h3 id="_29">翻译</h3>
+<p>munchExp：</p>
+<p>返回结果所在 TEMP。</p>
+<p>munchStm：</p>
+<p>生成 instruction side effect。</p>
+<hr />
+<h2 id="_30">讲解</h2>
+<p>这是经典 codegen 风格：</p>
+<p>表达式：</p>
+<p>返回值。</p>
+<p>语句：</p>
+<p>只产生 side effect。</p>
+<hr />
+<h1 id="67">第67页</h1>
+<h2 id="munchexp_1">munchExp 代码</h2>
+<h3 id="_31">讲解</h3>
+<p>这里展示：</p>
+<p>真正如何 emit：</p>
+<p>AS_Oper(
+"LOAD ..."
+)</p>
+<p>说明：</p>
+<p>instruction selection 最终只是：</p>
+<p>构造 instruction object。</p>
+<hr />
+<h1 id="68">第68页</h1>
+<h2 id="munchstm-emit-store">munchStm emit STORE</h2>
+<h3 id="_32">讲解</h3>
+<p>STORE instruction：</p>
+<p>没有 dst。</p>
+<p>因为：</p>
+<p>它写 memory。</p>
+<p>src：</p>
+<ul>
+<li>address register</li>
+<li>value register</li>
+</ul>
+<hr />
+<h1 id="69">第69页</h1>
+<h2 id="emit">emit 函数</h2>
+<h3 id="_33">翻译</h3>
+<p>emit：</p>
+<p>只是把 instruction 加进链表。</p>
+<hr />
+<h2 id="_34">讲解</h2>
+<p>整个 codegen 最终结果：</p>
+<p>AS_instrList。</p>
+<p>后续：</p>
+<ul>
+<li>register allocation</li>
+<li>CFG</li>
+<li>liveness</li>
+</ul>
+<p>都会基于它进行。</p>
+<hr />
+<h1 id="_35">全章总结（非常重要）</h1>
+<h2 id="_36">本章核心思想</h2>
+<p>Instruction Selection = Tree Tiling</p>
+<p>即：</p>
+<blockquote>
+<p>用机器指令模式覆盖 IR Tree。</p>
+</blockquote>
+<hr />
+<h2 id="_37">三大核心算法</h2>
+<h3 id="1-maximal-munch">1. Maximal Munch</h3>
+<ul>
+<li>贪心</li>
+<li>top-down</li>
+<li>快</li>
+<li>optimal</li>
+<li>不保证 optimum</li>
+</ul>
+<hr />
+<h3 id="2-dynamic-programming">2. Dynamic Programming</h3>
+<ul>
+<li>bottom-up</li>
+<li>全局最优</li>
+<li>optimum</li>
+<li>更复杂</li>
+</ul>
+<hr />
+<h3 id="3-tree-grammar-burs">3. Tree Grammar / BURS</h3>
+<ul>
+<li>工业级 instruction selection</li>
+<li>自动生成 matcher</li>
+<li>适合复杂 ISA</li>
+</ul>
+<hr />
+<h1 id="_38">与现代编译器的联系</h1>
+<h2 id="llvm">LLVM</h2>
+<p>LLVM SelectionDAG：</p>
+<ul>
+<li>本质是 DAG tiling</li>
+<li>比 Tree 更强</li>
+</ul>
+<hr />
+<h2 id="gcc">GCC</h2>
+<p>machine description + RTL</p>
+<p>也是 pattern matching。</p>
+<hr />
+<h2 id="tvm-xla-tensor-compiler">TVM / XLA / Tensor Compiler</h2>
+<p>本质也是：</p>
+<p>pattern rewrite + cost model。</p>
+<p>只是对象从：</p>
+<p>CPU instruction</p>
+<p>变成：</p>
+<p>tensor kernel。</p>
+<hr />
+<h1 id="_39">一句话理解本章</h1>
+<blockquote>
+<p>指令选择的本质：</p>
+<p>“把 IR Tree 用机器指令模式最优覆盖。”</p>
+</blockquote>
+<hr />
+<h3 id="34">第 34 页：效率对比</h3>
+<p><strong>内容描述：</strong> 分析了两种算法的时间复杂度。</p>
+<ul>
+<li><strong>翻译：</strong></li>
+<li><span class="arithmatex">\(N\)</span> 为树节点数。</li>
+<li>
+<p><strong>Maximal Munch 复杂度：</strong> 正比于 <span class="arithmatex">\(((K' + T')N / K)\)</span> 。</p>
+</li>
+<li>
+<p><strong>动态规划复杂度：</strong> 正比于 <span class="arithmatex">\(((K' + T')N)\)</span> 。</p>
+</li>
+<li>
+<p><strong>结论：</strong> 由于各常数因子固定，两种算法在实际运行中都是<strong>线性时间复杂度</strong> 。</p>
+</li>
+</ul>
+<h1 id="25">第25页</h1>
+<h2 id="munchstm_1">munchStm 代码</h2>
+<h3 id="_40">核心翻译</h3>
+<p>代码在匹配：</p>
+<p>MOVE(MEM(...),e2)</p>
+<p>并识别不同地址模式：</p>
+<ul>
+<li>MEM(PLUS,e1,CONST)</li>
+<li>MEM(CONST,e1)</li>
+<li>MEM(MEM)</li>
+</ul>
+<p>然后 emit：</p>
+<ul>
+<li>STORE</li>
+<li>MOVEM</li>
+</ul>
+<hr />
+<h2 id="_41">讲解</h2>
+<p>这里是真正 code generator。</p>
+<p>本质是：</p>
+<p>if AST shape == 某模式
+→ emit 某 instruction</p>
+<p>现代编译器本质也类似。</p>
+<p>LLVM TableGen 只是自动化了这件事。</p>
+<hr />
+<h1 id="26">第26页</h1>
+<h2 id="_42">大纲切换</h2>
+<p>进入：</p>
+<p>Dynamic Programming</p>
+<hr />
+<h1 id="27">第27页</h1>
+<h2 id="optimum-tiling">如何找到 Optimum Tiling</h2>
+<h3 id="_43">翻译</h3>
+<p>Maximal munch：</p>
+<p>只能保证 optimal。</p>
+<p>不能保证 optimum。</p>
+<p>如何找到真正全局最优？</p>
+<p>暴力搜索？</p>
+<hr />
+<h2 id="_44">讲解</h2>
+<p>这里开始进入：</p>
+<p>DP（动态规划）tiling。</p>
+<p>核心思想：</p>
+<p>子树最优 → 整体最优。</p>
+<hr />
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>

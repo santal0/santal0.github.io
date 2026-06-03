@@ -1,0 +1,1254 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/Tiger/">
+      
+      
+        <link rel="prev" href="../Chapter13/">
+      
+      
+        <link rel="next" href="../../../cs/Git/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>Tiger 语言 - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tiger" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Tiger 语言
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        chapter2 词法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter6/" class="md-nav__link">
+        chapter6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter8/" class="md-nav__link">
+        chapter8 基本块
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter9/" class="md-nav__link">
+        chapter9 指令选择
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter10/" class="md-nav__link">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Tiger 语言
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Tiger 语言
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a1" class="md-nav__link">
+    A.1 词法名词
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a2" class="md-nav__link">
+    A.2 声明
+  </a>
+  
+    <nav class="md-nav" aria-label="A.2 声明">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a21" class="md-nav__link">
+    A.2.1. 数据类型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a21_1" class="md-nav__link">
+    A.2.1 变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a22" class="md-nav__link">
+    A.2.2 函数
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a23" class="md-nav__link">
+    A.2.3 作用域规则
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a3" class="md-nav__link">
+    A.3 变量和表达式
+  </a>
+  
+    <nav class="md-nav" aria-label="A.3 变量和表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a31" class="md-nav__link">
+    A.3.1 左值
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a32" class="md-nav__link">
+    A.3.2 表达式
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a33" class="md-nav__link">
+    A.3.3 程序
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a4" class="md-nav__link">
+    A.4 标准库
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a5-tiger" class="md-nav__link">
+    A.5 Tiger 程序示例
+  </a>
+  
+    <nav class="md-nav" aria-label="A.5 Tiger 程序示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a51-queenstig" class="md-nav__link">
+    A.5.1 QUEENS.TIG
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a52-mergetig" class="md-nav__link">
+    A.5.2 MERGE.TIG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="tiger">tiger 语言简介</h1>
+<h2 id="a1">A.1 词法名词</h2>
+<p><strong>标识符：</strong> 标识符是以字母开头，由字母、数字和下划线组成的序列（区分大小写字母）。在本附录中，符号 <span class="arithmatex">\(id\)</span> 代表一个标识符。</p>
+<p><strong>注释：</strong> 注释可以出现在任意两个单词之间。注释以 <code>/*</code> 开始，以 <code>*/</code> 结束，并且可以嵌套。</p>
+<p>示例：</p>
+<ul>
+<li><strong>合法标识符</strong>：<code>myVar</code>，<code>Count_1</code>，<code>x</code></li>
+<li><strong>非法标识符</strong>：<code>1stVar</code> (不能以数字开头)，<code>my-var</code> (不能包含中划线)</li>
+<li><strong>嵌套注释</strong>：Tiger 支持注释嵌套，这在多行注释或暂时屏蔽代码块时非常有用。例如：</li>
+</ul>
+<p><code>tiger
+/* 这是一个外层注释 
+   /* 这是一个嵌套的内层注释 */ 
+   外层注释结束 */</code></p>
+<h2 id="a2">A.2 声明</h2>
+<p>声明序列是由一系列的类型、值和函数声明组成的序列；各个声明之间没有用来分隔或终止一个声明的标点符号。</p>
+<p>语法记号中：</p>
+<p><span class="arithmatex">\(decs \rightarrow \{dec\}\)</span></p>
+<p><span class="arithmatex">\(dec \rightarrow tydec\)</span></p>
+<p><span class="arithmatex">\(\quad \rightarrow vardec\)</span></p>
+<p><span class="arithmatex">\(\quad \rightarrow fundec\)</span></p>
+<p>本节所用的语法记号中，<span class="arithmatex">\(\epsilon\)</span> 代表空字符串，<span class="arithmatex">\(\{x\}\)</span> 代表可能为空的序列 <span class="arithmatex">\(x\)</span>。</p>
+<h3 id="a21">A.2.1. 数据类型</h3>
+<p>Tiger 中类型和类型声明的语法是：</p>
+<p><span class="arithmatex">\(tydec \rightarrow \textbf{type } type\text{-}id = ty\)</span></p>
+<p><span class="arithmatex">\(ty \rightarrow type\text{-}id\)</span>
+<span class="arithmatex">\(\quad \rightarrow \{ tyfields \}\)</span>  （这里的花括号代表花括号自身）
+<span class="arithmatex">\(\quad \rightarrow \textbf{array of } type\text{-}id\)</span></p>
+<p><span class="arithmatex">\(tyfields \rightarrow \epsilon\)</span>
+<span class="arithmatex">\(\quad \rightarrow id : type\text{-}id \{ , id : type\text{-}id \}\)</span></p>
+<ul>
+<li><strong>内建类型：</strong> 有两个预先定义的命名类型 <code>int</code> 和 <code>string</code>。可以通过类型声明定义或重新定义（包括那些预定义的）其他的命名类型。</li>
+<li><strong>记录：</strong> 记录类型是由花括号中列出的它们的各个域来定义的，每一个域用 <span class="arithmatex">\(fieldname : type\text{-}id\)</span> 来描述，其中 <span class="arithmatex">\(type\text{-}id\)</span> 是一个由类型声明定义的标识符。</li>
+<li><strong>数组：</strong> 任何命名类型构成的数组可以通过 <span class="arithmatex">\(\textbf{array of } type\text{-}id\)</span> 来创建。数组的长度不作为这个类型的一部分被指定；这个类型的每一个数组都可有不同的长度，并且长度是在程序运行中创建数组时确定的。</li>
+<li><strong>记录各不相同：</strong> 每一个记录或数组类型的声明创建一个新的类型，并且这个新类型与其他记录或数组类型不兼容（即使所有的域都相同）。</li>
+<li><strong>相互递归的类型：</strong> 一组类型可以递归或相互递归。相互递归的类型是通过一系列连续的、其间没有介入值或函数声明的类型声明来指明的。每一个递归环必须经过一个记录或数组类型。
+  因此，整数表的类型是：
+  <code>tiger
+  type intlist = {hd: int, tl: intlist}
+  type tree = {key: int, children: treelist}
+  type treelist = {hd: tree, tl: treelist}</code>
+  但是，下面的声明序列是非法的：
+  <code>tiger
+  type b = c
+  type c = b</code></li>
+<li><strong>域名的可重用性：</strong> 不同的记录类型可以使用相同的域名（如上例中 <code>intlist</code> 和 <code>treelist</code> 的域 <code>hd</code>）。</li>
+</ul>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+数据类型声明决定了数据的结构。在 Tiger 中：
+1. <strong>重命名类型</strong>：<code>type myInt = int</code>
+2. <strong>定义记录（类似 C 语言的 struct）</strong>：<code>type person = {name: string, age: int}</code>
+3. <strong>定义数组</strong>：<code>type intArray = array of int</code></p>
+<p><em>为什么 <code>type b=c; type c=b</code> 是非法的？</em> 因为在 Tiger 中，类型的递归必须穿过一个“记录 (record)”或“数组 (array)”。直接的别名循环会导致编译器无法确定它到底占用多少内存空间，或者在类型检查时陷入无限循环。</p>
+</blockquote>
+<h3 id="a21_1">A.2.1 变量</h3>
+<p><span class="arithmatex">\(vardec \rightarrow \textbf{var } id := exp\)</span>
+<span class="arithmatex">\(\quad \rightarrow \textbf{var } id : type\text{-}id := exp\)</span></p>
+<p>在上面的变量声明中，短形式的声明给出了变量名，其后跟随一个表示该变量初值的表达式。在这种形式中，变量的类型取决于这个表达式的类型。
+在长形式的变量声明中，同时还给出了变量的类型。初值表达式必须具有相同的类型。
+如果初值表达式是 <code>nil</code>，则必须使用长形式的声明。
+每一个变量声明创建一个新的变量，它的生命期同其声明的作用域一样长。</p>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+* 短形式（类型推导）：<code>var a := 10</code> （<code>a</code> 被自动推导为 <code>int</code>）
+* 长形式（显式类型）：<code>var b : int := 20</code>
+* 为什么 <code>nil</code> 必须用长形式？因为单独一个 <code>nil</code> 没有明确的类型，编译器不知道它是哪种类型的空指针。正确写法是：<code>var p : person := nil</code>。</p>
+</blockquote>
+<h3 id="a22">A.2.2 函数</h3>
+<p><span class="arithmatex">\(fundec \rightarrow \textbf{function } id ( tyfields ) = exp\)</span>
+<span class="arithmatex">\(\quad \rightarrow \textbf{function } id ( tyfields ) : type\text{-}id = exp\)</span></p>
+<p>上面的第一行是一个过程声明；第二行是一个函数声明。过程没有返回值；但函数返回结果值，并且结果值的类型在冒号之后指明。<span class="arithmatex">\(exp\)</span> 是过程体或函数体，<span class="arithmatex">\(tyfields\)</span> 指明了参数的类型和名字。所有参数都是传值参数。</p>
+<p>函数可以递归。相互递归的函数和过程通过一系列连续的函数声明来指明（之间没有插入类型或变量声明）：
+<code>tiger
+function treeLeaves(t : tree) : int =
+    if t=nil then 1
+    else treelistLeaves(t.children)
+function treelistLeaves(L : treelist) : int =
+    if L=nil then 0
+    else treeLeaves(L.hd) + treelistLeaves(L.tl)</code></p>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+Tiger 中的过程和函数的唯一区别就是“是否有返回值”。
+* <strong>过程 (Procedure)</strong>：<code>function printHello(name: string) = print(name)</code> （无返回值）
+* <strong>函数 (Function)</strong>：<code>function add(a: int, b: int): int = a + b</code> （返回 int）</p>
+</blockquote>
+<h3 id="a23">A.2.3 作用域规则</h3>
+<ul>
+<li><strong>局部变量：</strong> 在表达式 <span class="arithmatex">\(\textbf{let } \cdots vardec \cdots \textbf{in } exp \textbf{ end}\)</span> 中声明的变量的作用域从 <span class="arithmatex">\(vardec\)</span> 之后开始直到 <span class="arithmatex">\(\textbf{end}\)</span> 结束。</li>
+<li><strong>参数：</strong> 在 <span class="arithmatex">\(\textbf{function } id ( \cdots id_i : id_2 \cdots ) = exp\)</span> 中，参数 <span class="arithmatex">\(id_i\)</span> 的作用域是整个函数体 <span class="arithmatex">\(exp\)</span>。</li>
+<li><strong>嵌套作用域：</strong> 变量或参数的作用域也包括那个作用域中每一个函数定义的函数体。也就是说，Tiger 同 Pascal 和 Algol 一样，允许访问外层作用域中的变量。</li>
+<li><strong>类型：</strong> 在表达式 <span class="arithmatex">\(\textbf{let } \cdots tydecs \cdots \textbf{in } exps \textbf{ end}\)</span> 中，类型标识符的作用域从定义它的类型声明的连续序列开始，一直延续到 <span class="arithmatex">\(\textbf{end}\)</span>。这包括此作用域内所有函数的函数头和函数体。</li>
+<li><strong>函数：</strong> 在表达式 <span class="arithmatex">\(\textbf{let } \cdots fundecs \cdots \textbf{in } exps \textbf{ end}\)</span> 中，函数标识符的作用域从定义它的函数声明的连续序列开始，一直延续到 <span class="arithmatex">\(\textbf{end}\)</span>。这包括此作用域内所有函数的函数头和函数体。</li>
+<li><strong>名字空间：</strong> 有两类不同的名字空间：一种是类型的名字空间，另一种是函数和变量的名字空间。类型 <span class="arithmatex">\(a\)</span> 可以与变量 <span class="arithmatex">\(a\)</span> 或函数 <span class="arithmatex">\(a\)</span> 同时处在一个作用域中，但是，同名的变量和函数不能同时处于一个作用域中（其中一个将隐藏另一个）。</li>
+<li><strong>局部重声明：</strong> 变量或函数的声明可以被较小作用域中同名的（变量或函数的）重复声明所隐藏。例如，以参数 5 调用下面这个函数将输出 “6 7 6 8 6”：
+  <code>tiger
+  function f(v: int) =
+    let var v := 6
+    in print(v);
+       let var v := 7 in print(v) end;
+       print(v);
+       let var v := 8 in print(v) end;
+       print(v)
+    end</code>
+  函数可隐藏同名变量，反之亦然。类似地，类型声明可以被其作用域内具有较小作用域的同名的重复声明所隐藏。但是，在相互递归的函数序列中，不能有同名的函数；并且在相互递归的类型序列中，不能有同名的类型。</li>
+</ul>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+* 作用域的核心在于 <strong><code>let ... in ... end</code></strong> 结构。声明都放在 <code>let</code> 和 <code>in</code> 之间，执行逻辑放在 <code>in</code> 和 <code>end</code> 之间。
+* <strong>名字空间隔离</strong>：你可以同时拥有 <code>type person = ...</code> 和 <code>var person := ...</code>，因为类型和变量/函数在不同的名字空间中，编译器不会混淆。</p>
+</blockquote>
+<hr />
+<h2 id="a3">A.3 变量和表达式</h2>
+<h3 id="a31">A.3.1 左值</h3>
+<p>左值是可以从其中取出值或对其赋值的一个位置。变量、过程参数、记录域和数组元素都是左值。</p>
+<p><span class="arithmatex">\(lvalue \rightarrow id\)</span>
+<span class="arithmatex">\(\quad \rightarrow lvalue . id\)</span>
+<span class="arithmatex">\(\quad \rightarrow lvalue [ exp ]\)</span></p>
+<ul>
+<li><strong>变量：</strong> 形如 <span class="arithmatex">\(id\)</span> 的标识符引用一个根据作用域规则可访问的变量或参数。</li>
+<li><strong>记录域：</strong> 点号表示法允许选择一个记录值相应的命名域。</li>
+<li><strong>数组下标：</strong> 方括号表示法允许选择与编号对应的数组元素。数组以从 0 开始的连续整数（最大值为数组大小减 1）作为索引。</li>
+</ul>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+所谓“左值(L-value)”，就是能够放在等号左边被赋值的东西。
+* 变量：<code>a := 10</code>
+* 记录域：<code>myPerson.age := 25</code>
+* 数组下标：<code>myArray[0] := 100</code></p>
+</blockquote>
+<h3 id="a32">A.3.2 表达式</h3>
+<ul>
+<li><strong>左值：</strong> 当用于表达式时，其值是它对应的位置中的内容。</li>
+<li><strong>无值表达式：</strong> 有一些表达式不产生结果，包括过程调用、赋值、<code>if-then</code>、<code>while</code>、<code>break</code>，有时还有 <code>if-then-else</code>。因此，尽管表达式 <code>(a:=b)+c</code> 在词法上是正确的，但它却通不过类型检查。</li>
+<li><strong><code>nil</code>：</strong> 表达式 <code>nil</code>（保留字）表示一个属于所有记录类型的值 <code>nil</code>。如果记录变量 <span class="arithmatex">\(v\)</span> 的值为 <code>nil</code>，则从 <span class="arithmatex">\(v\)</span> 选择一个域会检测出一个运行时错误。<code>nil</code> 必须用在可以确定其类型的上下文中，也就是：
+  <code>text
+  var a : my_record := nil               OK
+  a := nil                               OK
+  if a &lt;&gt; nil then ...                   OK
+  if nil &lt;&gt; a then ...                   OK
+  if a = nil then ...                    OK
+  function f(p: my_record) = ... f(nil)  OK
+  var a := nil                           非法
+  if nil = nil then ...                  非法</code></li>
+<li><strong>序列：</strong> 括在括号内用分号隔开的两个或两个以上表达式组成的序列 <code>(exp; exp; ... exp)</code>，按排列顺序计算它的所有表达式。此序列的结果是最后一个表达式产生的结果（如果有结果的话）。</li>
+<li><strong>无值：</strong> 一个开括号其后跟随一个闭括号（这两个括号是两个独立的单词）是一个不产生值的表达式。类似地，在 <code>in</code> 和 <code>end</code> 之间没有内容的 <code>let</code> 表达式也不产生值。</li>
+<li><strong>整型字面量：</strong> 由十进制数字组成的一个序列是一个代表对应整数值的整型常数。</li>
+<li><strong>字符串字面量：</strong> 字符串是一个序列，它由括在双引号之间的 0 或更多个可打印字符、空白符或转义序列组成。每一个转义序列由转义字符 <code>\</code> 引入，代表一个字符序列。Tiger 允许有如下的转义序列（<code>\</code> 的所有其他用法都是非法的）。</li>
+<li><code>\n</code> 系统中表示换行的字符。</li>
+<li><code>\t</code> 制表符 Tab。</li>
+<li><code>\^c</code> 控制字符 c，适用于任何适当的字符 c。</li>
+<li><code>\ddd</code> 具有 ASCII 码 ddd (3个十进制数字) 的单个字符。</li>
+<li><code>\"</code> 双引号字符 (")。</li>
+<li><code>\\</code> 反斜线字符 ()。</li>
+<li><code>\f___f\</code> 此序列将被忽略。其中 f___f 代表一个或多个以上的格式化字符（非可打印字符的子集，至少应包含空白符、制表符、换行符、换页符）组成的序列。这使我们可以在一行的末尾和下一行的开始各写一个 <code>\</code>，从而写出长度超过一行的长字符串。</li>
+<li><strong>负值：</strong> 整型值表达式之前可以带有一个负号。</li>
+<li><strong>函数调用：</strong> 函数调用 <span class="arithmatex">\(id()\)</span> 或 <span class="arithmatex">\(id(exp \{, exp\})\)</span> 表示从左至右计算实参表，并用计算出的实参值来调用函数 <span class="arithmatex">\(id\)</span>。这些实参与该函数定义的对应形参相结合，函数体按照传统的静态作用域规则计算出一个结果。如果 <span class="arithmatex">\(id\)</span> 实际表示的是一个过程（即无返回值的函数），则其函数体不能产生结果值，并且调用此函数也不会有返回值结果。</li>
+<li><strong>算术操作：</strong> 形如 <span class="arithmatex">\(exp\ op\ exp\)</span> 的表达式，其中 <span class="arithmatex">\(op\)</span> 是 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>，要求整型操作数，并且产生一个整型结果。</li>
+<li><strong>比较：</strong> 形如 <span class="arithmatex">\(exp\ op\ exp\)</span> 的表达式，其中 <span class="arithmatex">\(op\)</span> 是 <code>=</code>、<code>&lt;&gt;</code>、<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>，比较它的两个操作数的相等或不等性，并在比较结果为真的情况下产生整数 1，在为假的情况下产生整数 0。所有这些操作符都可以应用于整型操作数。相等或不等操作符也可应用于相同类型的两个记录或数组操作数，但比较的是其“引用”或“指针”的相等性（它们测试的是两个记录是不是相同的实例，而不是这两个记录是否具有相同的内容）。</li>
+<li><strong>字符串比较：</strong> 比较操作符也可应用于字符串。如果两个字符串的内容相同，则这两个字符串相等；没有办法识别部分字符相同的两个字符串。不等性是按照词典序来比较的。</li>
+<li><strong>布尔操作：</strong> 形如 <span class="arithmatex">\(exp\ op\ exp\)</span> 的表达式，其中 <span class="arithmatex">\(op\)</span> 是 <code>&amp;</code> 或 <code>|</code>，表示按捷径方式计算布尔交和并：当它们可以由左操作数确定出其结果时，将不再计算其右操作数。任何非 0 的整数值都看成真值，整数 0 是假值。</li>
+<li><strong>操作符的优先级：</strong> 一元负（取负）具有最高的优先级，操作符 <code>*</code>、<code>/</code> 具有次高优先级，其次是 <code>+</code>、<code>-</code>，之后是 <code>=</code>、<code>&lt;&gt;</code>、<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>，再之后是 <code>&amp;</code>，最后是 <code>|</code>。</li>
+<li><strong>操作符的结合性：</strong> 操作符 <code>*</code>、<code>/</code>、<code>+</code>、<code>-</code> 都是左结合的。比较操作符不能结合，因此，尽管 <code>a=(b=c)</code> 是合法的，<code>a=b=c</code> 不是合法的表达式。</li>
+<li><strong>记录创建：</strong> 表达式 <span class="arithmatex">\(type\text{-}id \{ id=exp \{, id=exp\} \}\)</span> 或（对于一个空记录类型） <span class="arithmatex">\(type\text{-}id \{ \}\)</span> 创建一个类型为 <span class="arithmatex">\(type\text{-}id\)</span> 的新的记录实例。该记录表达式的域名和类型必须按给定的顺序与命名类型的域名和类型相匹配。这里的花括号 <code>{}</code> 就是花括号自身。</li>
+<li><strong>数组创建：</strong> 表达式 <span class="arithmatex">\(type\text{-}id [ exp_1 ] \textbf{ of } exp_2\)</span> 按顺序计算 <span class="arithmatex">\(exp_1\)</span> 和 <span class="arithmatex">\(exp_2\)</span>，分别计算出其元素的个数 <span class="arithmatex">\(n\)</span> 和初始值 <span class="arithmatex">\(v\)</span>。类型 <span class="arithmatex">\(type\text{-}id\)</span> 必须声明为数组类型。该表达式的结果是一个类型为 <span class="arithmatex">\(type\text{-}id\)</span>，索引范围从 0 到 <span class="arithmatex">\(n-1\)</span> 的新数组，此数组的每一个元素的初值都为 <span class="arithmatex">\(v\)</span>。</li>
+<li><strong>数组和记录赋值：</strong> 当一个数组或记录变量 <span class="arithmatex">\(a\)</span> 被赋予了一个值 <span class="arithmatex">\(b\)</span> 时，<span class="arithmatex">\(a\)</span> 引用的是与 <span class="arithmatex">\(b\)</span> 相同的数组或记录。之后对 <span class="arithmatex">\(a\)</span> 的元素的更新将影响 <span class="arithmatex">\(b\)</span>，反之亦然，直到 <span class="arithmatex">\(a\)</span> 被重新赋值。数组和记录参数传递的是地址，而不是值。</li>
+<li><strong>生存期：</strong> 记录和数组具有无限的生存期：每一个记录或数组值是永久存在的，即使控制已退出了声明它们的作用域也如此。</li>
+<li><strong>赋值：</strong> 赋值语句 <span class="arithmatex">\(lvalue := exp\)</span> 先计算 <span class="arithmatex">\(lvalue\)</span>，接着计算 <span class="arithmatex">\(exp\)</span>，然后设置 <span class="arithmatex">\(lvalue\)</span> 的内容为表达式 <span class="arithmatex">\(exp\)</span> 的结果。在句法上，<code>:=</code> 的优先级低于布尔操作符 <code>&amp;</code> 和 <code>|</code>。赋值表达式不产生值，所以 <code>(a:=b)+c</code> 是非法的。</li>
+<li><strong>if-then-else：</strong> <code>if</code> 表达式 <span class="arithmatex">\(\textbf{if } exp_1 \textbf{ then } exp_2 \textbf{ else } exp_3\)</span> 计算整型表达式 <span class="arithmatex">\(exp_1\)</span>。如果结果不为 0，则产生计算表达式 <span class="arithmatex">\(exp_2\)</span> 的结果；否则产生 <span class="arithmatex">\(exp_3\)</span> 的结果。表达式 <span class="arithmatex">\(exp_2\)</span> 和 <span class="arithmatex">\(exp_3\)</span> 必须具有相同的类型，此类型也是整个 <code>if</code> 表达式的类型（或者，两个表达式都必须是无值的）。</li>
+<li><strong>if-then：</strong> <code>if</code> 表达式 <span class="arithmatex">\(\textbf{if } exp_1 \textbf{ then } exp_2\)</span> 计算整型表达式 <span class="arithmatex">\(exp_1\)</span>。如果结果不为 0，则计算 <span class="arithmatex">\(exp_2\)</span>（它必须不产生值）。整个 <code>if</code> 表达式是无值的。</li>
+<li><strong>while：</strong> 表达式 <span class="arithmatex">\(\textbf{while } exp_1 \textbf{ do } exp_2\)</span> 计算整型表达式 <span class="arithmatex">\(exp_1\)</span>。如果结果不为 0，则计算 <span class="arithmatex">\(exp_2\)</span>（它必须是无值的），然后重新计算整个 <code>while</code> 表达式。</li>
+<li><strong>for：</strong> 表达式 <span class="arithmatex">\(\textbf{for } id := exp_1 \textbf{ to } exp_2 \textbf{ do } exp_3\)</span> 对取值范围在 <span class="arithmatex">\(exp_1\)</span> 和 <span class="arithmatex">\(exp_2\)</span> 之间的 <span class="arithmatex">\(id\)</span> 的每一个整数值重复计算 <span class="arithmatex">\(exp_3\)</span>。变量 <span class="arithmatex">\(id\)</span> 是一个由该 <code>for</code> 语句隐含声明的新变量，它的作用域仅在 <span class="arithmatex">\(exp_3\)</span> 中，并且在 <span class="arithmatex">\(exp_3\)</span> 内不可以对它赋值。循环体 <span class="arithmatex">\(exp_3\)</span> 必须是无值的。循环的上界 <span class="arithmatex">\(exp_2\)</span> 只在进入循环体之前计算一次。如果上界小于下界，则不会执行循环体。</li>
+<li><strong>break：</strong> <code>break</code> 表达式终止直接包含它的那个 <code>while</code> 表达式或 <code>for</code> 表达式的计算。即使 <span class="arithmatex">\(p\)</span> 嵌套在 <span class="arithmatex">\(q\)</span> 之内，过程 <span class="arithmatex">\(p\)</span> 之内的 <code>break</code> 也不能终止过程 <span class="arithmatex">\(q\)</span> 中的循环。<code>break</code> 位于 <code>while</code> 或 <code>for</code> 之外是非法的。</li>
+<li><strong>let：</strong> 表达式 <span class="arithmatex">\(\textbf{let } decs \textbf{ in } expseq \textbf{ end}\)</span> 计算声明 <span class="arithmatex">\(decs\)</span>，绑定类型、变量和过程使它们的作用域为整个 <span class="arithmatex">\(expseq\)</span>。<span class="arithmatex">\(expseq\)</span> 是 0 个或更多个用分号分隔的表达式所形成的序列，此序列中最后一个表达式的结果（若有的话）将作为整个 <code>let</code> 表达式的结果。</li>
+<li><strong>圆括号：</strong> 和大多数程序设计语言一样，括住任何表达式的圆括号都强制它们在句法上组成一组。</li>
+</ul>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+* <strong>数组与记录创建与赋值（指针语义）</strong>：
+  <code>tiger
+  let 
+    type intArray = array of int
+    var arr1 := intArray[3] of 0 /* 创建大小为3的数组，初值都是0 */
+    var arr2 := arr1             /* arr2 和 arr1 指向同一个数组内存！*/
+  in 
+    arr1[0] := 99;               /* 这时 arr2[0] 也变成了 99 */
+  end</code>
+* <strong><code>let</code> 表达式的值</strong>：
+  <code>tiger
+  let 
+    var a := 10
+    var b := 20
+  in 
+    a := a + 1; /* 序列前部分，不产生值 */
+    a + b       /* 最后一个表达式，其结果(31)就是整个let块的返回值 */
+  end</code>
+* <strong>循环与 <code>break</code></strong>：
+  <code>tiger
+  for i := 1 to 10 do (
+    if i = 5 then break; /* 跳出循环 */
+    print(chr(i + ord("0")))
+  )</code></p>
+</blockquote>
+<h3 id="a33">A.3.3 程序</h3>
+<p>Tiger 程序没有参数；程序就是一个表达式 <span class="arithmatex">\(exp\)</span>。</p>
+<h2 id="a4">A.4 标准库</h2>
+<p>Tiger 有下面几个预先定义的函数。</p>
+<ul>
+<li><code>function print(s : string)</code>：输出 s 至标准输出。</li>
+<li><code>function flush()</code>：排空标准输出缓冲区。</li>
+<li><code>function getchar() : string</code>：从标准输入读一个字符；遇到文件尾则返回空字符串。</li>
+<li><code>function ord(s: string) : int</code>：给出 s 中第一个字符的 ASCII 值；如果 s 是空字符串，则返回 -1。</li>
+<li><code>function chr(i: int) : string</code>：ASCII 值为 i 的单字符字符串；若 i 超出了 ASCII 字符集的范围，程序将停止。</li>
+<li><code>function size(s: string) : int</code>：s 中字符的个数。</li>
+<li><code>function substring(s:string, first:int, n:int) : string</code>：字符串 s 中从第 first 个字符开始、长度为 n 的子字符串，字符从 0 开始编号。</li>
+<li><code>function concat (s1: string, s2: string) : string</code>：s1 和 s2 的串联得到的字符串。</li>
+<li><code>function not(i : int) : int</code>：返回 <code>(i=0)</code>。</li>
+<li><code>function exit(i: int)</code>：以状态码 i 终止程序的执行。</li>
+</ul>
+<hr />
+<h2 id="a5-tiger">A.5 Tiger 程序示例</h2>
+<p>本节给出了两个已完成的 Tiger 程序；程序 6-2 只是一个 Tiger 程序的一部分（一个函数）。</p>
+<h3 id="a51-queenstig">A.5.1 QUEENS.TIG</h3>
+<p>```tiger
+/<em> A program to solve the 8-queens problem </em>/
+let
+    var N := 8</p>
+<pre><code>type intArray = array of int
+
+var row := intArray [ N ] of 0
+var col := intArray [ N ] of 0
+var diag1 := intArray [N+N-1] of 0
+var diag2 := intArray [N+N-1] of 0
+
+function printboard() =
+   (for i := 0 to N-1
+     do (for j := 0 to N-1
+          do print(if col[i]=j then " O" else " .");
+         print("\n"));
+     print("\n"))
+
+function try(c:int) = 
+   if c=N
+   then printboard()
+   else for r := 0 to N-1
+         do if row[r]=0 &amp; diag1[r+c]=0 &amp; diag2[r+7-c]=0
+               then (row[r]:=1; diag1[r+c]:=1; diag2[r+7-c]:=1;
+                     col[c]:=r;
+                     try(c+1);
+                     row[r]:=0; diag1[r+c]:=0; diag2[r+7-c]:=0)
+</code></pre>
+<p>in try(0)
+end
+```</p>
+<p>这个程序输出了所有满足如下要求的棋盘布局：在国际象棋棋盘上放置 8 个皇后，使之满足同一行、同一列和同一对角线上不会有两个皇后。它说明了数组和递归的用法。假设我们已成功地在第 <span class="arithmatex">\(0 \sim c-1\)</span> 列放置了两个皇后，则当第 <span class="arithmatex">\(r\)</span> 行放置了皇后时，<code>row[r]</code> 将是 1；当第 <span class="arithmatex">\(d\)</span> 条左下角至右上角的对角线放置了皇后时，<code>diag1[d]</code> 将是 1；当第 <span class="arithmatex">\(d\)</span> 条左上角至右下角的对角线放置了皇后时，<code>diag2[d]</code> 将是 1。接下来，<code>try(c)</code> 尝试在第 <span class="arithmatex">\(c \sim N-1\)</span> 行放置皇后。</p>
+<h3 id="a52-mergetig">A.5.2 MERGE.TIG</h3>
+<p>```tiger
+let 
+    type any = {any : int}
+    var buffer := getchar()</p>
+<pre><code>function readint(any: any) : int =
+  let var i := 0
+      function isdigit(s : string) : int =
+        ord(buffer)&gt;=ord("0") &amp; ord(buffer)&lt;=ord("9")
+  in while buffer=" " | buffer="\n" do buffer := getchar()
+     any.any := isdigit(buffer);
+     while isdigit(buffer)
+       do (i := i*10+ord(buffer)-ord("0");
+           buffer := getchar());
+     i
+  end
+
+type list = {first: int, rest: list}
+
+function readlist() : list =
+  let var any := any{any=0}
+      var i := readint(any)
+  in if any.any
+     then list{first=i,rest=readlist()}
+     else (buffer := getchar(); nil)
+  end
+
+function merge(a: list, b: list) : list =
+  if a=nil then b
+  else if b=nil then a
+  else if a.first &lt; b.first
+     then list{first=a.first, rest=merge(a.rest,b)}
+     else list{first=b.first, rest=merge(a,b.rest)}
+
+function printint(i: int) =
+  let function f(i:int) = if i&gt;0 
+        then (f(i/10); print(chr(i-i/10*10+ord("0"))))
+  in if i&lt;0 then (print("-"); f(-i))
+     else if i&gt;0 then f(i)
+     else print("0")
+  end
+
+function printlist(l: list) =
+  if l=nil then print("\n")
+  else (printint(l.first); print(" "); printlist(l.rest))
+</code></pre>
+<p>/<em> BODY OF MAIN PROGRAM </em>/
+in printlist(merge(readlist(), readlist()))
+end
+```</p>
+<p>这个程序从标准输入读入两列整数；每列中的数应按递增顺序排列，数之间用空白或换行符分隔；每一列数应当用分号来终止。
+程序的输出是这两列数的合并：即一列按递增顺序排列的数。
+记录 <code>any</code> 在 Tiger 中用来模拟传地址调用。尽管 <code>readint</code> 不能更改它的实参（以指明输入中是否还残留有要输入的数），但可以更改它的实参的一个域。
+赋值 <code>any := any{any=0}</code> 说明了一个名字可以表示变量、类型和域，具体表示什么取决于它的上下文。</p>
+<blockquote>
+<p><strong>💡 示例与讲解：</strong>
+* <strong>名字空间的复用</strong>：注意在代码 <code>type any = {any : int}</code> 以及后面的 <code>var any := any{any=0}</code> 中。这里出现了三个 <code>any</code>：
+  1. 第一个 <code>any</code>：类型名称（Type namespace）
+  2. 第二个 <code>any</code>：记录的字段名（Field names 通常属于关联记录自己的上下文）
+  3. 第三个 <code>any</code>：变量名（Variable namespace）</p>
+<p>这展示了 Tiger 语言允许不同类别的标识符重名而不发生冲突的特性。
+* <strong>模拟引用传递</strong>：Tiger 中所有参数都是按值传递的（对于标量），但因为记录（record）是按引用（地址）传递的，通过传递一个包含整型的记录 <code>{any : int}</code> 给 <code>readint</code> 函数，函数内部修改 <code>any.any</code> 的值，调用者能“看到”这个修改。这是实现引用参数(C++ 中的 <code>&amp;</code> 或 C 中的指针传递)的常见模式。</p>
+</blockquote>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2665 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/Chapter6/">
+      
+      
+        <link rel="prev" href="../Chapter5/">
+      
+      
+        <link rel="next" href="../Chapter7/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>chapter6 - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-6-activation-records" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chapter6
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        chapter2 词法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          chapter6
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        chapter6
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#60-activation-records" class="md-nav__link">
+    6.0. Activation Records
+  </a>
+  
+    <nav class="md-nav" aria-label="6.0. Activation Records">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#601-storage-organization" class="md-nav__link">
+    6.0.1. Storage Organization（存储组织）
+  </a>
+  
+    <nav class="md-nav" aria-label="6.0.1. Storage Organization（存储组织）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    运行时表示由两大部分构成
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    典型内存划分
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#602-activation-records" class="md-nav__link">
+    6.0.2. Activation Records（为什么需要活动记录）
+  </a>
+  
+    <nav class="md-nav" aria-label="6.0.2. Activation Records（为什么需要活动记录）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6021-activation" class="md-nav__link">
+    6.0.2.1. 什么叫 activation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6022" class="md-nav__link">
+    6.0.2.2. 同一个变量名会有多个实例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6023" class="md-nav__link">
+    6.0.2.3. 局部变量通常在函数返回后销毁
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6024" class="md-nav__link">
+    6.0.2.4. 运行时栈与控制栈
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-stack-frames" class="md-nav__link">
+    6.1 Stack Frames 栈帧的结构与工作机制
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1 Stack Frames 栈帧的结构与工作机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#611-stack-frames" class="md-nav__link">
+    6.1.1 Stack Frames
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#612-stack-pointersp" class="md-nav__link">
+    6.1.2. Stack Pointer（SP，栈指针）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#613" class="md-nav__link">
+    6.1.3. 栈帧的基本定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#614-a-typical-stack-frame-layout" class="md-nav__link">
+    6.1.4. A typical stack frame layout（典型栈帧布局）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#615-frame-pointer-fp" class="md-nav__link">
+    6.1.5. Frame Pointer（帧指针）—— 为什么还需要 FP
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1.5. Frame Pointer（帧指针）—— 为什么还需要 FP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6151" class="md-nav__link">
+    6.1.5.1. 引入
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6152" class="md-nav__link">
+    6.1.5.2. 实现
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#616-registers" class="md-nav__link">
+    6.1.6. Registers
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1.6. Registers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6161" class="md-nav__link">
+    6.1.6.1. 寄存器的作用和挑战
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#617-parameter-passing" class="md-nav__link">
+    6.1.7. Parameter Passing（参数传递）参数传递机制。
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1.7. Parameter Passing（参数传递）参数传递机制。">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6171-pass-by-value" class="md-nav__link">
+    6.1.7.1. 按值传递（Pass-by-Value）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6172" class="md-nav__link">
+    6.1.7.2. 常用的优化
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6173" class="md-nav__link">
+    6.1.7.3.寄存器传参带来的问题
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6174" class="md-nav__link">
+    6.1.7.4. 避免额外内存流量的方法
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1.7.4. 避免额外内存流量的方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    覆盖死变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incoming-arguments" class="md-nav__link">
+    叶子过程不必把 incoming arguments 写到内存
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    函数间寄存器分配
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#register-windows" class="md-nav__link">
+    register windows（寄存器窗口）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#618" class="md-nav__link">
+    6.1.8. 不可使用寄存器的情形
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#619-return-address" class="md-nav__link">
+    6.1.9. 返回地址 return address
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6110-frame-resident-variables" class="md-nav__link">
+    6.1.10. Frame-Resident Variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6111-static-link" class="md-nav__link">
+    6.1.11. static link
+  </a>
+  
+    <nav class="md-nav" aria-label="6.1.11. static link">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61111-block-structure" class="md-nav__link">
+    6.1.11.1. Block Structure（块结构）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61112" class="md-nav__link">
+    6.1.11.2. 例子
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61113-static-link" class="md-nav__link">
+    6.1.11.3. static link 的定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61114" class="md-nav__link">
+    6.1.11.4. 总结
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61115-display" class="md-nav__link">
+    6.1.11.5. 另一种实现块结构的方法 Display（显示表）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#61116-lambda-lifting" class="md-nav__link">
+    6.1.11.6. 第三种实现块结构的方法：Lambda Lifting。
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6112" class="md-nav__link">
+    6.1.12. 嵌套函数 + 函数作为值返回
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-tiger-frame" class="md-nav__link">
+    6.2 Tiger 编译器如何抽象和实现 frame
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2 Tiger 编译器如何抽象和实现 frame">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#621-tiger-frame" class="md-nav__link">
+    6.2.1. Tiger 编译器中的 frame 接口
+  </a>
+  
+    <nav class="md-nav" aria-label="6.2.1. Tiger 编译器中的 frame 接口">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6211-frameh" class="md-nav__link">
+    6.2.1.1. frame.h 接口
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6212-f_frame" class="md-nav__link">
+    6.2.1.2. F_frame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6213-f_access" class="md-nav__link">
+    6.2.1.3. F_access
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6214-f_formals-shift-of-view" class="md-nav__link">
+    6.2.1.4. F_formals 与 shift of view
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-f_formals" class="md-nav__link">
+    1. F_formals 做什么
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-caller-callee" class="md-nav__link">
+    2. caller 视角与 callee 视角可能不同
+  </a>
+  
+    <nav class="md-nav" aria-label="2. caller 视角与 callee 视角可能不同">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    如果参数通过栈传递
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    如果参数通过寄存器传递
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-shift-of-view" class="md-nav__link">
+    3. 这叫 “Shift of View”
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter8/" class="md-nav__link">
+        chapter8 基本块
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter9/" class="md-nav__link">
+        chapter9 指令选择
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter10/" class="md-nav__link">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tiger/" class="md-nav__link">
+        Tiger 语言
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="chapter-6-activation-records">Chapter 6 Activation Records</h1>
+<h2 id="60-activation-records">6.0. Activation Records</h2>
+<p>这一章本质上讨论的是：一个函数被调用时，运行时系统到底要保存哪些信息，这些信息放在内存什么位置，以及编译器如何组织这些信息。</p>
+<h3 id="601-storage-organization">6.0.1. Storage Organization（存储组织）</h3>
+<p>一个程序运行时，它的内存一般如何划分。</p>
+<p>从编译器作者的角度看，目标程序运行在自己的 <strong>逻辑地址空间（logical address space）</strong> 中。意思是：</p>
+<ul>
+<li>程序中的每个值都要有“位置”</li>
+<li>编译器需要知道：<ul>
+<li>代码放哪</li>
+<li>全局数据放哪</li>
+<li>局部变量放哪</li>
+<li>动态申请的对象放哪</li>
+</ul>
+</li>
+</ul>
+<p>也就是说，<strong>程序不只是“有语义”，还必须“有地址”</strong>。</p>
+<h4 id="_1">运行时表示由两大部分构成</h4>
+<p>课件说：对象程序（object program）的运行时表示由两部分构成：</p>
+<ul>
+<li><strong>data areas</strong>：数据区</li>
+<li><strong>program areas</strong>：程序区</li>
+</ul>
+<p>换句话说，程序运行时内存里至少有：</p>
+<ul>
+<li>可执行代码</li>
+<li>各种数据</li>
+</ul>
+<h4 id="_2">典型内存划分</h4>
+<p>典型划分包括四块：</p>
+<ul>
+<li>
+<p>Code 区</p>
+<p>存放：</p>
+<ul>
+<li>可执行目标代码</li>
+<li>就是编译后真正要执行的机器指令</li>
+</ul>
+<p>你可以把它理解成“程序动作本身”。</p>
+</li>
+<li>
+<p>Static 区</p>
+<p>存放 <strong>编译时大小已知</strong> 的数据对象，例如：</p>
+<ul>
+<li>全局常量</li>
+<li>编译器生成的数据</li>
+<li>某些静态变量</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>在程序运行前就知道大小</li>
+<li>生命周期通常贯穿整个程序运行期</li>
+</ul>
+</li>
+<li>
+<p>Stack 区</p>
+<p>存放：</p>
+<ul>
+<li>过程/函数调用时生成的数据结构</li>
+<li>这些数据结构就叫 <strong>activation records（活动记录）</strong></li>
+<li>也就是后面要详细讲的 <strong>栈帧</strong></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>随函数调用而增长</li>
+<li>随函数返回而缩小</li>
+<li>符合 <strong>后进先出（LIFO）</strong></li>
+<li>Heap 区</li>
+</ul>
+<p>存放：</p>
+<ul>
+<li>由程序显式控制分配和释放的数据</li>
+</ul>
+<p>例如 C 语言：</p>
+<ul>
+<li><code>malloc</code></li>
+<li><code>free</code></li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>生命周期不一定和函数调用同步</li>
+<li>分配/释放时机由程序控制</li>
+<li>常用于对象、链表、树等动态结构</li>
+</ul>
+</li>
+</ul>
+<h3 id="602-activation-records">6.0.2. Activation Records（为什么需要活动记录）</h3>
+<p>从一个最根本的问题开始：<strong>函数的局部变量应该放在哪里？</strong></p>
+<h4 id="6021-activation">6.0.2.1. 什么叫 activation</h4>
+<p><code>pascal
+function f(x: int): int = 
+let var y := x + x
+ in if y&lt;10 
+then f(y)
+ else return y-1
+ end</code></p>
+<p>每调用一次函数 <code>f</code>，就产生一次 <code>f</code> 的 <strong>activation（激活）</strong></p>
+<p><code>c
+f(1);
+f(2);</code></p>
+<p>虽然调用的是同一个函数 <code>f</code>，但这是两次不同的 activation。</p>
+<h4 id="6022">6.0.2.2. 同一个变量名会有多个实例</h4>
+<ul>
+<li>每次 <code>f</code> 被调用时，<code>x</code> 都会创建一个新的实例（instantiation）</li>
+<li>并由调用者初始化</li>
+</ul>
+<p>也就是说，函数参数和局部变量不是“全程序唯一一份”，而是：</p>
+<blockquote>
+<p><strong>每次调用，重新创建一份。</strong></p>
+</blockquote>
+<p>“同一函数可以同时有多份局部变量”</p>
+<ul>
+<li><code>f(1)</code> 的 <code>x</code>,<code>y</code></li>
+<li><code>f(2)</code> 的 <code>x</code>,<code>y</code></li>
+<li><code>f(4)</code> 的 <code>x</code>,<code>y</code></li>
+<li><code>f(8)</code> 的 <code>x</code>,<code>y</code></li>
+</ul>
+<p>这些变量名都一样，但它们是不同调用实例中的不同变量。</p>
+<p>所以<strong>必须有一种机制，能同时保存多次调用各自的局部变量。</strong></p>
+<p>这正是 activation record 要解决的问题。</p>
+<h4 id="6023">6.0.2.3. 局部变量通常在函数返回后销毁</h4>
+<p>在很多语言里（例如 C、Pascal、Java）：</p>
+<ul>
+<li>局部变量在函数返回后就消失</li>
+<li>它们的生命周期只在函数执行期间有效</li>
+</ul>
+<p>这就引出问题：那应该怎么保存这些局部变量？</p>
+<p>用栈：</p>
+<ul>
+<li>
+<p>函数调用的行为通常符合：</p>
+<ul>
+<li>先调用的后返回</li>
+<li>后调用的先返回</li>
+</ul>
+<p>这就是 <strong>LIFO（Last In First Out，后进先出）</strong></p>
+</li>
+<li>
+<p>因此很自然用<strong>栈（stack）</strong>来保存每次函数调用对应的数据。</p>
+</li>
+</ul>
+<h4 id="6024">6.0.2.4. 运行时栈与控制栈</h4>
+<p>过程调用与返回由控制栈管理，过程调用和返回通常由一个 <strong>run-time stack</strong> 管理，这个栈也叫 <strong>control stack</strong></p>
+<p>当一个过程/函数被调用时，为它的局部变量分配空间，把这些空间压入栈中</p>
+<p>当过程结束时，这块空间从栈中弹出</p>
+<p>每个“活着的调用”都有一个 activation record，只要某次函数调用还没返回，它就在栈上有一条对应记录</p>
+<p>这条记录就是<strong>activation record</strong>，也叫 <strong>frame</strong>，也就是 <strong>stack frame（栈帧）</strong></p>
+<h2 id="61-stack-frames">6.1 Stack Frames 栈帧的结构与工作机制</h2>
+<h3 id="611-stack-frames">6.1.1 Stack Frames</h3>
+<p>虽然栈有 push/pop 的概念，但编译器实际使用栈时并不是“一个变量 push 一次”，实际情况更复杂，因为：</p>
+<ul>
+<li>局部变量是成批分配/释放的<ul>
+<li>函数进入时，通常不是一个变量一个变量地 push，而是一次性给整个函数的局部数据留出一大块空间，函数退出时再整体回收。</li>
+</ul>
+</li>
+<li>变量不一定一创建就初始化：一个局部变量可能，先分配空间，过一会儿才真正赋值，所以栈不是单纯“值入栈/出栈”那么简单。</li>
+<li>
+<p>我们还要访问栈内部较深的位置，很多变量并不在栈顶，例如：</p>
+<ul>
+<li>参数在帧的一端</li>
+<li>局部变量在中间</li>
+<li>保存寄存器在别处</li>
+</ul>
+<p>编译器必须能“随机访问”栈中某个固定偏移位置。</p>
+</li>
+</ul>
+<p>因此把栈看成“大数组”</p>
+<ul>
+<li>栈在逻辑上可以看成一大片连续内存</li>
+<li>通过“基址 + 偏移”来访问具体位置</li>
+</ul>
+<h3 id="612-stack-pointersp">6.1.2. Stack Pointer（SP，栈指针）</h3>
+<p>栈指针是一个特殊寄存器，指向栈中的某个位置。</p>
+<ul>
+<li>SP 之后的位置视为垃圾（garbage）</li>
+<li>SP 之前的位置视为已分配（allocated）</li>
+</ul>
+<h3 id="613">6.1.3. 栈帧的基本定义</h3>
+<p>栈通常只在函数入口增长一次，增长的大小足够容纳这个函数的全部局部变量，在函数退出前，再按同样大小缩回去。</p>
+<p>函数的 activation record / stack frame 是栈上专门分给这个函数的一块区域，其中包含局部变量，参数，返回地址，临时值，其他辅助信息</p>
+<p>栈通常从高地址向低地址增长，运行时栈通常从较高地址开始，向较小地址增长，新的栈帧会出现在更低地址的位置</p>
+<p>如何布局 activation record，才能让 caller 和 callee 正确通信？</p>
+<ul>
+<li><strong>caller</strong>：调用别人函数的函数</li>
+<li><strong>callee</strong>：被调用的函数</li>
+</ul>
+<p>栈帧的设计要保证 caller 和 callee 能正确通信，例如：</p>
+<ul>
+<li>参数怎么传</li>
+<li>返回地址放哪</li>
+<li>返回后去哪</li>
+<li>哪些寄存器要保存</li>
+</ul>
+<h3 id="614-a-typical-stack-frame-layout">6.1.4. A typical stack frame layout（典型栈帧布局）</h3>
+<table style="border-collapse: collapse; width: 100%; max-width: 650px; margin: 0 auto; font-family: 'Times New Roman', Times, serif; text-align: center; line-height: 1.5; font-size: 16px;">
+  <tbody>
+    <!-- 顶部：高地址指示 -->
+    <tr>
+      <td style="width: 35%;"></td>
+      <td style="width: 30%; border-left: 1px solid currentColor; border-right: 1px solid currentColor; height: 40px;"></td>
+      <td style="width: 35%; text-align: left; padding-left: 15px; vertical-align: top;">
+        &uarr; higher addresses
+      </td>
+    </tr>
+
+    <!-- 上一个栈帧：传入参数 (Incoming Arguments) -->
+    <tr>
+      <td style="vertical-align: middle; text-align: center; padding-right: 10px;">
+        incoming<br>arguments
+      </td>
+      <td rowspan="2" style="border: 1px solid currentColor; padding: 15px 5px;">
+        argument <i>n</i><br>.<br>.<br>.<br>argument 2<br>argument 1<br>static link
+      </td>
+      <td rowspan="2" style="text-align: left; padding-left: 15px; vertical-align: middle;">
+        previous<br>frame
+      </td>
+    </tr>
+    <!-- 帧指针 -->
+    <tr>
+      <td style="vertical-align: bottom; text-align: right; padding-right: 10px;">
+        <div style="border: 2px solid #e60000; color: inherit; display: inline-block; padding: 3px 6px; white-space: nowrap;">
+          frame pointer &rarr;
+        </div>
+      </td>
+    </tr>
+
+    <!-- 当前栈帧：局部变量 (Local Variables) -->
+    <tr>
+      <td></td>
+      <td style="border: 1px solid currentColor; padding: 15px 5px;">
+        local<br>variables
+      </td>
+      <td rowspan="4" style="border-top: 1px solid currentColor; text-align: left; padding-left: 15px; vertical-align: middle;">
+        current<br>frame
+      </td>
+    </tr>
+
+    <!-- 当前栈帧：返回地址、临时变量、保存的寄存器 -->
+    <tr>
+      <td></td>
+      <td style="border: 1px solid currentColor; padding: 15px 5px;">
+        return address<br><br>temporaries<br><br>saved<br>registers
+      </td>
+    </tr>
+
+    <!-- 当前栈帧：传出参数 (Outgoing Arguments) -->
+    <tr>
+      <td style="vertical-align: middle; text-align: center; padding-right: 10px;">
+        outgoing<br>arguments
+      </td>
+      <td rowspan="2" style="border: 1px solid currentColor; padding: 15px 5px;">
+        argument <i>m</i><br>.<br>.<br>.<br>argument 2<br>argument 1<br>static link
+      </td>
+    </tr>
+    <!-- 栈指针 -->
+    <tr>
+      <td style="vertical-align: bottom; text-align: right; padding-right: 10px;">
+        <div style="border: 2px solid #e60000; color: inherit; display: inline-block; padding: 3px 6px; white-space: nowrap;">
+          stack pointer &rarr;
+        </div>
+      </td>
+    </tr>
+
+    <!-- 下一个栈帧：底端开口及低地址指示 -->
+    <tr>
+      <td></td>
+      <td style="border-left: 1px solid currentColor; border-right: 1px solid currentColor; height: 50px;"></td>
+      <td rowspan="2" style="border-top: 1px solid currentColor; text-align: left; padding-left: 15px; vertical-align: top; padding-top: 20px;">
+        next<br>frame<br><br><br>&darr; lower addresses
+      </td>
+    </tr>
+    <tr>
+       <td></td>
+       <td style="border-left: 1px solid currentColor; border-right: 1px solid currentColor; height: 40px;"></td>
+    </tr>
+  </tbody>
+</table>
+
+<ol>
+<li>
+<p>incoming arguments：这是调用者传给当前函数的参数 <code>f(a, b, c);</code> 对于 <code>f</code> 来说，<code>a b c</code> 就是 incoming arguments。它们可能在寄存器里、在栈里或进入函数后被搬到某个统一位置</p>
+</li>
+<li>
+<p>local variables（局部变量）：当前函数内部声明的变量。有些局部变量在栈帧里，有些可能直接放寄存器。</p>
+</li>
+<li>
+<p>return address（返回地址）：当前函数执行完之后，要跳回调用者的哪条指令继续执行，通常由 <code>CALL</code> 指令自动产生。</p>
+</li>
+<li>
+<p>temporaries（临时值）：编译器在表达式计算过程中会产生很多临时结果，例如：<code>a + b * c</code> 中间的 <code>b * c</code> 就可能产生临时值，这些值有时也需要在栈帧中保存。</p>
+</li>
+<li>
+<p>saved registers（保存的寄存器）：调用过程中，有些寄存器的旧值必须先保存起来，等函数结束再恢复。否则会破坏调用者原本依赖的内容。</p>
+</li>
+<li>
+<p>outgoing arguments（传出参数）：当前函数如果还要调用别的函数，就要准备传给下一个函数的参数区域。所以一个帧里不仅有“收到的参数”，还可能有“准备传出去的参数”。</p>
+</li>
+<li>
+<p>static link（静态链）：这是后面讲嵌套函数时的关键。让内部函数访问外层函数的变量</p>
+</li>
+</ol>
+<h3 id="615-frame-pointer-fp">6.1.5. Frame Pointer（帧指针）—— 为什么还需要 FP</h3>
+<h4 id="6151">6.1.5.1. 引入</h4>
+<p>假设函数 <code>g(...)</code> 调用函数 <code>f(a1, ..., an)</code>：</p>
+<ul>
+<li><code>g</code> 是 caller</li>
+<li><code>f</code> 是 callee</li>
+</ul>
+<p>当 <code>g</code> 调用 <code>f</code> 时：</p>
+<ul>
+<li>栈指针 <code>SP</code> 指向 <code>g</code> 传给 <code>f</code> 的第一个参数</li>
+<li><code>f</code> 通过从 <code>SP</code> 中减去帧大小来分配自己的 frame</li>
+</ul>
+<h4 id="6152">6.1.5.2. 实现</h4>
+<p>进入函数 f 时：</p>
+<ul>
+<li>先把旧 FP 保存起来</li>
+<li><code>FP = SP</code>：让 FP 指向当前帧的基准位置</li>
+<li><code>SP = SP - framesize</code>：把 SP 往下移动，分出本函数所需空间</li>
+</ul>
+<p>退出函数 f 时：</p>
+<ul>
+<li><code>SP = FP</code>：把 SP 恢复到当前帧起点，相当于回收整帧</li>
+<li>fetch back the saved old FP：把旧 FP 取回来，恢复调用者的帧基准，然后再返回给调用者。</li>
+</ul>
+<p>如果 frame size 可变，或 frame 不一定总是连续，这种安排很有用，原因是FP 给你一个稳定参考点，哪怕 SP 后面有波动。</p>
+<p>若帧大小固定，可以有 <code>FP = SP + framesize</code>，FP 甚至可以被看成一个“虚构寄存器（fictional register）”，实现中未必真的需要单独物理寄存器存 FP</p>
+<h3 id="616-registers">6.1.6. Registers</h3>
+<h4 id="6161">6.1.6.1. 寄存器的作用和挑战</h4>
+<p>寄存器访问速度比内存快，所以编译器总希望把局部变量尽量放在寄存器里，把临时值也尽量放在寄存器里，问题是很多函数都想用同一个寄存器，现代机器通常有很多寄存器（例如 32 个），但仍然有限。</p>
+<p>假设 <code>f</code> 用寄存器 <code>r</code> 存一个局部变量，<code>f</code> 调用 <code>g</code>，<code>g</code> 也要使用 <code>r</code>，在 <code>g</code> 使用 <code>r</code> 前，必须先把 <code>r</code> 里原来的值保存起来；用完后再恢复。通常保存到栈帧中。</p>
+<p>如果寄存器由 <strong>调用者</strong> 负责保存与恢复，那么它叫 caller-save register，例如 <code>f</code> 调 <code>g</code> 前，自己先把需要保留的寄存器值存起来， <code>g</code> 返回后，<code>f</code> 再恢复</p>
+<p>如果寄存器由 <strong>被调用者</strong> 负责保存与恢复，那么它叫 callee-save register，也就是 <code>g</code> 一进来先保存自己要用的寄存器， <code>g</code> 返回前再恢复</p>
+<h3 id="617-parameter-passing">6.1.7. Parameter Passing（参数传递）参数传递机制。</h3>
+<h4 id="6171-pass-by-value">6.1.7.1. 按值传递（Pass-by-Value）</h4>
+<p>Tiger 使用 <strong>Pass-by-Value（值传递）</strong>：实参的值被复制给形参，修改形参不会影响实参。</p>
+<p>如果所有参数都通过栈传递，那么调用者要写到内存，被调用者可能又要从内存取回来，只靠栈传参数会带来额外内存流量，这会产生不必要的内存访问成本。</p>
+<h4 id="6172">6.1.7.2. 常用的优化</h4>
+<p>现代机器通常规定：</p>
+<ul>
+<li>前 <code>k</code> 个参数（常见是 4 或 6 个）通过寄存器传</li>
+<li>其余参数才通过内存/栈传</li>
+</ul>
+<p>这样可以显著减少内存流量，提高性能。</p>
+<h4 id="6173">6.1.7.3.寄存器传参带来的问题</h4>
+<p>寄存器传参虽然快，但会带来寄存器覆盖问题。</p>
+<p><code>c
+void f(int a) {
+  int z = ...
+  h(z);
+  ...
+  int t = a + 2;
+  ...
+}</code></p>
+<p>假设函数 <code>f</code> 的参数 <code>a</code> 是通过寄存器 <code>r1</code> 接收的。</p>
+<p>然后 <code>f</code> 内部调用 <code>h(z);</code>，如果调用约定规定 <code>h</code> 的第一个参数也要放 <code>r1</code>，那么 <code>f</code> 必须把 <code>z</code> 放到 <code>r1</code> 中。<code>r1</code> 里原来装的是参数 <code>a</code>，如果后面还要继续使用 <code>a</code>，比如 <code>int t = a + 2;</code>，那么在调用 <code>h(z)</code> 之前，<code>a</code> 就不能直接被覆盖掉。</p>
+<p>所以 <code>f</code> 要先把旧的 <code>r1</code> 内容保存到自己的栈帧，再把 <code>z</code> 放入 <code>r1</code>。</p>
+<p>本来寄存器传参是为了减少内存访问，结果现在又得把寄存器内容写回内存，似乎又增加了内存流量。所以问题变成<strong>如何尽量避免这种额外保存</strong>？</p>
+<p>接下来几页就是回答这个问题。</p>
+<h4 id="6174">6.1.7.4. 避免额外内存流量的方法</h4>
+<h5 id="_3">覆盖死变量</h5>
+<p><strong>dead variable（死变量）</strong> 的意思是当前程序点往后，再也不会用到它</p>
+<p>如果参数已经“死了”，就直接覆盖，如果在调用 <code>h(z)`` 时，参数</code>a<code>之后不会再被访问，那么就可以直接覆盖</code>r1<code>，不必先保存</code>a`</p>
+<h5 id="incoming-arguments">叶子过程不必把 incoming arguments 写到内存</h5>
+<p>leaf procedure（叶子过程）：不调用其他过程/函数的函数</p>
+<p>它不会再把参数寄存器拿去传给别的函数，所以传进来的参数可一直保留在寄存器中，所以 leaf procedure 不必把 incoming arguments 写到内存</p>
+<h5 id="_4">函数间寄存器分配</h5>
+<p>一些优化编译器会一次分析整个程序的多个函数，为不同函数分配不同寄存器来接收参数和保存局部变量</p>
+<p>例如如果编译器知道：<code>f</code> 常用 <code>r1</code>，<code>g</code> 不一定非要用 <code>r1</code>，那就可以安排 <code>g</code> 的参数用别的寄存器，避免 <code>f</code> 的值被覆盖</p>
+<p>这类优化很强，但也很复杂，因为它不再只看单个函数，而要看整个程序调用关系。</p>
+<h5 id="register-windows">register windows（寄存器窗口）</h5>
+<p>某些体系结构支持 <strong>register windows</strong>，每次函数调用时，硬件给它“切换出一组新寄存器”，不同调用拥有不同“窗口”，因而减少保存/恢复的内存流量</p>
+<h3 id="618">6.1.8. 不可使用寄存器的情形</h3>
+<p>为了解决参数通过寄存器传递，但又有地址的问题，任何被获取地址的参数在进入函数时必须写入内存位置。例如：</p>
+<p><code>c
+int *f (int x) {return &amp;x}</code>
+需要获得 x 的地址，所以 x 必须被写入内存。</p>
+<p>获取局部变量地址的更优雅方式是使用按引用调用。</p>
+<ul>
+<li>使用按引用调用时，如果 x 被作为参数传递给 f(y)，其中 y 是“按引用”参数，编译器会生成代码<strong>传递 x 的地址</strong>，而不是 x 的内容。</li>
+<li>在函数中任何使用 y 的地方，编译器都会生成额外的指针解引用。</li>
+<li>使用按引用调用时，不会出现“悬空引用”，因为 y 必须在 f 返回时消失，而 f 的返回发生在 x 的作用域结束之前。</li>
+</ul>
+<h3 id="619-return-address">6.1.9. 返回地址 return address</h3>
+<p>假设函数 <code>g</code> 调用函数 <code>f</code>，当 <code>f</code> 执行结束后，它应该回到 <code>g</code> 的哪里继续执行？如果 <code>g</code> 中调用 <code>f</code> 的指令在地址 <code>a</code>，通常返回位置就是<code>a + 1</code>，即调用指令之后的下一条指令，这就是 <strong>return address（返回地址）</strong>。</p>
+<p>现代机器常让 <code>call</code> 指令把返回地址放到一个指定寄存器里，例如 MIPS 里的 <code>$ra</code> </p>
+<p>非叶子函数通常要把返回地址写入栈，如果当前函数还要调用其他函数（即非叶子函数）， <code>$ra</code> 可能被后续调用覆盖，所以要先把返回地址写入当前栈帧，而叶子函数因为不再调用别人，通常不需要把它写栈。</p>
+<h3 id="6110-frame-resident-variables">6.1.10. Frame-Resident Variables</h3>
+<p>现代调用约定中，很多东西都在寄存器里</p>
+<ul>
+<li>函数参数：可能在寄存器中</li>
+<li>返回地址：可能在寄存器中</li>
+<li>返回值：通常在寄存器中</li>
+<li>很多局部变量和中间结果：也会在寄存器中</li>
+</ul>
+<p>什么时候值必须写到内存（栈帧）中，变量变成 <strong>frame-resident variables（驻留在帧中的变量）</strong>？</p>
+<ol>
+<li>
+<p>变量按引用传递：如果变量要 <strong>pass by reference（引用传递）</strong>，那么它必须有内存地址。因为引用传递本质上传的是“地址”而不是纯值。</p>
+</li>
+<li>
+<p>被内部嵌套过程访问：如果一个变量会被当前函数内部定义的嵌套函数访问，那么它不能只放在寄存器里。因为内部函数需要通过某种地址机制去找到它。这通常要求它在帧中有稳定位置。</p>
+</li>
+<li>
+<p>值太大，装不进一个寄存器：寄存器大小有限，如果一个值太大，例如复合对象、较大结构，就不能只靠单寄存器保存。</p>
+</li>
+<li>
+<p>变量是数组：数组通常需要地址运算/按元素偏移访问，因此数组变量往往要在内存中有明确地址。</p>
+</li>
+<li>
+<p>寄存器另有用途，需要让位，那么原先放在寄存器里的变量可能要临时写回帧中。</p>
+</li>
+<li>
+<p>寄存器不够，发生 spilling（溢出）：如果局部变量和临时值太多，寄存器装不下，那么编译器会把其中一些 <strong>spill</strong> 到栈帧里。</p>
+</li>
+</ol>
+<p>一个变量 escapes 如果：</p>
+<ul>
+<li>它被按引用传递</li>
+<li>它的地址被取出（如 C 里的 <code>&amp;x</code>）</li>
+<li>它被嵌套函数访问</li>
+</ul>
+<p>Pass-by-reference：传的是实际参数的位置，形参的访问要经过隐式间接寻址，修改形参会影响实参</p>
+<h3 id="6111-static-link">6.1.11. static link</h3>
+<h4 id="61111-block-structure">6.1.11.1. Block Structure（块结构）</h4>
+<p>在支持嵌套函数声明的语言里，例如 Pascal、ML、Tiger，一个函数内部可以再定义函数，这些内部函数可以使用外层函数的变量，这就带来问题：内层函数如何访问“非局部变量（non-local variable）”？</p>
+<p>普通局部变量可以通过 <code>Frame Pointer + offset</code> 访问。虽然运行时实际 FP 的值要到运行时才知道，但相对于 FP 的偏移量在编译时就知道，这对当前函数自己的局部变量没问题。</p>
+<p>如果内层函数要访问外层函数的变量，那变量不在自己帧里，而在别人的帧里。所以还需要一条“通向外层帧”的路径，这就引出 static link。</p>
+<h4 id="61112">6.1.11.2. 例子</h4>
+<p><code>c
+type tree = {key: string, left: tree, right: tree}
+function prettyprint(tree: tree) : string =
+  let
+    var output := “”
+    function write(s: string) = 
+      output := concat(output,s)
+    function show(n: int, t: tree) =
+      let function indent(s: string) =
+        (for i := 1 to n
+        do write(“ ”));
+        output := concat(output, s);
+        write("\n"))
+      in if t=nil 
+        then indent(".")
+        else (indent(t.key));
+          show(n+1, t.left);
+          show(n+1, t.right))
+      end
+  in show(0, tree); output
+end</code></p>
+<p>大致结构是：</p>
+<ul>
+<li><code>prettyprint</code></li>
+<li>内有变量 <code>output</code></li>
+<li>内定义 <code>write</code></li>
+<li>内定义 <code>show</code><ul>
+<li>内又定义 <code>indent</code></li>
+</ul>
+</li>
+</ul>
+<p>挑战在于：</p>
+<ul>
+<li><code>write</code> 需要访问 <code>prettyprint</code> 的 <code>output</code></li>
+<li><code>indent</code> 需要访问：<ul>
+<li><code>show</code> 的 <code>n</code></li>
+<li><code>prettyprint</code> 的 <code>output</code></li>
+<li>还可能调用 <code>write</code></li>
+</ul>
+</li>
+</ul>
+<p>所以 <code>indent</code> 不仅要知道自己的帧，还要能走到外层多个帧。这正是“非局部访问”问题</p>
+<p>这里所谓 non-local variable 是：</p>
+<ul>
+<li>对当前函数不是本地变量</li>
+<li>但在某个外层作用域里声明的变量</li>
+</ul>
+<p>怎样让嵌套函数顺着某种链找到外层活动记录？static link 方案。</p>
+<h4 id="61113-static-link">6.1.11.3. static link 的定义</h4>
+<p>每次调用一个函数 <code>f</code> 时，要额外传给它一个指针，指向在程序文本中直接包围 <code>f</code> 的那个函数 <code>g</code> 的最近一次活动记录。这个指针就叫 <strong>static link</strong></p>
+<p>immediately encloses function：</p>
+<p><code>text
+g 中定义 f</code></p>
+<p>那么调用 <code>f</code> 时，static link 指向的是 <code>g</code> 的最近一次活动记录，不是“所有外层函数”，而是“直接外层函数”。</p>
+<p>当 <code>prettyprint</code> 调用 <code>show</code> 时，应该传 <code>prettyprint</code> 自己的 frame pointer 作为 <code>show</code> 的 static link。因为 <code>prettyprint</code> 是 <code>show</code> 的直接外层函数，所以 <code>show</code> 的 static link = <code>prettyprint</code> 的 frame pointer</p>
+<p>当 <code>show</code> 调 <code>show</code>（递归调用）时，传递的 static link 是 <strong>show 自己的 static link</strong>，而不是 show 自己的 frame pointer，因为 static link 指向的是直接外层函数的活动记录，而 <code>show</code> 的直接外层函数不是 <code>show</code> 自己，而是 <code>prettyprint</code>。所以即使 <code>show</code> 递归调用自己，新的 <code>show</code> 实例的直接外层仍然是 <code>prettyprint</code>，- 因此应该继续把 <code>prettyprint</code> 的帧指针传下去。</p>
+<p>indent 怎么取到 output，<code>indent</code> 自己没有 <code>output</code>，它的 static link 指向 <code>show</code> 的帧，而 <code>show</code> 的 static link 又指向，<code>prettyprint</code> 的帧，所以 <code>indent</code> 要访问 <code>output</code> 时，需要：</p>
+<ol>
+<li>从自己的 static link 到 <code>show</code></li>
+<li>再跟着 <code>show</code> 的 static link 到 <code>prettyprint</code></li>
+<li>再取 <code>prettyprint</code> 帧里的 <code>output</code></li>
+</ol>
+<p>访问外层变量，本质上是：</p>
+<ul>
+<li>沿 static link 链向上走若干步</li>
+<li>到达声明该变量的那层帧</li>
+<li>再按该变量的 offset 取值</li>
+</ul>
+<p><code>c
+int f (link, int x, int y) {
+    int m;
+    int g (link, int z) {
+        int h (link) {
+            return link-&gt;prev-&gt;m + link-&gt;z;
+        }
+        return 1;
+    }
+    return 0;
+}</code></p>
+<p><code>h</code> 要访问：</p>
+<ul>
+<li><code>z</code>：在 <code>g</code> 的帧里</li>
+<li><code>m</code>：在 <code>f</code> 的帧里</li>
+</ul>
+<p>所以需要通过 link 一层一层找到对应帧。</p>
+<h4 id="61114">6.1.11.4. 总结</h4>
+<p>访问非局部变量，每个函数标注一个 <strong>enclosing depth（嵌套深度）</strong>。如果深度为 <code>n</code> 的函数访问深度为 <code>m</code> 的变量，则需要沿 static link 向上爬 <code>n - m</code> 步</p>
+<p>优点：参数传递开销小，因为每次函数调用只多传一个指针，也就是 static link，额外参数成本不高。</p>
+<p>缺点：
+- 访问非局部变量时要沿链爬，每次访问非局部变量都可能要多次间接访问内存。
+- 嵌套越深，代价越大：间接引用次数 = 使用位置深度 - 声明位置深度，如果函数嵌套很深，成本会明显增加。</p>
+<h4 id="61115-display">6.1.11.5. 另一种实现块结构的方法 Display（显示表）</h4>
+<p>这一节给出另一种实现块结构的方法：<strong>Display</strong>。</p>
+<p>Display 是一个 <strong>全局指针数组</strong>。其中下标 <code>i</code> 位置保存静态嵌套深度为 <code>i</code> 的、最近进入的那个过程的栈帧指针。</p>
+<p>例子中：</p>
+<ul>
+<li>main：1</li>
+<li>prettyprint：2</li>
+<li>write：3</li>
+<li>show：3</li>
+<li>indent：4</li>
+</ul>
+<p>所以：</p>
+<ul>
+<li><code>display[2]</code> 指向当前的 prettyprint 帧</li>
+<li><code>display[3]</code> 指向当前最近进入的第 3 层函数帧</li>
+<li><code>display[4]</code> 指向当前 indent 帧</li>
+</ul>
+<p>好处：访问某个外层深度的变量时，不必一层层爬 static link。可以直接根据变量所属深度访问 <code>display[depth]</code>，再加 offset 取值，这样非局部变量访问更快。</p>
+<p>代价：但进入/退出函数时，需要维护 display 数组的内容。所以它是用函数进入/退出开销换访问非局部变量更快</p>
+<h4 id="61116-lambda-lifting">6.1.11.6. 第三种实现块结构的方法：<strong>Lambda Lifting</strong>。</h4>
+<p>当 <code>g</code> 调用 <code>f</code> 时，把 <code>g</code> 中实际被 <code>f</code>（或 <code>f</code> 内部更深层函数）访问到的变量，作为额外参数传给 <code>f</code>。也就是说把原本的“非局部变量访问”，改写成“显式参数传递”。</p>
+<ul>
+<li>本质是程序重写：把非局部变量改写为形式参数</li>
+<li>最内层过程开始向外做转换</li>
+</ul>
+<p><code>c
+int f (int x, int y) 
+{
+  int m; 
+  int g (int z) 
+  {
+    int h () { 
+      return m+z; 
+    }
+    return 1;
+  } 
+  return 0;
+}</code></p>
+<p>原始代码中：</p>
+<ul>
+<li><code>h</code> 使用了 <code>m</code> 和 <code>z</code></li>
+<li>但这两个不都是 <code>h</code> 的局部参数</li>
+</ul>
+<p>经过 lambda lifting 后，变成：</p>
+<ul>
+<li><code>g(int &amp;m, int z)</code></li>
+<li><code>h(int &amp;m, int &amp;z)</code></li>
+</ul>
+<p><code>c
+int f (int x, int y) 
+{
+  int m; 
+  int g (int &amp;m, int z) 
+  {
+    int h (int &amp;m, int &amp;z) { 
+      return m+z; 
+    }
+    return 1;
+  } 
+  return 0;
+}</code></p>
+<p>也就是把非局部依赖显式补进参数表。</p>
+<h3 id="6112">6.1.12. 嵌套函数 + 函数作为值返回</h3>
+<p>本节开始讨论更难的情况：<strong>嵌套函数 + 函数作为值返回</strong>。</p>
+<p>```pascal
+fun f(x) =
+  let fun g(y) = x + y
+  in g
+  end</p>
+<p>val h = f(3)
+val j = f(4)
+val z = h(5)
+val w = j(7)
+```</p>
+<p>这里：</p>
+<ul>
+<li><code>f(3)</code> 返回一个函数 <code>g</code>，这个 <code>g</code> 记住了 <code>x=3</code></li>
+<li><code>f(4)</code> 返回另一个函数 <code>g</code>，记住了 <code>x=4</code></li>
+</ul>
+<p>于是：</p>
+<ul>
+<li><code>h(5)</code> 得到 8</li>
+<li><code>j(7)</code> 得到 11</li>
+</ul>
+<p>问题是 <code>f</code> 已经返回了，<code>x</code> 为什么还活着？生命周期超过了函数。如果 <code>x</code> 只是普通栈上局部变量，那么 <code>f</code> 返回后它的栈帧应该已经销毁。但返回出去的函数 <code>g</code> 还要继续使用 <code>x</code>。有些局部变量的生命周期比其外层函数调用更长。</p>
+<p>栈的假设是函数返回，局部变量就消失，但高阶函数打破了这个假设，如果语言同时支持嵌套函数和函数值返回，那么不是所有局部变量都能只放栈里。这会引向闭包、堆分配等更高级话题。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">语言</th>
+<th style="text-align: center;">支持嵌套函数</th>
+<th style="text-align: center;">支持函数作为值返回</th>
+<th style="text-align: center;">讲解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Pascal</td>
+<td style="text-align: center;">有</td>
+<td style="text-align: center;">不能</td>
+<td style="text-align: center;">局部变量生命周期仍受调用限制，能用栈处理</td>
+</tr>
+<tr>
+<td style="text-align: center;">C</td>
+<td style="text-align: center;">可以处理函数指针/函数值风格的东西， 但不支持嵌套函数（标准 C）</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">不需要让内部函数捕获外层局部变量，仍可主要靠栈</td>
+</tr>
+<tr>
+<td style="text-align: center;">ML、Scheme 等</td>
+<td style="text-align: center;">支持</td>
+<td style="text-align: center;">支持</td>
+<td style="text-align: center;">所以它们不能把所有局部变量都只放在栈里</td>
+</tr>
+</tbody>
+</table>
+<h2 id="62-tiger-frame">6.2 Tiger 编译器如何抽象和实现 frame</h2>
+<h3 id="621-tiger-frame">6.2.1. Tiger 编译器中的 frame 接口</h3>
+<h4 id="6211-frameh">6.2.1.1. <code>frame.h</code> 接口</h4>
+<p>抽象类型</p>
+<p><code>c
+typedef struct F_frame_ *F_frame;
+typedef struct F_access_ *F_access;
+typedef struct F_accessList_ *F_accessList;</code></p>
+<ul>
+<li><code>F_frame</code>：表示一个栈帧描述</li>
+<li><code>F_access</code>：表示一个变量/参数的访问方式</li>
+<li><code>F_accessList</code>：多个访问方式组成的链表</li>
+</ul>
+<p>这里都用了抽象指针类型，隐藏具体实现。</p>
+<p>主要接口函数</p>
+<p><code>c
+F_frame F_newFrame(Temp_label name, U_boolList formals);
+Temp_label F_name(F_frame f);
+F_accessList F_formals(F_frame f);
+F_access F_allocLocal(F_frame f, bool escape);</code></p>
+<p><code>frame.h</code> 是抽象接口，由具体目标机器模块实现，如 <code>mipsframe.c</code>，前端/中端不直接依赖某台机器的栈帧细节，而通过统一接口访问。这体现了编译器模块化设计。</p>
+<h4 id="6212-f_frame">6.2.1.2. <code>F_frame</code></h4>
+<p><code>c
+/* frame.h */
+typedef struct F_frame_ *F_frame;
+F_frame F_newFrame(Temp_label name, U_boolList formals);
+Temp_label F_name(F_frame f);</code></p>
+<p><code>F_frame</code> 保存关于一个函数帧的信息，尤其是形式参数的信息+局部变量的分配信息，它不是“运行时真正的帧本身”，更准确说是编译器对该帧布局的描述对象。</p>
+<p><code>F_newFrame(f, l)</code>  创建函数 <code>f</code> 的新 frame。</p>
+<p>参数：</p>
+<ul>
+<li><code>name</code>：函数标签名</li>
+<li><code>l</code>：一个布尔列表，每个布尔值对应一个形式参数是否 escape</li>
+</ul>
+<p>如果某形参 escape，就分配到 frame 中。</p>
+<h4 id="6213-f_access">6.2.1.3. F_access</h4>
+<p>F_access` 描述一个形式参数或局部变量在运行时放哪里：</p>
+<ul>
+<li>在 frame 中</li>
+<li>还是在寄存器中</li>
+</ul>
+<p>这是一个抽象数据类型。</p>
+<p>举例：</p>
+<ul>
+<li><code>InFrame(X)</code></li>
+<li><code>InReg(t84)</code></li>
+</ul>
+<p>对应实现类似：</p>
+<p><code>c
+struct F_access_ {
+  enum {inFrame, inReg} kind;
+  union {
+    int offset;     /* InFrame */
+    Temp_temp reg;  /* InReg */
+  } u;
+};</code></p>
+<p><code>InFrame(offset)</code>：表示该变量在当前帧中的某个偏移位置。</p>
+<p><code>InReg(temp)</code>：表示该变量放在某个临时寄存器（抽象 temp）中。</p>
+<h4 id="6214-f_formals-shift-of-view">6.2.1.4. F_formals 与 shift of view</h4>
+<p>这一页非常重要。</p>
+<hr />
+<h2 id="1-f_formals">1. F_formals 做什么</h2>
+<p><code>F_formals(F_frame f)</code> 返回一个列表，表示：</p>
+<ul>
+<li>从 <strong>callee 内部视角</strong> 看，每个形式参数应该如何访问</li>
+</ul>
+<p>也就是：</p>
+<blockquote>
+<p>函数体内部看参数时，它们在哪里。</p>
+</blockquote>
+<hr />
+<h2 id="2-caller-callee">2. caller 视角与 callee 视角可能不同</h2>
+<p>课件强调：</p>
+<p>参数在 caller 与 callee 看来可能不一样。</p>
+<p>例如：</p>
+<h3 id="_5">如果参数通过栈传递</h3>
+<ul>
+<li>caller：可能按 <code>SP + offset</code> 放参数</li>
+<li>callee：可能按 <code>FP + offset</code> 取参数</li>
+</ul>
+<h3 id="_6">如果参数通过寄存器传递</h3>
+<ul>
+<li>caller：可能把参数放寄存器 6</li>
+<li>callee：可能希望在寄存器 13 里统一处理，或者搬到 temp</li>
+</ul>
+<hr />
+<h2 id="3-shift-of-view">3. 这叫 “Shift of View”</h2>
+<p>这是一个非常经典的概念。</p>
+<p>意思是：</p>
+<blockquote>
+<p><strong>同一份参数，在调用者眼中和在被调用者眼中，其位置/访问方式可能不同。</strong></p>
+</blockquote>
+<p>编译器必须在函数入口处理这种视角转换。</p>
+<hr />
+<h1 id="46-frames-in-the-tiger-compiler-shift-of-view">第 46 页：Frames in The Tiger Compiler（谁来处理 shift of view）</h1>
+<p>这一页说明：</p>
+<ul>
+<li>这种视角转换依赖目标机器调用约定</li>
+<li>所以应由 <code>Frame</code> 模块负责</li>
+<li>从 <code>newFrame</code> 开始处理</li>
+</ul>
+<hr />
+<h2 id="1-formalnewframe">1. 对每个 formal，newFrame 要决定两件事</h2>
+<h3 id="_7">第一：函数内部怎样看它</h3>
+<ul>
+<li>是 in register？</li>
+<li>还是 in frame？</li>
+</ul>
+<h3 id="_8">第二：要生成哪些指令来实现这种转换</h3>
+<p>例如：</p>
+<ul>
+<li>从参数寄存器搬到 temp</li>
+<li>或从寄存器写入帧槽位</li>
+</ul>
+<hr />
+<h2 id="2">2. 这一页核心理解</h2>
+<p><code>newFrame</code> 不只是“记住参数”，还要：</p>
+<blockquote>
+<p><strong>确定参数在函数入口的落点，并预备视角转换所需的指令。</strong></p>
+</blockquote>
+<hr />
+<h1 id="47-representation-of-frame-descriptionsf_frame">第 47 页：Representation of Frame Descriptions（F_frame 内部应保存什么）</h1>
+<p>这一页总结 frame 描述内部要保存的信息。</p>
+<hr />
+<h2 id="f_frame">F_frame 应保存：</h2>
+<ol>
+<li>所有 formals 的位置</li>
+<li>实现 view shift 所需的指令</li>
+<li>当前已分配的 locals 数量</li>
+<li>该函数机器代码入口的 label</li>
+</ol>
+<hr />
+<h2 id="_9">初学者理解</h2>
+<p>这再次说明：</p>
+<p><code>F_frame</code> 是一个“编译器内部的帧说明书”。</p>
+<p>它要告诉后续阶段：</p>
+<ul>
+<li>参数在哪</li>
+<li>局部变量还分到哪了</li>
+<li>入口标签是什么</li>
+<li>进入函数时需要做哪些搬运动作</li>
+</ul>
+<hr />
+<h1 id="48-representation-of-frame-descriptionsview-shift">第 48 页：Representation of Frame Descriptions（view shift 例子）</h1>
+<p>这一页是一个很重要的例子。</p>
+<hr />
+<h2 id="1">1. 场景</h2>
+<p>假设函数有三个参数，且第一个参数 escape。</p>
+<p>不同机器（Pentium/MIPS/Sparc）下：</p>
+<ul>
+<li>形式参数可能分别落到不同位置</li>
+<li>view shift 指令也不同</li>
+</ul>
+<hr />
+<h2 id="2-r4r5-t157t158">2. 为什么要把 <code>r4</code>、<code>r5</code> 搬到 <code>t157</code>、<code>t158</code></h2>
+<p>课件问：</p>
+<blockquote>
+<p>Why move r4 and r5 to t157 and t158?</p>
+</blockquote>
+<p>答案是：</p>
+<ul>
+<li><code>r4</code>,<code>r5</code> 是调用约定下 caller 传来的寄存器</li>
+<li>但函数内部想以统一、更抽象的形式来操作参数</li>
+<li>所以先搬到抽象 temporaries（如 <code>t157</code>,<code>t158</code>）</li>
+</ul>
+<p>之后寄存器分配器再决定：</p>
+<ul>
+<li><code>t157</code> 最终映射到哪个物理寄存器</li>
+<li>或是否 spill 到栈</li>
+</ul>
+<hr />
+<h2 id="3">3. 这一页核心结论</h2>
+<blockquote>
+<p><strong>view shift 让“外部传参方式”转化为“函数内部统一访问方式”。</strong></p>
+</blockquote>
+<p>这正是 frame 模块的重要职责。</p>
+<hr />
+<h1 id="49-local-variables">第 49 页：Local Variables（局部变量分配）</h1>
+<p>这一页开始讲局部变量如何分配。</p>
+<hr />
+<h2 id="1-frame">1. 有些局部变量在 frame 中，有些在寄存器中</h2>
+<p>这与前面一致：</p>
+<ul>
+<li>escape 的通常在 frame</li>
+<li>不 escape 的通常可在寄存器</li>
+</ul>
+<hr />
+<h2 id="2_1">2. 分配局部变量的接口</h2>
+<p><code>c
+F_access F_allocLocal(F_frame f, bool escape);</code></p>
+<p>含义：</p>
+<ul>
+<li>在帧 <code>f</code> 中为一个新局部变量分配位置</li>
+</ul>
+<hr />
+<h2 id="3-escape">3. 依据 escape 决定分配结果</h2>
+<p>如果：</p>
+<ul>
+<li><code>escape = True</code>，返回 <code>InFrame</code></li>
+<li><code>escape = False</code>，可以返回 <code>InReg</code></li>
+</ul>
+<p>这里的“可以”很重要，因为最终还可能受别的实现策略影响。</p>
+<hr />
+<h1 id="50-local-variables-f_alloclocal">第 50 页：Local Variables（什么时候调用 F_allocLocal）</h1>
+<p>这一页通过嵌套作用域中的同名变量解释一个容易错的点。</p>
+<hr />
+<h2 id="1_1">1. 例子</h2>
+<p>函数中多次出现：</p>
+<p><code>c
+int v = 6;
+...
+{ int v = 7; ... }
+...
+{ int v = 8; ... }
+...</code></p>
+<p>虽然名字都叫 <code>v</code>，但它们是：</p>
+<ul>
+<li>三个不同的变量</li>
+</ul>
+<p>输出会是：</p>
+<ul>
+<li><code>6 7 6 8 6</code></li>
+</ul>
+<hr />
+<h2 id="2_2">2. 编译器怎么处理</h2>
+<p>每遇到一个变量声明，就调用 <code>allocLocal</code> 为它分配：</p>
+<ul>
+<li>一个新的 temporary</li>
+<li>或一个新的 frame slot</li>
+</ul>
+<p>即使后面离开作用域，该名字绑定会失效，但空间/临时表示已经为整个函数保留。</p>
+<hr />
+<h2 id="3_1">3. 关键理解</h2>
+<blockquote>
+<p><strong>“名字相同”不等于“变量相同”。</strong></p>
+</blockquote>
+<p>词法作用域中的每次声明，都是新的实体。</p>
+<hr />
+<h2 id="4">4. 本页重点问题</h2>
+<p>什么时候调用 <code>F_allocLocal</code>？</p>
+<p>答案是：</p>
+<ul>
+<li><strong>在处理每一个变量声明时调用</strong></li>
+<li>而不是在第一次遇到某个变量名时只分配一次</li>
+</ul>
+<hr />
+<h1 id="51-local-variables">第 51 页：Local Variables（局部变量复用优化）</h1>
+<p>这一页继续上页，但提出更高级的优化可能。</p>
+<hr />
+<h2 id="1_2">1. 临时量/帧槽位是否能复用</h2>
+<p>课件说：</p>
+<ul>
+<li>寄存器分配器会尽量少用寄存器表示 temporaries</li>
+<li>第二个和第三个 <code>v</code> 可能共用同一个 temporary</li>
+<li>更聪明的编译器甚至可让两个 frame-resident 变量共用同一栈槽</li>
+</ul>
+<hr />
+<h2 id="2_3">2. 为什么可以复用</h2>
+<p>因为它们的生命周期不重叠。</p>
+<p>如果两个变量不会同时活跃，就可以共享存储位置。</p>
+<p>这和寄存器分配、栈槽复用本质类似。</p>
+<hr />
+<h2 id="3_2">3. 但逻辑上它们仍是不同变量</h2>
+<p>即使最终物理位置可能被复用，语义上：</p>
+<ul>
+<li>第二个 <code>v</code></li>
+<li>第三个 <code>v</code></li>
+</ul>
+<p>仍然是不同声明、不同绑定。</p>
+<hr />
+<h1 id="52-calculating-escapes">第 52 页：Calculating Escapes（如何计算逃逸）</h1>
+<p>这一页讲逃逸分析接口。</p>
+<hr />
+<h2 id="1-escape-analysis">1. 为什么必须先做 escape analysis</h2>
+<p>因为调用 <code>F_allocLocal</code> 时，必须知道这个变量是否 escape。</p>
+<p>否则就不知道该分到：</p>
+<ul>
+<li>frame</li>
+<li>还是 register</li>
+</ul>
+<hr />
+<h2 id="2-esc_findescape">2. <code>Esc_findEscape</code> 做什么</h2>
+<p>课件说：</p>
+<ul>
+<li>遍历整棵抽象语法树（AST）</li>
+<li>查找每个变量是否出现逃逸使用</li>
+<li>用环境记录变量是否逃逸</li>
+</ul>
+<hr />
+<h2 id="3_3">3. 深度思想</h2>
+<p>它通常会记录：</p>
+<ul>
+<li>当前遍历所在的嵌套深度</li>
+<li>变量声明时的深度</li>
+</ul>
+<p>如果某变量在比其声明更深的函数中被访问，就说明它 escape。</p>
+<hr />
+<h2 id="4_1">4. 这一页核心结论</h2>
+<blockquote>
+<p><strong>逃逸分析是在存储分配之前进行的关键静态分析。</strong></p>
+</blockquote>
+<hr />
+<h1 id="53-temporaries-and-labels">第 53 页：Temporaries and Labels（临时量与标签）</h1>
+<p>这一页进入另一个编译器抽象层。</p>
+<hr />
+<h2 id="1_3">1. 语义分析阶段还不能决定真实寄存器与真实地址</h2>
+<p>课件说：</p>
+<ul>
+<li>太早了，不能现在就决定：</li>
+<li>参数/局部变量到底放哪个物理寄存器</li>
+<li>函数体到底放哪个机器地址</li>
+</ul>
+<p>所以需要抽象表示。</p>
+<hr />
+<h2 id="2_4">2. 用两个抽象概念</h2>
+<h3 id="temporary">Temporary</h3>
+<p>表示暂时放在寄存器里的值的抽象名字。</p>
+<h3 id="label">Label</h3>
+<p>表示某个机器代码地址位置的抽象名字。</p>
+<hr />
+<h2 id="3_4">3. 为什么需要抽象</h2>
+<p>因为编译是分阶段的：</p>
+<ul>
+<li>先做语义与中间表示</li>
+<li>后做指令选择</li>
+<li>再做寄存器分配</li>
+<li>最后地址布局</li>
+</ul>
+<p>早期阶段只需“有名字可引用”，不必知道最终物理细节。</p>
+<hr />
+<h1 id="54-temporaries-and-labelstemph">第 54 页：Temporaries and Labels（temp.h 接口）</h1>
+<p>这一页给出接口。</p>
+<hr />
+<h2 id="1-temp_temp">1. Temp_temp</h2>
+<p><code>c
+typedef struct Temp_temp_ *Temp_temp;
+Temp_temp Temp_newtemp(void);</code></p>
+<p>作用：</p>
+<ul>
+<li>生成一个新的 temporary</li>
+</ul>
+<p>它来自“无限集合”，也就是概念上永远能分配新 temp。</p>
+<hr />
+<h2 id="2-temp_label">2. Temp_label</h2>
+<p><code>c
+typedef S_symbol Temp_label;
+Temp_label Temp_newlabel(void);
+Temp_label Temp_namedlabel(string name);
+string Temp_labelstring(Temp_label s);</code></p>
+<p>作用：</p>
+<ul>
+<li>生成新标签</li>
+<li>生成有指定名字的标签</li>
+<li>取标签字符串名</li>
+</ul>
+<hr />
+<h2 id="3_5">3. 列表类型</h2>
+<p>还有：</p>
+<ul>
+<li><code>Temp_tempList</code></li>
+<li><code>Temp_labelList</code></li>
+</ul>
+<p>方便保存多个 temp 或 label。</p>
+<hr />
+<h2 id="4_2">4. 这一页核心结论</h2>
+<blockquote>
+<p><strong>temp 和 label 是编译器内部对“寄存器名”和“地址名”的延迟抽象。</strong></p>
+</blockquote>
+<hr />
+<h1 id="55-two-layers-of-abstraction">第 55 页：Two Layers of Abstraction（两层抽象）</h1>
+<p>这一页非常关键，讲编译器结构。</p>
+<hr />
+<h2 id="1-frameh-temph">1. 第一层抽象：frame.h 与 temp.h</h2>
+<p>它们提供：</p>
+<ul>
+<li>内存中变量的机器无关表示</li>
+<li>寄存器中变量的机器无关表示</li>
+</ul>
+<p>也就是说，语义阶段不必关心变量具体存在何处。</p>
+<hr />
+<h2 id="2-translate">2. 第二层抽象：Translate 模块</h2>
+<p>课件说：</p>
+<ul>
+<li>Translate 模块进一步处理嵌套作用域（通过 static links）</li>
+<li>向 Semant 提供 <code>translate.h</code> 接口</li>
+</ul>
+<hr />
+<h2 id="3_6">3. 为什么要两层</h2>
+<p>因为：</p>
+<h3 id="frametemp">frame/temp 层</h3>
+<p>解决“变量在机器层面怎么存”</p>
+<h3 id="translate">translate 层</h3>
+<p>解决“变量在源语言作用域结构里怎么找到”</p>
+<hr />
+<h2 id="4_3">4. 这一页核心理解</h2>
+<blockquote>
+<p><strong>Tiger 编译器把“机器存储细节”和“语言作用域细节”分开处理。</strong></p>
+</blockquote>
+<p>这是一种非常漂亮的模块化设计。</p>
+<hr />
+<h1 id="56-two-layers-of-abstractiontranslate">第 56 页：Two Layers of Abstraction（Translate 接口）</h1>
+<p>这一页给出 <code>translate.h</code> 的主要接口。</p>
+<hr />
+<h2 id="1-tr_level">1. <code>Tr_level</code></h2>
+<p>表示函数所在的嵌套层次。</p>
+<hr />
+<h2 id="2_5">2. 主要接口</h2>
+<p><code>c
+Tr_level Tr_outermost(void);
+Tr_level Tr_newLevel(Tr_level parent, Temp_label name, U_boolList formals);
+Tr_accessList Tr_formals(Tr_level level);
+Tr_access Tr_allocLocal(Tr_level level, bool escape);</code></p>
+<hr />
+<h2 id="3_7">3. 这些接口的含义</h2>
+<h3 id="tr_outermost"><code>Tr_outermost()</code></h3>
+<p>返回最外层 level。</p>
+<h3 id="tr_newlevel"><code>Tr_newLevel(...)</code></h3>
+<p>为新函数创建新的嵌套层级。</p>
+<h3 id="tr_formalslevel"><code>Tr_formals(level)</code></h3>
+<p>取得该层函数形参的访问方式。</p>
+<h3 id="tr_alloclocallevel-escape"><code>Tr_allocLocal(level, escape)</code></h3>
+<p>在该层为局部变量分配访问方式。</p>
+<hr />
+<h2 id="4-translate">4. Translate 管什么</h2>
+<p>课件说：</p>
+<p>Translate 为 Semant 管理：</p>
+<ul>
+<li>local variables</li>
+<li>static function nesting</li>
+</ul>
+<p>也就是它把“变量在哪一层声明、函数嵌套关系如何”也一起纳入管理。</p>
+<hr />
+<h1 id="57-two-layers-of-abstraction-level">第 57 页：Two Layers of Abstraction（环境条目中保存 level）</h1>
+<p>这一页展示新的环境项结构。</p>
+<hr />
+<h2 id="1_4">1. 变量条目</h2>
+<p>变量环境条目中保存：</p>
+<ul>
+<li><code>Tr_access access</code></li>
+<li>类型 <code>Ty_ty</code></li>
+</ul>
+<hr />
+<h2 id="2_6">2. 函数条目</h2>
+<p>函数环境条目中保存：</p>
+<ul>
+<li><code>Tr_level level</code></li>
+<li><code>Temp_label label</code></li>
+<li>形参类型列表</li>
+<li>返回类型</li>
+</ul>
+<hr />
+<h2 id="3-level">3. 为什么环境里要保存 level</h2>
+<p>因为在翻译变量访问时，需要知道：</p>
+<ul>
+<li>当前代码所在 level</li>
+<li>变量/函数定义所在 level</li>
+</ul>
+<p>这样才能判断：</p>
+<ul>
+<li>是否本层变量</li>
+<li>是否需要走 static link</li>
+<li>走几层</li>
+</ul>
+<hr />
+<h2 id="4-tr_access_">4. <code>Tr_access_</code> 的结构</h2>
+<p><code>c
+struct Tr_access_ {Tr_level level; F_access access;};</code></p>
+<p>说明：</p>
+<ul>
+<li><code>Tr_access</code> = “处于哪个源语言层次” + “底层 frame 访问方式”</li>
+</ul>
+<p>这正是两层抽象的结合点。</p>
+<hr />
+<h1 id="58-managing-static-links-static-link-translate">第 58 页：Managing Static Links（为什么 static link 由 Translate 管）</h1>
+<p>这一页回答一个设计问题：</p>
+<p>为什么不用 Frame 模块直接管理 static link？</p>
+<hr />
+<h2 id="1_5">1. 原因：不是所有语言都有嵌套函数</h2>
+<p>很多语言没有 nested function declarations。</p>
+<p>因此：</p>
+<ul>
+<li>Frame 应该尽量独立于具体源语言特性</li>
+<li>不应强绑定“嵌套作用域”这种语言层概念</li>
+</ul>
+<hr />
+<h2 id="2-translate_1">2. Translate 更懂源语言语义</h2>
+<p>Translate 知道：</p>
+<ul>
+<li>哪个函数嵌套在哪个函数里</li>
+<li>每个帧中 static link 应该怎样传递</li>
+<li>哪些变量访问需要经过 static links</li>
+</ul>
+<p>所以更适合由 Translate 管。</p>
+<hr />
+<h2 id="3-static-link">3. static link 作为“像参数一样”的隐藏参数</h2>
+<p>课件说：</p>
+<ul>
+<li>static link 传给函数时像参数</li>
+<li>存入 frame 时也像参数</li>
+</ul>
+<p>因此可以“尽量把它当参数处理”。</p>
+<hr />
+<h2 id="4_4">4. 这一页核心结论</h2>
+<blockquote>
+<p><strong>Frame 负责机器无关的帧访问抽象，Translate 负责源语言作用域和静态链管理。</strong></p>
+</blockquote>
+<hr />
+<h1 id="59-keeping-track-of-levels-level">第 59 页：Keeping Track of Levels（最外层 level）</h1>
+<p>这一页解释 <code>Tr_outermost</code>。</p>
+<hr />
+<h2 id="1-outermost">1. outermost 是什么</h2>
+<p>它表示：</p>
+<ul>
+<li>Tiger 主程序所嵌套的最外层 level</li>
+</ul>
+<p>也是各种库函数声明所在的层次。</p>
+<hr />
+<h2 id="2-frameformals">2. 最外层没有 frame/formals</h2>
+<p>课件说：</p>
+<ul>
+<li>outermost 并不包含真正的 frame 或形式参数列表</li>
+</ul>
+<p>因为它更像一个逻辑上的根作用域。</p>
+<hr />
+<h2 id="3_8">3. 为什么需要这样一个根</h2>
+<p>因为所有嵌套层级都必须有一个起点。</p>
+<p>例如：</p>
+<ul>
+<li>主程序在 outermost 之内</li>
+<li>主程序定义的函数再在其内层</li>
+</ul>
+<p>这样 level 链才完整。</p>
+<hr />
+<h1 id="60-homework">第 60 页：Homework</h1>
+<p>这一页只是作业：</p>
+<ul>
+<li>6.3</li>
+<li>6.7(a,b)</li>
+</ul>
+<p>对本章知识体系没有新增内容。</p>
+<hr />
+<h1 id="61-temporaries-and-labelstemp_newtemp">第 61 页：Temporaries and Labels（补充：Temp_newtemp）</h1>
+<p>这一页是对前面 temp 接口的重复强调。</p>
+<p>重点是：</p>
+<ul>
+<li><code>Temp_newtemp()</code> 从一个“无限集合”中返回新的 temporary</li>
+</ul>
+<hr />
+<h2 id="_10">含义</h2>
+<p>每次需要新的抽象寄存器名字时，就调用它。</p>
+<p>它不是物理寄存器编号，而是：</p>
+<ul>
+<li>编译器内部中间名字</li>
+</ul>
+<hr />
+<h1 id="62-temporaries-and-labelstemp_newlabel">第 62 页：Temporaries and Labels（补充：Temp_newlabel）</h1>
+<p>这一页强调：</p>
+<ul>
+<li><code>Temp_newlabel()</code> 返回一个新的 label</li>
+<li>label 也来自“无限集合”</li>
+</ul>
+<hr />
+<h2 id="_11">含义</h2>
+<p>用于表示：</p>
+<ul>
+<li>函数入口</li>
+<li>跳转目标</li>
+<li>基本块标签</li>
+<li>条件分支位置</li>
+</ul>
+<p>在最终汇编生成前，它们都是抽象名字。</p>
+<hr />
+<h1 id="63-temporaries-and-labelstemp_namedlabel">第 63 页：Temporaries and Labels（补充：Temp_namedlabel）</h1>
+<p>这一页强调：</p>
+<ul>
+<li><code>Temp_namedlabel(string)</code> 生成一个汇编名为该字符串的标签</li>
+</ul>
+<hr />
+<h2 id="_12">注意事项</h2>
+<p>课件特别提醒：</p>
+<blockquote>
+<p>不同作用域里可能有同名函数</p>
+</blockquote>
+<p>所以不要简单认为：</p>
+<ul>
+<li>源代码函数名 = 唯一机器标签名</li>
+</ul>
+<p>编译器往往还需要做名称区分、重命名或 mangling。</p>
+<hr />
+<h1 id="64-two-layers-of-abstractiontr_newlevel-tr_alloclocal">第 64 页：Two Layers of Abstraction（补充：Tr_newLevel / Tr_allocLocal）</h1>
+<p>这一页再次强调两个接口。</p>
+<hr />
+<h2 id="1-tr_newlevel">1. <code>Tr_newLevel</code></h2>
+<p>为每个函数创建新的嵌套层级。</p>
+<p>通常在处理函数声明（如 <code>transDec</code>）时调用。</p>
+<hr />
+<h2 id="2-tr_alloclocallev-esc">2. <code>Tr_allocLocal(lev, esc)</code></h2>
+<p>当 Semant 在 level <code>lev</code> 里处理一个局部变量声明时，调用它来分配变量。</p>
+<p>这里的 <code>esc</code> 就来自前面 escape analysis 的结果。</p>
+<hr />
+<h2 id="3_9">3. 这一页强化的联系</h2>
+<p>这页实际上把三件事串起来了：</p>
+<ul>
+<li>语义分析发现变量声明</li>
+<li>escape analysis 判断是否逃逸</li>
+<li>Translate 据此在相应 level 上分配变量访问方式</li>
+</ul>
+<hr />
+<h1 id="65-managing-static-linkstr_formals">第 65 页：Managing Static Links（补充：Tr_formals）</h1>
+<p>最后一页强调：</p>
+<ul>
+<li>当 Semant 调用 <code>Tr_formals(level)</code> 时</li>
+<li>得到的是“原始参数”的 access values</li>
+</ul>
+<hr />
+<h2 id="_13">这里为什么说“原始参数”</h2>
+<p>因为 static link 也是隐藏参数，但 Semant 对源语言程序只关心用户写出来的那些形参。</p>
+<p>所以：</p>
+<ul>
+<li><code>Tr_formals(level)</code> 会屏蔽/处理掉 static link 的内部细节</li>
+<li>给 Semant 提供它真正应该看到的形式参数访问方式</li>
+</ul>
+<hr />
+<h1 id="_14">全章总总结（一定要真正吃透）</h1>
+<p>下面我把全章内容重新串成一条完整逻辑链，帮助你建立体系。</p>
+<hr />
+<h2 id="activation-record">一、为什么需要 Activation Record</h2>
+<p>因为：</p>
+<ul>
+<li>每次函数调用都要保存自己的参数、局部变量、返回地址等</li>
+<li>递归时同一函数会同时存在多个调用实例</li>
+<li>调用与返回天然符合 LIFO</li>
+</ul>
+<p>所以要用运行时栈来管理这些调用信息，每个活跃调用对应一个栈帧。</p>
+<hr />
+<h2 id="_15">二、一个典型栈帧里有什么</h2>
+<p>通常包括：</p>
+<ul>
+<li>incoming arguments</li>
+<li>local variables</li>
+<li>return address</li>
+<li>temporaries</li>
+<li>saved registers</li>
+<li>outgoing arguments</li>
+<li>static link</li>
+</ul>
+<p>但不一定所有内容都真的在栈上，也可能有一部分在寄存器里。</p>
+<hr />
+<h2 id="fp">三、为什么需要 FP</h2>
+<p>SP 可能变化，而帧内变量需要稳定定位。
+因此引入 FP 作为当前帧的固定参考点，使变量可通过“FP + offset”访问。</p>
+<hr />
+<h2 id="_16">四、寄存器与栈帧如何分工</h2>
+<h3 id="_17">寄存器适合放：</h3>
+<ul>
+<li>参数</li>
+<li>返回地址</li>
+<li>返回值</li>
+<li>部分局部变量和临时值</li>
+</ul>
+<h3 id="_18">栈帧适合放：</h3>
+<ul>
+<li>escape 变量</li>
+<li>被嵌套函数访问的变量</li>
+<li>数组、大对象</li>
+<li>spill 的值</li>
+<li>保存的寄存器</li>
+<li>返回地址（在非叶子函数中常见）</li>
+</ul>
+<hr />
+<h2 id="_19">五、参数传递的本质问题</h2>
+<p>按值传递决定语义；
+寄存器传参还是栈传参决定性能。</p>
+<p>现代机器通常让前几个参数走寄存器，但这会引出寄存器覆盖与保存问题。</p>
+<hr />
+<h2 id="escape">六、什么是 escape</h2>
+<p>变量一旦：</p>
+<ul>
+<li>被引用传递</li>
+<li>被取地址</li>
+<li>被嵌套函数访问</li>
+</ul>
+<p>它就 escape，通常必须放在 frame 里，而不能只放寄存器。</p>
+<hr />
+<h2 id="_20">七、嵌套函数怎么访问外层变量</h2>
+<p>这就是静态作用域实现问题。</p>
+<p>三种方法：</p>
+<h3 id="1-static-link">1. Static Link</h3>
+<p>每次调用额外传一个指向直接外层活动记录的指针。
+访问非局部变量时沿链向上爬。</p>
+<h3 id="2-display">2. Display</h3>
+<p>维护按静态深度索引的帧指针表。
+访问更快，但进入/退出过程要维护表。</p>
+<h3 id="3-lambda-lifting">3. Lambda Lifting</h3>
+<p>把外层变量直接改写成额外参数。
+不靠链找，改靠显式传参。</p>
+<hr />
+<h2 id="_21">八、高阶函数为什么会打破“纯栈模型”</h2>
+<p>如果语言支持：</p>
+<ul>
+<li>嵌套函数</li>
+<li>且函数可作为值返回</li>
+</ul>
+<p>那么外层函数返回后，其局部变量仍可能被内部函数继续使用。
+这时仅靠栈保存局部变量就不够了。</p>
+<hr />
+<h2 id="tiger">九、Tiger 编译器如何抽象这些问题</h2>
+<p>Tiger 使用两层抽象：</p>
+<h3 id="frameh-temph">第一层：frame.h + temp.h</h3>
+<p>描述变量在 frame 或寄存器中的底层访问方式，以及 temp/label 抽象。</p>
+<h3 id="translateh">第二层：translate.h</h3>
+<p>管理源语言的嵌套层次和 static links，把“作用域问题”翻译到底层 frame 访问中。</p>
+<hr />
+<h2 id="_22">十、几个最关键的数据类型</h2>
+<h3 id="f_frame_1"><code>F_frame</code></h3>
+<p>描述一个函数帧的布局信息。</p>
+<h3 id="f_access"><code>F_access</code></h3>
+<p>描述一个变量/参数怎么访问：</p>
+<ul>
+<li><code>InFrame(offset)</code></li>
+<li><code>InReg(temp)</code></li>
+</ul>
+<h3 id="tr_level"><code>Tr_level</code></h3>
+<p>描述源语言中的嵌套层级。</p>
+<h3 id="tr_access"><code>Tr_access</code></h3>
+<p>把“所在 level”与“底层 F_access”组合起来。</p>
+<h3 id="temp_temp"><code>Temp_temp</code></h3>
+<p>抽象寄存器名。</p>
+<h3 id="temp_label"><code>Temp_label</code></h3>
+<p>抽象地址/标签名。</p>
+<hr />
+<h2 id="_23">十一、几个最关键的接口函数</h2>
+<h3 id="frame">底层 Frame 层</h3>
+<ul>
+<li><code>F_newFrame</code></li>
+<li><code>F_formals</code></li>
+<li><code>F_allocLocal</code></li>
+</ul>
+<h3 id="translate_1">Translate 层</h3>
+<ul>
+<li><code>Tr_outermost</code></li>
+<li><code>Tr_newLevel</code></li>
+<li><code>Tr_formals</code></li>
+<li><code>Tr_allocLocal</code></li>
+</ul>
+<h3 id="temp">Temp 层</h3>
+<ul>
+<li><code>Temp_newtemp</code></li>
+<li><code>Temp_newlabel</code></li>
+<li><code>Temp_namedlabel</code></li>
+</ul>
+<hr />
+<h1 id="_24">最后给你一个“考试/复习速记版”</h1>
+<p>如果你要快速复习这一章，可以直接记下面这组问答。</p>
+<hr />
+<h2 id="1-activation-record">1. 什么是 activation record？</h2>
+<p>函数一次调用对应的运行时记录，通常位于控制栈中，也叫 stack frame。</p>
+<h2 id="2_7">2. 为什么用栈？</h2>
+<p>函数调用/返回通常符合 LIFO。</p>
+<h2 id="3_10">3. 栈帧里有什么？</h2>
+<p>参数、局部变量、返回地址、临时值、保存寄存器、outgoing arguments、static link 等。</p>
+<h2 id="4-fp">4. FP 为什么存在？</h2>
+<p>给当前帧提供稳定参考点，便于通过固定偏移访问变量。</p>
+<h2 id="5-caller-save-callee-save">5. caller-save 和 callee-save 区别？</h2>
+<p>前者由调用者保存寄存器，后者由被调用者保存。</p>
+<h2 id="6-frame">6. 什么时候变量必须进 frame？</h2>
+<p>逃逸、被取地址、被嵌套函数访问、太大、数组、spill 等情况。</p>
+<h2 id="7-escape">7. 什么是 escape？</h2>
+<p>变量生命周期或可访问性超出当前寄存器局部封闭范围，需要稳定地址。</p>
+<h2 id="8-static-link">8. static link 是什么？</h2>
+<p>每次调用传给内层函数的隐藏指针，指向其直接外层函数的最近活动记录。</p>
+<h2 id="9-static-link-dynamic-call-chain">9. static link 和 dynamic call chain 一样吗？</h2>
+<p>不一样。它反映静态嵌套关系，不是动态调用关系。</p>
+<h2 id="10-display">10. display 是什么？</h2>
+<p>按静态深度保存当前活动记录指针的全局数组。</p>
+<h2 id="11-lambda-lifting">11. lambda lifting 是什么？</h2>
+<p>把非局部变量改写成额外形式参数。</p>
+<h2 id="12">12. 为什么高阶函数会挑战栈模型？</h2>
+<p>因为外层函数返回后，其局部变量仍可能被返回出去的内部函数使用。</p>
+<h2 id="13-f_access">13. <code>F_access</code> 表示什么？</h2>
+<p>变量/参数的底层访问方式：在 frame 中还是在寄存器中。</p>
+<h2 id="14-tr_access-level">14. <code>Tr_access</code> 为什么还要带 <code>level</code>？</h2>
+<p>因为要处理嵌套作用域和 static link 跳转层数。</p>
+<h2 id="15-temp-label">15. temp 和 label 是干什么的？</h2>
+<p>分别是抽象寄存器名和抽象地址名，延迟到后续阶段再落实到物理位置。</p>
+<hr />
+<p>如果你愿意，我下一条可以继续把这份笔记整理成 <strong>更适合背诵的“精简版提纲”</strong>，或者整理成 <strong>“每页一句话 + 每页重点 + 高频考点”版</strong>。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>

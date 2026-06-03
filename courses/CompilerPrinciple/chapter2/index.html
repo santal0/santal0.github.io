@@ -1,0 +1,2004 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/chapter2/">
+      
+      
+        <link rel="prev" href="../../..">
+      
+      
+        <link rel="next" href="../Chapter3/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>chapter2 词法分析 - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chapter2 词法分析
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          chapter2 词法分析
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        chapter2 词法分析
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#20" class="md-nav__link">
+    2.0 总览
+  </a>
+  
+    <nav class="md-nav" aria-label="2.0 总览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#201" class="md-nav__link">
+    2.0.1 词法分析的位置
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#202" class="md-nav__link">
+    2.0.2. 词法分析器的任务：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#203" class="md-nav__link">
+    2.0.3. 接口
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-lexical-token" class="md-nav__link">
+    2.1 Lexical Token
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1 Lexical Token">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#211-lexical-token" class="md-nav__link">
+    2.1.1. 定义 lexical token
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#212" class="md-nav__link">
+    2.1.2. 词法分析器的输出
+  </a>
+  
+    <nav class="md-nav" aria-label="2.1.2. 词法分析器的输出">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2121" class="md-nav__link">
+    2.1.2.1. 输出包含什么
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2122" class="md-nav__link">
+    2.1.2.2. 输出不包含什么？
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2. 正则表达式
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2. 正则表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#220" class="md-nav__link">
+    2.2.0. 词法分析器的实现&amp;为什么需要正则表达式
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.0. 词法分析器的实现&为什么需要正则表达式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2201" class="md-nav__link">
+    2.2.0.1. 如何描述词法规则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2202" class="md-nav__link">
+    2.2.0.2. 如何实现词法分析器
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2203" class="md-nav__link">
+    2.2.0.3. “从规则到程序”的总路线
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-regular-expression" class="md-nav__link">
+    2.2 Regular Expression
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2 Regular Expression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#221" class="md-nav__link">
+    2.2.1 基础概念：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#222" class="md-nav__link">
+    2.2.2. 正则表达式的定义
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.2. 正则表达式的定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2221" class="md-nav__link">
+    2.2.2.1. 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2222" class="md-nav__link">
+    2.2.2.2. 规则
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2223" class="md-nav__link">
+    2.2.2.3. 缩写
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#223-token" class="md-nav__link">
+    2.2.3. 用正则描述 token
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.3. 用正则描述 token">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2231" class="md-nav__link">
+    2.2.3.1. 示例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2232" class="md-nav__link">
+    2.2.3.2. 词法规则必须完整
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2233" class="md-nav__link">
+    2.2.3.3. 正则规则会有歧义：
+  </a>
+  
+    <nav class="md-nav" aria-label="2.2.3.3. 正则规则会有歧义：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#22331" class="md-nav__link">
+    2.2.3.3.1. 消歧规则：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-finite-automata" class="md-nav__link">
+    2.3. Finite Automata
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3. Finite Automata">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#231" class="md-nav__link">
+    2.3.1. 有限自动机形式定义：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#231-dfa" class="md-nav__link">
+    2.3.1. DFA（确定有限自动机）：
+  </a>
+  
+    <nav class="md-nav" aria-label="2.3.1. DFA（确定有限自动机）：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2311" class="md-nav__link">
+    2.3.1.1. 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2312" class="md-nav__link">
+    2.3.1.2. 合并
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2313" class="md-nav__link">
+    2.3.1.3. 如何把自动机编码成程序：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2314" class="md-nav__link">
+    2.3.1.4. 自动机运行
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-nfa" class="md-nav__link">
+    2.4. NFA
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4. NFA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#241nfa" class="md-nav__link">
+    2.4.1.定义NFA（非确定有限自动机）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#242-thompson" class="md-nav__link">
+    2.4.2. Thompson 构造
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.2. Thompson 构造">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2421" class="md-nav__link">
+    2.4.2.1. 意义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2422" class="md-nav__link">
+    2.4.2.2. 流程
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#243-nfa-dfa" class="md-nav__link">
+    2.4.3. 子集构造，NFA 转 DFA
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.3. 子集构造，NFA 转 DFA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2431" class="md-nav__link">
+    2.4.3.1. 运算定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2432" class="md-nav__link">
+    2.4.3.2. 子集构造
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#244-dfa" class="md-nav__link">
+    2.4.4. DFA 最小化
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.4. DFA 最小化">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2441" class="md-nav__link">
+    2.4.4.1. 等价状态：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2442" class="md-nav__link">
+    2.4.4.2. 算法思想
+  </a>
+  
+    <nav class="md-nav" aria-label="2.4.4.2. 算法思想">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#24421-distinguishable-states" class="md-nav__link">
+    2.4.4.2.1. distinguishable states（可区分状态）：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24422" class="md-nav__link">
+    2.4.4.2.2. 最小化算法的思想：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24423" class="md-nav__link">
+    2.4.4.2.3. 正式算法：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-lex-a-lexical-analyzer-generator" class="md-nav__link">
+    2.5 Lex: A Lexical Analyzer Generator：
+  </a>
+  
+    <nav class="md-nav" aria-label="2.5 Lex: A Lexical Analyzer Generator：">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#251-definitions" class="md-nav__link">
+    2.5.1. 第一部分 definitions：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter6/" class="md-nav__link">
+        chapter6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter8/" class="md-nav__link">
+        chapter8 基本块
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter9/" class="md-nav__link">
+        chapter9 指令选择
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter10/" class="md-nav__link">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tiger/" class="md-nav__link">
+        Tiger 语言
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="_1">编译原理第二章：词法分析</h1>
+<h2 id="20">2.0 总览</h2>
+<h3 id="201">2.0.1 词法分析的位置</h3>
+<p>词法分析不是孤立的，它属于整个编译前端的一环。</p>
+<ul>
+<li>编译过程（Compiling Process）为了把一种语言翻译成另一种语言</li>
+<li>编译器先要<strong>拆开并理解</strong>程序，再重新组织输出</li>
+<li>前端做 <strong>analysis（分析）</strong>，</li>
+<li><strong>Lexical analysis</strong>：把输入分成 token<ul>
+<li>词法分析只负责“切词”</li>
+<li><strong>不负责</strong>理解完整语法</li>
+<li>更不负责程序语义</li>
+</ul>
+</li>
+<li><strong>Syntax analysis</strong>：分析语法结构</li>
+<li><strong>Semantic analysis</strong>：分析程序意义</li>
+<li>IR（中间表示）把前端和后端隔开</li>
+<li>后端做 <strong>synthesis（综合）</strong></li>
+</ul>
+<p>这一章的核心问题其实只有一个：</p>
+<blockquote>
+<p><strong>如何把“字符流”变成“单词流（token 流）”？</strong></p>
+</blockquote>
+<p>也就是：源码明明只是一个个字符，编译器为什么能知道：</p>
+<ul>
+<li><code>if</code> 是关键字</li>
+<li><code>match0</code> 是标识符</li>
+<li><code>0.0</code> 是实数</li>
+<li><code>(</code> 是左括号</li>
+<li>空格和注释该忽略</li>
+</ul>
+<p>这一章的路线是：</p>
+<ol>
+<li>先理解 <strong>token 是什么</strong></li>
+<li>再用 <strong>正则表达式（RE）</strong> 描述 token</li>
+<li>再用 <strong>有限自动机（FA）</strong> 实现这些规则</li>
+<li>然后引入 <strong>NFA</strong></li>
+<li>再把 NFA 变成 <strong>DFA</strong></li>
+<li>再把 DFA <strong>最小化</strong></li>
+<li>最后说明为什么现实里常用 <strong>Lex/flex</strong> 自动生成词法分析器</li>
+</ol>
+<p><strong>自然语言描述 → 正则表达式 → 自动机 → 词法分析器实现</strong>。</p>
+<h3 id="202">2.0.2. 词法分析器的任务：</h3>
+<ul>
+<li>输入：<strong>字符流</strong></li>
+<li>输出：<strong>token 流</strong></li>
+<li>会识别：</li>
+<li>名字（identifier）</li>
+<li>关键字（keyword）</li>
+<li>标点符号（punctuation）</li>
+<li>会丢弃：</li>
+<li>空白符</li>
+<li>注释</li>
+</ul>
+<p>课件给了一个例子：</p>
+<p><code>c
+ float match0(char *s) /* find a zero */
+ { 
+     if (!strncmp(s, "0.0", 3))
+    return 0.; 
+}</code></p>
+<p>这段 C 程序会被拆成</p>
+<p><code>FLOAT  ID(match0)  LPAREN  CHAR STAR ID(s) RPAREN 
+LBRACE  
+    IF LPAREN BANG ID(strncmp) LPAREN ID(s) COMMA STRING(0.0) COMMA NUM(3) RPAREN  RPAREN
+    RETURN REAL(0.0) SEMI 
+RBRACE
+EOF</code></p>
+<h3 id="203">2.0.3. 接口</h3>
+<p>词法分析器的接口通常像一个函数，例如：</p>
+<ul>
+<li><code>getToken()</code></li>
+<li>或 <code>yylex()</code></li>
+</ul>
+<p>每调用一次，就返回下一个 token。</p>
+<p>为什么要用形式化工具来研究词法分析：</p>
+<ul>
+<li>因为后面语法分析也会用类似形式化方法</li>
+<li>而且这些工具不只在编译里有用，例如日志解析</li>
+</ul>
+<h2 id="21-lexical-token">2.1 Lexical Token</h2>
+<h3 id="211-lexical-token">2.1.1. 定义 lexical token</h3>
+<ul>
+<li>token 是一段字符序列</li>
+<li>它是编程语言语法中的一个单位</li>
+<li>token 类型是有限集合</li>
+</ul>
+<p>例子：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Token</th>
+<th style="text-align: center;">例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>ID</code></td>
+<td style="text-align: center;">foo n14 last</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>NUM</code></td>
+<td style="text-align: center;">73 0 00 515 082</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>REAL</code></td>
+<td style="text-align: center;">66.1 .5 10.  1e67  5.5e-10</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>IF</code></td>
+<td style="text-align: center;">if</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>COMMA</code></td>
+<td style="text-align: center;">,</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>NOTEQ</code></td>
+<td style="text-align: center;">!=</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>LPAREN</code></td>
+<td style="text-align: center;">(</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>RPAREN</code></td>
+<td style="text-align: center;">)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="212">2.1.2. 词法分析器的输出</h3>
+<h4 id="2121">2.1.2.1. 输出包含什么</h4>
+<p>这里用具体程序演示 token 化结果，还是这个例子：</p>
+<p><code>c
+ float match0(char *s) /* find a zero */
+ { 
+     if (!strncmp(s, "0.0", 3))
+    return 0.; 
+}</code></p>
+<p>这段 C 程序会被拆成</p>
+<p><code>FLOAT  ID(match0)  LPAREN  CHAR STAR ID(s) RPAREN 
+LBRACE  
+    IF LPAREN BANG ID(strncmp) LPAREN ID(s) COMMA STRING(0.0) COMMA NUM(3) RPAREN  RPAREN
+    RETURN REAL(0.0) SEMI 
+RBRACE
+EOF</code></p>
+<p>这里可见：</p>
+<ul>
+<li>词法分析器不仅返回 token 的<strong>类型</strong></li>
+<li>有些 token 还带<strong>语义值（semantic value）</strong></li>
+</ul>
+<p>例如：</p>
+<ul>
+<li><code>ID(match0)</code>：类型是 ID，值是 <code>match0</code></li>
+<li><code>NUM(3)</code>：类型是 NUM，值是 <code>3</code></li>
+<li><code>REAL(0.0)</code>：类型是 REAL，值是 <code>0.0</code></li>
+</ul>
+<p>也就是说：</p>
+<blockquote>
+<p>token 不只是标签，还可能带“附加信息”。</p>
+</blockquote>
+<h4 id="2122">2.1.2.2. 输出不包含什么？</h4>
+<ul>
+<li><strong>源码里有的东西，不一定都变成 token</strong></li>
+<li>
+<p>一部分内容会被直接忽略或提前处理掉。</p>
+</li>
+<li>
+<p>预处理器会先处理某些内容</p>
+</li>
+<li>
+<p>词法分析器面对的是预处理后的字符流</p>
+</li>
+<li>
+<p>保留字不能当标识符，比如<code>IF</code>、<code>VOID</code>、<code>RETURN</code></p>
+</li>
+<li>
+<p>什么东西不是 token：注释、预处理指令、宏、空格、tab、换行</p>
+</li>
+</ul>
+<h2 id="22">2.2. 正则表达式</h2>
+<h3 id="220">2.2.0. 词法分析器的实现&amp;为什么需要正则表达式</h3>
+<blockquote>
+<p>已经知道输入和输出了，那词法分析器怎么实现？</p>
+</blockquote>
+<p>答案是：先要描述语言的词法规则。</p>
+<h4 id="2201">2.2.0.1. 如何描述词法规则</h4>
+<p>这里用 C/Java 的标识符规则举例，说明“自然语言版词法规则”：</p>
+<ol>
+<li>标识符由字母和数字组成</li>
+<li>第一个字符必须是字母</li>
+<li><code>_</code> 算字母</li>
+<li>大小写不同</li>
+<li>下一个 token 要取<strong>尽可能长的字符串</strong></li>
+<li><strong>最长匹配（longest match）</strong>：能多吃就多吃。</li>
+<li>空白和注释一般忽略，但有时空白用于分隔相邻 token</li>
+</ol>
+<h4 id="2202">2.2.0.2. 如何实现词法分析器</h4>
+<ol>
+<li><strong>ad hoc lexer</strong>：手写任何编程语言来实现</li>
+<li>这样十分繁琐</li>
+<li>更简单的方法</li>
+<li><strong>regular expressions</strong>：用正则描述 token<ul>
+<li>易懂，但直接实现麻烦</li>
+</ul>
+</li>
+<li><strong>deterministic finite automata</strong>：用 DFA 实现 lexer<ul>
+<li>容易实现，但手工从规则构造不方便</li>
+</ul>
+</li>
+<li>数学把两者连接起来</li>
+</ol>
+<h4 id="2203">2.2.0.3. “从规则到程序”的总路线</h4>
+<ol>
+<li>
+<p>自然语言描述 lexical tokens</p>
+</li>
+<li>
+<p>将自然语言转成 regular expression</p>
+</li>
+<li>
+<p>regular expression 转成 deterministic finite automata</p>
+</li>
+<li>
+<p>最后按照 DFA 实现 lexer</p>
+</li>
+</ol>
+<h2 id="22-regular-expression">2.2 Regular Expression</h2>
+<h3 id="221">2.2.1 基础概念：</h3>
+<ul>
+<li><strong>language</strong>：字符串集合</li>
+<li><strong>string</strong>：符号的有限序列</li>
+<li>
+<p><strong>symbol</strong>：来自有限字母表的元素</p>
+</li>
+<li>
+<p>这里先<strong>不讨论字符串意义</strong></p>
+</li>
+<li>只讨论“它属不属于这个集合”</li>
+</ul>
+<p>比如：</p>
+<ul>
+<li>C 语言关键字集合是一个语言</li>
+<li>所有合法标识符也是一个语言</li>
+</ul>
+<p>定义正则表达式的作用：</p>
+<ul>
+<li>正则表达式可以用有限描述表示某些可能无限的语言</li>
+<li>每个正则表达式 <code>r</code> 表示一个正规语言 <code>L(r)</code></li>
+</ul>
+<h3 id="222">2.2.2. 正则表达式的定义</h3>
+<h4 id="2221">2.2.2.1. 定义</h4>
+<p>定义两种最基本的正则：</p>
+<ul>
+<li><strong>普通符号 <code>a</code></strong></li>
+<li>
+<p>表示只含字符串 <code>"a"</code> 的语言</p>
+</li>
+<li>
+<p><strong>ε</strong></p>
+</li>
+<li>表示只含空串 <code>""</code> 的语言</li>
+</ul>
+<p>定义两个组合操作：</p>
+<ul>
+<li><strong>Alternation（并/选择）</strong>：<code>M | N</code></li>
+<li>属于 <code>L(M)</code> 或 <code>L(N)</code> 的字符串都算</li>
+<li>
+<p><code>a|b</code> 表示 <code>{a, b}</code></p>
+</li>
+<li>
+<p><strong>Concatenation（连接）</strong>：<code>M · N</code></p>
+</li>
+<li>先来自 <code>M</code>，后来自 <code>N</code></li>
+<li><code>(a|b)·a</code> 表示 <code>{aa, ba}</code></li>
+</ul>
+<p>定义 <strong>Kleene closure（Kleene 星号）</strong>：</p>
+<ul>
+<li>
+<p><code>M*</code> 表示 <code>M</code> 中字符串重复 0 次或多次</p>
+</li>
+<li>
+<p><code>((a|b)·a)*</code>可以表示 <code>{"", "aa",  "ba", "aaaa", "baaa", "aaba", "baba", "aaaaaa", …}</code></p>
+</li>
+</ul>
+<p>它可以表示无限多个字符串，因为重复次数不受限。</p>
+<p>例题：</p>
+<ul>
+<li><code>(0|1)*·0</code> 表示<strong>二进制中所有能被 2 整除的数</strong></li>
+<li>
+<p><code>b*(abb*)*(a|ε)</code>：由 <code>a</code> 和 <code>b</code> 构成且没有连续两个 <code>a</code></p>
+</li>
+<li>
+<p><code>(a|b)*aa(a|b)*</code>：所有包含连续 <code>aa</code> 的由 <code>a,b</code> 构成的字符串</p>
+</li>
+</ul>
+<p><code>.</code>：任意单个字符（通常不含换行）</p>
+<p><code>"&lt;一个字符串&gt;"</code>：引用，表示字符串自身</p>
+<h4 id="2222">2.2.2.2. 规则</h4>
+<p>讲正则简写规则和优先级：</p>
+<ul>
+<li><code>*</code> 绑定最紧</li>
+<li>
+<p>连接比 <code>|</code> 更紧</p>
+</li>
+<li>
+<p><code>ab|c</code> 其实是 <code>(a·b)|c</code></p>
+</li>
+<li><code>(a|)</code> 其实是 <code>(a|ε)</code></li>
+</ul>
+<h4 id="2223">2.2.2.3. 缩写</h4>
+<p>缩写<strong>不增加表达能力</strong></p>
+<ul>
+<li><code>[abcd]</code> 等价于 <code>(a|b|c|d)</code></li>
+<li><code>[b-g]</code> 是区间等价于 <code>[bcdefg]</code></li>
+<li><code>[b-gM-Qkr]</code> 等价于 <code>[bcdefgMNOPQkr]</code></li>
+<li><code>M?</code> 等价于 <code>(M|ε)</code></li>
+<li><code>M+</code> 等价于 <code>M·M*</code></li>
+</ul>
+<h3 id="223-token">2.2.3. 用正则描述 token</h3>
+<h4 id="2231">2.2.3.1. 示例</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">正则表达式</th>
+<th style="text-align: center;">行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">遇到<code>if</code></td>
+<td style="text-align: center;">做<code>{return IF;}</code></td>
+</tr>
+<tr>
+<td style="text-align: center;">遇到<code>[a-z][a-z0-9]*</code></td>
+<td style="text-align: center;">做<code>{return ID;}</code></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>[0-9]+                 |  {return NUM;}</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)</code></td>
+<td style="text-align: center;">实数规则</td>
+</tr>
+<tr>
+<td style="text-align: center;">注释和空白的规则</td>
+<td style="text-align: center;">匹配后“不做事”</td>
+</tr>
+<tr>
+<td style="text-align: center;">非法字符</td>
+<td style="text-align: center;">报错</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2232">2.2.3.2. 词法规则必须<strong>完整</strong></h4>
+<ul>
+<li>就是任何输入字符都应该被某条规则处理到。</li>
+<li>所以最后要放一个“兜底规则”：</li>
+<li>任何单字符都能匹配到</li>
+<li>如果不是合法字符，就报错</li>
+</ul>
+<h4 id="2233">2.2.3.3. 正则规则会有歧义：</h4>
+<ul>
+<li><code>if8</code> 应该识别为 <code>IF</code> + <code>8</code>，还是一个 <code>ID</code>？</li>
+<li><code>if 89</code> 开头的 <code>if</code> 应该识别成保留字还是标识符？</li>
+</ul>
+<h5 id="22331">2.2.3.3.1. 消歧规则：</h5>
+<ol>
+<li>Longest match（最长匹配）</li>
+<li>
+<p>取能匹配任一正则的<strong>最长前缀</strong>。</p>
+</li>
+<li>
+<p>Rule priority（规则优先级）</p>
+</li>
+<li>如果同一个最长前缀可被多条规则匹配，则取<strong>最先写的规则</strong>。</li>
+</ol>
+<p>于是：</p>
+<ul>
+<li><code>if8</code> 按最长匹配，应识别为 <code>ID</code></li>
+<li><code>if</code> 本身同时符合 <code>IF</code> 和 <code>ID</code>，按规则顺序，识别为 <code>IF</code></li>
+</ul>
+<h2 id="23-finite-automata">2.3. Finite Automata</h2>
+<blockquote>
+<p>正则适合描述 token，但真正计算机程序实现时，更适合用有限自动机</p>
+</blockquote>
+<h3 id="231">2.3.1. 有限自动机形式定义：</h3>
+<p>一个自动机包含：</p>
+<ul>
+<li>有限的状态集合 <code>S</code></li>
+<li>字母表 <code>Σ</code></li>
+<li>转移函数 <code>move</code></li>
+<li>初始状态 <code>s0</code></li>
+<li>终态集合 <code>F</code></li>
+</ul>
+<p>自动机图的画法：</p>
+<ul>
+<li>圆圈表示状态</li>
+<li>双圆表示终态</li>
+<li>从外面指向某状态的箭头表示初态</li>
+<li>一条边标多个字符是多条平行边的简写</li>
+</ul>
+<h3 id="231-dfa">2.3.1. DFA（确定有限自动机）：</h3>
+<h4 id="2311">2.3.1.1. 定义</h4>
+<ul>
+<li>同一状态出发，不能有两条相同字符标记的边</li>
+</ul>
+<p>DFA 如何接受字符串：</p>
+<ol>
+<li>从初态出发</li>
+<li>对每个输入字符走唯一一条边</li>
+<li>所有字符读完后若停在终态，则接受</li>
+<li>否则拒绝</li>
+</ol>
+<blockquote>
+<p>每一步都没有歧义，只有一个下一步。</p>
+</blockquote>
+<h4 id="2312">2.3.1.2. 合并</h4>
+<blockquote>
+<p>现在有 6 个分开的自动机，怎么合成一个真正的词法分析器？</p>
+<p>真正 lexer 不能每种 token 单独一台机器，而要合成成一台总机器。</p>
+</blockquote>
+<p>每个终态标记它识别的 token 类型</p>
+<p>解释组合后的状态 <code>I</code>：</p>
+<ul>
+<li>它同时像 IF 自动机里的<code>I</code></li>
+<li>也像 ID 自动机里的<code>I</code></li>
+<li>因为后者是终态，所以合并后也必须是终态</li>
+</ul>
+<p>这说明合并自动机时，一个状态可能同时继承多个“角色”。</p>
+<h4 id="2313">2.3.1.3. 如何把自动机编码成程序：</h4>
+<ul>
+<li>用一个<strong>转移矩阵</strong> <code>trans[state][char]</code>，表示在 <code>state</code> 状态的时候遇到字符 <code>char</code> 的时候应该如何转移。</li>
+<li>
+<p>没有边时用 <strong>dead state（死状态）0</strong></p>
+</li>
+<li>
+<p>死状态对所有字符都回到自己</p>
+</li>
+<li>
+<p>再用一个 <strong>finality array</strong> 记录哪些<strong>终止</strong>状态对应什么动作</p>
+</li>
+</ul>
+<h4 id="2314">2.3.1.4. 自动机运行</h4>
+<p>维护两个变量：</p>
+<ul>
+<li><code>Last-Final</code></li>
+<li><code>Input-Position-at-Last-Final</code></li>
+</ul>
+<p>每进入一个终态就更新这两个变量。
+当走到死状态时，就知道：</p>
+<ul>
+<li>最近一次成功匹配是什么 token</li>
+<li>它在什么位置结束</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>识别出 <code>IF</code></li>
+<li>遇到空白时跳过并继续</li>
+<li>某些非法字符（如 <code>-</code> 在不合法位置）会报错然后继续</li>
+<li>
+<p>说明自动机并不是只识别一个 token，而是不断：</p>
+<ol>
+<li>
+<p>从当前位置开始</p>
+</li>
+<li>
+<p>找最长匹配</p>
+</li>
+<li>
+<p>输出一个 token 或执行忽略动作</p>
+</li>
+<li>
+<p>从下一个位置继续</p>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="24-nfa">2.4. NFA</h2>
+<ul>
+<li>NFA</li>
+<li>Thompson 构造</li>
+<li>子集构造</li>
+<li>DFA 最小化</li>
+</ul>
+<h3 id="241nfa">2.4.1.定义NFA（非确定有限自动机）</h3>
+<ul>
+<li>同一状态在同一输入符号下，可以去多个不同状态</li>
+<li>还允许 <strong>ε-边</strong></li>
+<li>ε-边不消耗输入字符</li>
+</ul>
+<p>这是 NFA 和 DFA 的本质区别。</p>
+<ul>
+<li>有 ε-边时，即使当前有正常字符边，也可以先走 ε-边</li>
+<li>ε-边不消耗字符</li>
+</ul>
+<p>这让 NFA 更灵活，也更容易构造。</p>
+<p>定义 NFA 如何接受字符串：</p>
+<blockquote>
+<p>只要存在<strong>某一条可能路径</strong>最终到达终态，NFA 就接受。</p>
+</blockquote>
+<p>和 DFA 的区别是：</p>
+<ul>
+<li>DFA：唯一运行路径</li>
+<li>NFA：只要有一条成功路径就行</li>
+</ul>
+<h3 id="242-thompson">2.4.2. Thompson 构造</h3>
+<h4 id="2421">2.4.2.1. 意义</h4>
+<blockquote>
+<p>RE 到 NFA 很容易，这就是 Thompson 构造的价值</p>
+</blockquote>
+<p>如果我们知道：</p>
+<ol>
+<li>
+<p>基本正则如何转成基本 NFA</p>
+</li>
+<li>
+<p>正则的三种构造操作如何在 NFA 上模拟</p>
+</li>
+</ol>
+<p>那么任意正则都能转成 NFA。</p>
+<h4 id="2422">2.4.2.2. 流程</h4>
+<p>每个正则 <code>M</code> 都会对应一个带 tail（起始边） head（终止状态）的 NFA 片段。</p>
+<p>这是最关键的 <strong>Thompson 构造规则图</strong>。它给出：</p>
+<ul>
+<li><code>a</code> 如何转 NFA</li>
+<li><code>ε</code> 如何转 NFA</li>
+<li><code>M|N</code> 如何转 NFA</li>
+<li><code>M·N</code> 如何转 NFA</li>
+<li><code>M*</code> 如何转 NFA</li>
+<li><code>M+</code> 视作 <code>M·M*</code></li>
+<li><code>M?</code> 视作 <code>M|ε</code></li>
+<li><code>[abc]</code></li>
+<li>
+<p><code>"abc"</code></p>
+</li>
+<li>
+<p><strong>并</strong>：新建开始和结束，用 ε 分叉/汇合</p>
+</li>
+<li><strong>连接</strong>：把前一个的尾和后一个的头接起来</li>
+<li><strong>闭包</strong>：允许回环和跳过</li>
+</ul>
+<h3 id="243-nfa-dfa">2.4.3. 子集构造，NFA 转 DFA</h3>
+<h4 id="2431">2.4.3.1. 运算定义</h4>
+<p><strong>ε-closure</strong>：
+- 对一个状态集合 <code>S</code>
+- <code>closure(S)</code> 是只走 ε-边、不消耗输入所能到达的全部状态集合</p>
+<p>并定义：</p>
+<ul>
+<li><code>edge(s,c)</code>：从状态 <code>s</code> 走一条标记为 <code>c</code> 的边能到达的状态集合</li>
+</ul>
+<p><strong>DFAedge</strong>：
+- <span class="arithmatex">\(DFAedge(d,c)=closure\left(\bigcup_{s\in d} edge(s,c)\right)\)</span></p>
+<ol>
+<li>从 <code>d</code> 中每个状态出发</li>
+<li>走一条 <code>c</code> 边</li>
+<li>把所有结果合并</li>
+<li>再把这些状态的 ε-closure 全部补齐</li>
+</ol>
+<h4 id="2432">2.4.3.2. 子集构造</h4>
+<blockquote>
+<p>DFA 的一个状态，其实可以看成 <strong>NFA 状态集合</strong>。</p>
+</blockquote>
+<p>例子中：</p>
+<ul>
+<li>先算 <code>closure({1}) = {1,4,9,14}</code></li>
+<li>读入 <code>i</code> 后得到新的状态集合</li>
+<li>再读 <code>n</code> 后得到新的状态集合</li>
+<li>
+<p>最终接受</p>
+</li>
+<li>
+<p>从 <code>d1 = closure({s1})</code> 开始</p>
+</li>
+<li>对每个状态集合 <code>d</code> 和每个输入符号 <code>c</code></li>
+<li>计算 <code>d' = DFAedge(d,c)</code>（经过边 c 可以到达的所有状态集合）</li>
+<li>不断重复，直到没有新状态集合出现</li>
+</ul>
+<p>这就是子集构造的核心过程。这样构造出的机器就是 DFA：
+- 状态：所有可达的 NFA 状态集合
+- 转移：<code>DFAedge(d,c)</code>
+- 字母表不变
+- 初态：<code>d1</code>
+- 终态：包含某个 NFA 终态的那些集合</p>
+<p>若 NFA 有 <code>n</code> 个状态，理论上最多会有 <code>2^n</code> 个集合状态，因为状态集合只能变大，NFA 状态总数有限，迭代计算 <code>closure(S)</code>一定终止。</p>
+<h3 id="244-dfa">2.4.4.  DFA 最小化</h3>
+<blockquote>
+<p>子集构造得到的是“能用的 DFA”，不一定是“最省的 DFA”。</p>
+</blockquote>
+<h4 id="2441">2.4.4.1. 等价状态：</h4>
+<p>两个状态 <code>s1</code> 和 <code>s2</code> 等价，当且仅当：</p>
+<ul>
+<li>从 <code>s1</code> 出发接受某串 <code>σ</code></li>
+<li>当且仅当从 <code>s2</code> 出发也接受 <code>σ</code></li>
+</ul>
+<p>它们可合并。</p>
+<p>这是最小化的本质：找出“行为完全一样”的状态，合并它们。</p>
+<h4 id="2442">2.4.4.2. 算法思想</h4>
+<p>一个“看起来合理但不充分”的判定条件：
+- 同时都是终态或同时都不是终态
+- 且每个输入字符转移到的目标一样</p>
+<p>这个条件<strong>不够一般</strong>：
+- 某些状态虽然目标状态名字不同
+- 但这些目标状态本身是等价的
+- 所以原状态仍可能等价</p>
+<p>判断等价不能只看一步，要看“未来所有行为”。</p>
+<hr />
+<h5 id="24421-distinguishable-states">2.4.4.2.1. distinguishable states（可区分状态）：</h5>
+<p>若存在字符串 <code>x</code>，使得：</p>
+<ul>
+<li>从 <code>s</code> 出发读 <code>x</code> 后到终态</li>
+<li>从 <code>t</code> 出发读 <code>x</code> 后不到终态</li>
+</ul>
+<p>或反过来，</p>
+<p>那 <code>x</code> 就区分了 <code>s</code> 和 <code>t</code>。</p>
+<p>所以：</p>
+<ul>
+<li>能被某个串区分开的状态，不等价</li>
+<li>不能被任何串区分开的状态，才等价</li>
+</ul>
+<p>这是最小化的逻辑基础。</p>
+<h5 id="24422">2.4.4.2.2. 最小化算法的思想：</h5>
+<ul>
+<li>先把显然不同的状态分开</li>
+<li>再不断细分分组</li>
+<li>直到不能再分</li>
+</ul>
+<p>具体思想：</p>
+<ol>
+<li>终态和非终态先分开</li>
+<li>若两个状态经过某输入后会落入不同组，它们也应分开</li>
+<li>最后每组中的状态互相等价</li>
+</ol>
+<h4 id="24423">2.4.4.2.3. 正式算法：</h4>
+<ol>
+<li>初始划分 <code>Π = {S-F, F}</code></li>
+<li>对 <code>Π</code> 中每个组 <code>G</code>：</li>
+<li>若组内状态在某些输入字符下转移到不同组</li>
+<li>就把 <code>G</code> 再细分</li>
+<li>如果新划分和旧划分一样，结束；否则继续</li>
+</ol>
+<p>这是最小化的标准 partition-refinement 算法。</p>
+<p>划分结束后如何重建最小 DFA：</p>
+<ul>
+<li>每个最终分组挑一个代表状态</li>
+<li>最小 DFA 的状态就是这些代表</li>
+<li>原初态所属组的代表成为新初态</li>
+<li>含终态的组代表成为新终态</li>
+<li>转移按“代表的目标组代表”来连</li>
+</ul>
+<p><strong>词法分析中特别重要的修正</strong>：</p>
+<p>普通 DFA 最小化里，所有终态可以先放在一个组里。
+但<strong>词法分析器里不行</strong>，因为不同终态可能对应不同 token 类型。</p>
+<p>例如：</p>
+<ul>
+<li>一个终态表示 <code>IF</code></li>
+<li>另一个终态表示 <code>ID</code></li>
+</ul>
+<p>它们即使“结构上像”，也不能合并。</p>
+<p>所以词法分析器的初始划分不是：</p>
+<ul>
+<li><code>{S-F, F}</code></li>
+</ul>
+<p>而应是：</p>
+<ul>
+<li><code>{S-F, F1, F2, ..., Fk}</code></li>
+</ul>
+<p>其中 <code>Fi</code> 是识别同一种 token 的终态集合。</p>
+<h2 id="25-lex-a-lexical-analyzer-generator">2.5 Lex: A Lexical Analyzer Generator：</h2>
+<blockquote>
+<p>现在要落到词法分析的工具：Lex</p>
+</blockquote>
+<p>为什么会有 Lex：</p>
+<ul>
+<li>DFA 构造是机械劳动</li>
+<li>适合让计算机自动完成</li>
+<li>所以有 lexical-analyzer generator</li>
+<li>Lex 能把正则规格说明自动翻译成 DFA，并生成 C 程序</li>
+</ul>
+<p>Lex 生成的结果：</p>
+<ul>
+<li>会产生一个 C 函数 <code>yylex</code></li>
+<li>它就像 <code>getToken</code></li>
+<li>本质是一个<strong>表驱动的 DFA 实现</strong></li>
+<li>最流行版本是 <strong>flex</strong></li>
+</ul>
+<p>Lex 输入文件 <code>a.l</code> 的三段结构：</p>
+<p><code>lex
+{ definitions }
+%%
+{ rules }
+%%
+{ auxiliary routines }</code></p>
+<ul>
+<li><code>%{ ... %}</code> 放 C 代码</li>
+<li><code>digit [0-9]</code></li>
+<li><code>number {digit}+</code></li>
+<li>规则中把十进制转成十六进制输出</li>
+<li><code>main()</code> 调用 <code>yylex()</code></li>
+</ul>
+<p>这一页很关键，因为它把“理论规则”变成了“工具输入格式”。</p>
+<hr />
+<h3 id="251-definitions">2.5.1. 第一部分 <strong>definitions</strong>：</h3>
+<ul>
+<li>在第一个 <code>%%</code> 之前</li>
+<li><code>%{...%}</code> 中可写 C 头文件、全局变量等</li>
+<li>后面可写正则缩写、状态声明</li>
+</ul>
+<p>例如：</p>
+<p>```
+%{ </p>
+<h1 id="include">include <stdlib.h></h1>
+<h1 id="include_1">include <stdio.h></h1>
+<p>int count = 0;
+%}
+digit [0-9]
+number {digit}+
+```</p>
+<h3 id="252-rules">2.5.2. 第二部分 <strong>rules</strong>：</h3>
+<ul>
+<li>每条规则由：</li>
+<li>一个正则表达式</li>
+<li>一个动作（C 代码片段）</li>
+<li>当正则匹配时执行对应动作</li>
+<li><code>yytext</code>：当前匹配到的字符串</li>
+<li><code>yyleng</code>：匹配长度</li>
+</ul>
+<p>例如：</p>
+<p><code>{ number } { int n = atoi (yytext);
+            printf(“%x”, n);
+            if (n &gt; 9) count ++; }</code></p>
+<h3 id="253-auxiliary-routines">2.5.3. 第三部分 <strong>auxiliary routines</strong>：</h3>
+<ul>
+<li>放辅助函数</li>
+<li>比如 <code>main()</code></li>
+<li>或规则里调用但别处没定义的函数</li>
+</ul>
+<p>也就是说，这是普通 C 代码补充区。</p>
+<p>```
+main( )
+ { yylex ( );
+ fprintf(stdeer, “number of replacements = %d”, count);
+ return 0;
+ }</p>
+<p>```</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>

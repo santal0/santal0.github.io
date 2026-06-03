@@ -1,0 +1,1530 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://santal0.github.io/courses/CompilerPrinciple/Chapter8/">
+      
+      
+        <link rel="prev" href="../Chapter7/">
+      
+      
+        <link rel="next" href="../Chapter9/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>chapter8 基本块 - 沈檀的妙妙屋</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/cards.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-8" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-header__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            沈檀的妙妙屋
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              chapter8 基本块
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="cyan" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="沈檀的妙妙屋" class="md-nav__button md-logo" aria-label="沈檀的妙妙屋" data-md-component="logo">
+      
+  <img src="../../../assets/pictures/logo.jpg" alt="logo">
+
+    </a>
+    沈檀的妙妙屋
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          课程
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          课程
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          编译原理
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          编译原理
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        chapter2 词法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter3/" class="md-nav__link">
+        chapter3 语法分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter4/" class="md-nav__link">
+        chapter4 抽象语法
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter5/" class="md-nav__link">
+        chapter5 语义分析
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter6/" class="md-nav__link">
+        chapter6
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter7/" class="md-nav__link">
+        chapter7 中间代码生成
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          chapter8 基本块
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        chapter8 基本块
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#80-ir-tree" class="md-nav__link">
+    8.0. IR tree 的不足
+  </a>
+  
+    <nav class="md-nav" aria-label="8.0. IR tree 的不足">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#801" class="md-nav__link">
+    8.0.1. 示例
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#802-solution" class="md-nav__link">
+    8.0.2.解决方案 (Solution)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#81-canonical-trees" class="md-nav__link">
+    8.1. 规范树 (Canonical Trees)
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1. 规范树 (Canonical Trees)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#811" class="md-nav__link">
+    8.1.1. 定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#812" class="md-nav__link">
+    8.1.2. 构建规范树的操作
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#813-eseq" class="md-nav__link">
+    8.1.3. 消除 ESEQ 节点
+  </a>
+  
+    <nav class="md-nav" aria-label="8.1.3. 消除 ESEQ 节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8132" class="md-nav__link">
+    8.1.3.2. 规则：
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8133" class="md-nav__link">
+    8.1.3.3. 临时变量解除副作用
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8134-commute" class="md-nav__link">
+    8.1.3.4. 基于交换律的优化 (Commute)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8135" class="md-nav__link">
+    8.1.3.5. 判定交换律
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8136-general-rewriting-rules" class="md-nav__link">
+    8.1.3.6. 一般重写规则与算法 (General Rewriting Rules)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#814-call-move-calls-to-top-level" class="md-nav__link">
+    8.1.4. 将 CALL 移动到顶层 (Move CALLs to Top Level)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#815-seq" class="md-nav__link">
+    8.1.5. 消除 SEQ 形成线性列表
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#82-taming-conditional-branches-basic-blocks" class="md-nav__link">
+    8.2. 驯服条件分支 (Taming Conditional Branches)--&gt; 基本块 (Basic Blocks)
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2. 驯服条件分支 (Taming Conditional Branches)--> 基本块 (Basic Blocks)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#821-basic-blocks" class="md-nav__link">
+    8.2.1. 基本块 (Basic Blocks) 的动机与定义
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2.1. 基本块 (Basic Blocks) 的动机与定义">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8212" class="md-nav__link">
+    8.2.1.2. 基本块的定义：
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#822" class="md-nav__link">
+    8.2.2. 基本块的划分算法
+  </a>
+  
+    <nav class="md-nav" aria-label="8.2.2. 基本块的划分算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#8221" class="md-nav__link">
+    8.2.2.1. 基本块划分算法
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8222" class="md-nav__link">
+    8.2.2.2. 基本块划分示例
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#83-taming-conditional-branches-traces" class="md-nav__link">
+    8.3. 驯服条件分支 (Taming Conditional Branches)--&gt; 轨迹 (Traces)
+  </a>
+  
+    <nav class="md-nav" aria-label="8.3. 驯服条件分支 (Taming Conditional Branches)--> 轨迹 (Traces)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#831" class="md-nav__link">
+    8.3.1. 轨迹的动机与定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#832-dfs" class="md-nav__link">
+    8.3.2. 生成轨迹的算法 (DFS)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#833-finishing-up" class="md-nav__link">
+    8.3.3. 最后的修整 (Finishing Up)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#834-optimal-traces" class="md-nav__link">
+    8.3.4. 最优轨迹 (Optimal Traces)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-summary" class="md-nav__link">
+    8.4核心总结 (Summary)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#85-canon-c" class="md-nav__link">
+    8.5 附录：Canon 模块的 C 语言源码解析
+  </a>
+  
+    <nav class="md-nav" aria-label="8.5 附录：Canon 模块的 C 语言源码解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    第52页：规范树构造规则汇总
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-62canon-c" class="md-nav__link">
+    第53-62页：Canon 模块的 C 语言源码解析
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter9/" class="md-nav__link">
+        chapter9 指令选择
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter10/" class="md-nav__link">
+        chapter10 Liveness Analysis（活跃分析）
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter11/" class="md-nav__link">
+        chapter11 寄存器分配
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Chapter13/" class="md-nav__link">
+        chapter13 垃圾回收
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tiger/" class="md-nav__link">
+        Tiger 语言
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          cs 相关
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          cs 相关
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Git/" class="md-nav__link">
+        Git 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Linux/" class="md-nav__link">
+        Linux 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/Vim/" class="md-nav__link">
+        Vim 速查
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cs/CMake/" class="md-nav__link">
+        CMake 速查
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          奇妙技能
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          奇妙技能
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../skills/MakeSite/" class="md-nav__link">
+        如何制作网站
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../friends/" class="md-nav__link">
+        友站
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          杂书
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          杂书
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          社会科学
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          社会科学
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../books/political/%E9%9F%A7%E6%80%A7%EF%BC%9A%E5%8E%BF%E4%B9%A1%E6%94%BF%E5%BA%9C%E5%A6%82%E4%BD%95%E8%BF%90%E8%A1%8C/" class="md-nav__link">
+        《韧性：县乡政府如何运行》
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="chapter-8">Chapter 8: 基本块</h1>
+<h2 id="80-ir-tree">8.0. IR tree 的不足</h2>
+<p>IR必须被翻译成汇编或机器码。IR Tree 匹配大多数机器的处理能力。然而Tree语言的某些方面与机器语言并不完全对应。Tree语言的某些方面会干扰编译时的优化分析。</p>
+<h3 id="801">8.0.1. 示例</h3>
+<ul>
+<li>
+<p><code>CJUMP</code> 指令可以跳转到两个标签中的任何一个，真实机器的条件跳转指令，如果条件为假，会直接顺序执行到下一条指令。</p>
+</li>
+<li>
+<p>表达式内的 <code>ESEQ</code> 节点很不方便。<code>ESEQ(s, e)</code>语句 (Statements) 会产生副作用，影响 <code>e</code> 的值，所以子树的表达式和求值按照不同顺序执行会产生不同的结果。但是我们希望能够以任意顺序求值/执行语句。</p>
+</li>
+<li>
+<p>表达式内的 <code>CALL</code> 节点会导致相同的问题。<code>CALL</code> 默认是会把返回值放到某组固定的参数寄存器，所以如果有几个 <code>CALL</code>，将会引发问题。例如：<code>CALL(f, [e1, CALL(g, [e2, ...])])</code>， <code>e1</code> 的结果存储在 <code>r1</code> 中，<code>e2</code> (注: 这里指内层 <code>CALL</code> 的结果) 的结果将会覆盖 <code>r1</code> 。</p>
+</li>
+</ul>
+<h3 id="802-solution">8.0.2.解决方案 (Solution)</h3>
+<ol>
+<li>
+<p>将树重写为一个不包含 <code>SEQ</code> 或 <code>ESEQ</code> 节点的<strong>规范树 (canonical trees)</strong> 列表。消除与 <code>ESEQ</code> 和 <code>CALL</code> 相关的冲突。</p>
+</li>
+<li>
+<p>将此列表分组为一组<strong>基本块 (basic blocks)</strong>，块内不包含内部跳转或标签。</p>
+</li>
+<li>
+<p>将这些基本块排序为一组<strong>轨迹 (traces)</strong>，在轨迹中，每个 <code>CJUMP</code> 后面都紧跟着它的如果错误就走的分支。消除与 <code>CJUMP</code> 相关的冲突 。</p>
+</li>
+</ol>
+<h2 id="81-canonical-trees">8.1. 规范树 (Canonical Trees)</h2>
+<h3 id="811">8.1.1. 定义</h3>
+<ul>
+<li>规范树被定义为具有以下属性：<ol>
+<li>没有 <code>SEQ</code> 或 <code>ESEQ</code>。<ul>
+<li>意味着每个规范树最多包含一个语句 (statement) 节点，即根节点。其他节点全部是非 <code>ESEQ</code> 的表达式节点。</li>
+</ul>
+</li>
+<li>每个 <code>CALL</code> 的父节点只能是 <code>EXP(...)</code> 或 <code>MOVE(TEMP t, ...)</code>。<ul>
+<li>意味着 <code>CALL</code> 节点的子节点不能是 <code>CALL</code> 节点。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<p>综合两点性质可以看出：1说明只有一个 statement 且是 root，2 说明 <code>call</code> 节点的父亲就是这个 statement 节点，然后这个 statement 节点只能是 <code>EXP(...)</code> 和 <code>MOVE(TEMP t, ...)</code> ，它们只能包含一个 <code>CALL</code>。所以<code>CALL</code> 节点的父节点必须是规范树的根节点。一棵规范树中最多只能有一个 <code>CALL</code> 节点。</p>
+<h3 id="812">8.1.2. 构建规范树的操作</h3>
+<p>为了将树重写为规范树列表，我们需要：</p>
+<ul>
+<li>消除 <code>ESEQ</code></li>
+<li>将 <code>CALL</code> 移动到顶层</li>
+<li>消除 <code>SEQ</code> </li>
+</ul>
+<h3 id="813-eseq">8.1.3. 消除 <code>ESEQ</code> 节点</h3>
+<blockquote>
+<p>核心思想是将 <code>ESEQ</code> 节点在树中不断“拔高 (lift)”，直到它们能够变成 <code>SEQ</code> 节点。</p>
+</blockquote>
+<p>例如 <code>ESEQ(s1, ESEQ(s2, e))</code> </p>
+<pre class="mermaid"><code>graph TD
+    A((ESEQ)) --- B(s1)
+    A --- C((ESEQ))
+    C --- D(s2)
+    C --- E(e)</code></pre>
+<p>显然可以重写为 <code>ESEQ(SEQ(s1, s2), e)</code> ，因为语句执行顺序一样，返回值还是 <code>e</code></p>
+<pre class="mermaid"><code>graph TD
+    A((ESEQ)) --- B((SEQ))
+    A --- C(e)
+    B --- D(s1)
+    B --- E(s2)</code></pre>
+<p>另一个例子<code>BINOP(op, ESEQ(s, e1), e2)</code>：</p>
+<pre class="mermaid"><code>graph TD
+    A(BINOP) --- B(op)
+    A --- C(ESEQ)
+    A --- D(e2)
+    C --- E(s)
+    C --- F(e1)</code></pre>
+<p><code>ESEQ(s, BINOP(op, e1, e2))</code></p>
+<pre class="mermaid"><code>graph TD
+    A(ESEQ) --- B(s)
+    A --- C(BINOP)
+    C --- D(op)
+    C --- E(e1)
+    C --- F(e2)</code></pre>
+<p>更多例子：</p>
+<ul>
+<li>
+<p><span class="arithmatex">\(MEM(ESEQ(s, e_1)) \Rightarrow ESEQ(s, MEM(e_1))\)</span></p>
+</li>
+<li>
+<p><span class="arithmatex">\(JUMP(ESEQ(s, e_1)) \Rightarrow SEQ(s, JUMP(e_1))\)</span></p>
+</li>
+<li><span class="arithmatex">\(CJUMP(op, ESEQ(s, e_1), e_2, l_1, l_2) \Rightarrow SEQ(s, CJUMP(op, e_1, e_2, l_1, l_2))\)</span> </li>
+</ul>
+<h4 id="8132">8.1.3.2. 规则：</h4>
+<ul>
+<li>给定 <code>ESEQ(s, e)</code>：</li>
+<li>提取出 <code>s</code>。</li>
+<li>将它的父节点重写为包含 <code>s</code> 的 <code>ESEQ</code> 或 <code>SEQ</code>。</li>
+</ul>
+<h4 id="8133">8.1.3.3. 临时变量解除副作用</h4>
+<p><code>BINOP(op, e1, ESEQ(s, e2))</code> </p>
+<pre class="mermaid"><code>graph TD
+    A(BINOP) --- B(op)
+    A --- C(e1)
+    A --- D(ESEQ)
+    D --- E(s)
+    D --- F(e2)</code></pre>
+<p>把 <code>s</code> 提到最前面，变成了 <code>ESEQ(s, BINOP(op, e1, e2))</code></p>
+<pre class="mermaid"><code>graph TD
+    A(ESEQ) --- B(s)
+    A --- C(BINOP)
+    C --- D(op)
+    C --- E(e1)
+    C --- F(e2)</code></pre>
+<p><strong><em>存在副作用</em></strong>，假设 <code>s = MOVE(MEM(x), y)</code>，<code>e1 = MEM(x)</code>，为了保留求值的顺序，我们必须将 <code>e1</code> 从包含 <code>s</code> 的 <code>BINOP</code> 中拉出来。</p>
+<p>总之，如果 <code>ESEQ</code> 在右子树，你硬把它的副作用 <span class="arithmatex">\(s\)</span> 提到最前面，会导致 <span class="arithmatex">\(s\)</span> 比左子树 <span class="arithmatex">\(e1\)</span> 先执行！如果 <span class="arithmatex">\(s\)</span> 恰好修改了 <span class="arithmatex">\(e1\)</span> 要读取的变量内存，那就全乱套了。</p>
+<p>怎么解决求值顺序被打乱的问题？很简单，我们把左子树 <span class="arithmatex">\(e1\)</span> 的原值提前“缓存”起来！创建一个新的临时寄存器 <span class="arithmatex">\(t\)</span>，先算 <span class="arithmatex">\(e1\)</span> 并存入 <span class="arithmatex">\(t\)</span>，然后再去执行右子树里的副作用 <span class="arithmatex">\(s\)</span>，最后拿着缓存的 <span class="arithmatex">\(t\)</span> 去和 <span class="arithmatex">\(e2\)</span> 进行运算。完美保证了原有的语义。</p>
+<pre class="mermaid"><code>graph TD
+    A(ESEQ) --- B(MOVE)
+    A --- C(ESEQ)
+    B --- D(TEMP)
+    B --- E(e1)
+    D --- F(t)
+    C --- G(s)
+    C --- H(BINOP)
+    H --- I(op)
+    H --- J(TEMP)
+    H --- K(e2)
+    J --- L(t)
+
+    style B stroke:#ff0000,stroke-width:2px
+    style J stroke:#ff0000,stroke-width:2px</code></pre>
+<p><span class="arithmatex">\(BINOP(op, e_1, ESEQ(s, e_2))\)</span> 和 <span class="arithmatex">\(CJUMP(op, e_1, ESEQ(s, e_2), l_1, l_2)\)</span> 引入一个新的临时变量 <code>t</code>：</p>
+<p>原来 <span class="arithmatex">\(BINOP(op, e_1, ESEQ(s, e_2))\)</span> 变成 <span class="arithmatex">\(ESEQ(MOVE(TEMP~t, e_1), ESEQ(s, BINOP(op, TEMP~t, e_2)))\)</span></p>
+<p>另一类似规则：<span class="arithmatex">\(CJUMP(op, e_1, ESEQ(s, e_2), l_1, l_2)\)</span> 变成 <span class="arithmatex">\(SEQ(MOVE(TEMP~t, e_1), SEQ(s, CJUMP(op, TEMP~t, e_2, l_1, l_2)))\)</span> 。</p>
+<h4 id="8134-commute">8.1.3.4. 基于交换律的优化 (Commute)</h4>
+<p>“加临时变量”法虽然通用，但每次都加个新变量太浪费寄存器了。如果编译器分析出 <span class="arithmatex">\(s\)</span> 和 <span class="arithmatex">\(e1\)</span> 八竿子打不着（比如 <span class="arithmatex">\(s\)</span> 修改变量 <span class="arithmatex">\(a\)</span>，而 <span class="arithmatex">\(e1\)</span> 是计算 <span class="arithmatex">\(b+c\)</span>），那它们就可以随便换位置，直接套用最简提取法则即可。</p>
+<p>如果 <code>s</code> 和 <span class="arithmatex">\(e_1\)</span> 满足交换律 (commute)，即如果 <code>s</code> 和 <code>e1</code> 可以交换，<strong>被 <code>s</code> 分配（修改）的临时变量和内存位置，没有被 <code>e1</code> 引用（并且 <code>s</code> 和 <code>e1</code> 也没有同时执行外部I/O） </strong>那么：</p>
+<p><span class="arithmatex">\(BINOP(op, e_1, ESEQ(s, e_2)) = ESEQ(s, BINOP(op, e_1, e_2))\)</span></p>
+<p><span class="arithmatex">\(CJUMP(op, e_1, ESEQ(s, e_2), l_1, l_2) = SEQ(s, CJUMP(op, e_1, e_2, l_1, l_2))\)</span></p>
+<h4 id="8135">8.1.3.5. 判定交换律</h4>
+<p>那么如何知道一个语句 <code>s</code> 是否与一个表达式 <code>e</code> 满足交换律？在编译时，我们无法总是知道这一点，例如：
+<code>s = MOVE(MEM(x), y)</code>，<code>e = MEM(z)</code>，<code>x</code> 是否等于 <code>z</code>？</p>
+<p>（不知道，这往往是在运行时决定的）</p>
+<p>所以我们保守地近似语句是否可以交换：</p>
+<ul>
+<li>
+<p><code>commute(s, e) = True</code> 如果 <code>s</code> 和 <code>e</code> 绝对可以交换。</p>
+<ul>
+<li>常数可以与任何语句交换。</li>
+<li>空语句（例如 <code>EXP(CONST X)</code>）可以与任何表达式交换。</li>
+</ul>
+</li>
+<li>
+<p><code>commute(s, e) = False</code> 其他所有情况 。</p>
+<ul>
+<li>其他任何东西都被假定为不交换。</li>
+</ul>
+</li>
+</ul>
+<p>```c
+static bool isNop(T_stm x) {
+    return x-&gt;kind == T_EXP &amp;&amp; x-&gt;u.EXP-&gt;kind == T_CONST;
+}
+static bool commute (T_stm x, T_exp y) {
+    return isNop(x) || y-&gt;kind == T_NAME || y-&gt;kind == T_CONST;
+}</p>
+<p>```</p>
+<h4 id="8136-general-rewriting-rules">8.1.3.6. 一般重写规则与算法 (General Rewriting Rules)</h4>
+<p>对于每种树语句或表达式，都可以制定类似的规则，将 <code>ESEQ</code> 提取出来。给定一个Tiger程序，可以递归执行此转换，将所有 <code>ESEQ</code> 拔高为 <code>SEQ</code> 。</p>
+<p>一般来说，对于每种节点，我们可以识别它的子表达式（如 <code>[e1, e2, ESEQ(s, e3)]</code>）</p>
+<p>原始 IR tree：</p>
+<pre class="mermaid"><code>graph TD
+    Root(CALL) --- e1(e1)
+    Root --- e2(e2)
+    Root --- ESEQ((ESEQ))
+    ESEQ --- s(s)
+    ESEQ --- e3(e3)</code></pre>
+<ul>
+<li>都满足交换律：</li>
+</ul>
+<pre class="mermaid"><code>graph TD
+    Top((SEQ)) --- s(s)
+    Top --- Root(CALL)
+    Root --- e1_new(e1)
+    Root --- e2_new(e2)
+    Root --- e3_new(e3)</code></pre>
+<p>语句 <span class="arithmatex">\(s\)</span> 与紧邻的左侧表达式 <span class="arithmatex">\(e2\)</span> 不满足交换律（例如 <span class="arithmatex">\(s\)</span> 修改了 <span class="arithmatex">\(e2\)</span> 要读取的变量） </p>
+<p>需要重写为：</p>
+<pre class="mermaid"><code>graph TD
+    S1((SEQ)) --- M1(MOVE t1, e1)
+    S1 --- S2((SEQ))
+    S2 --- M2(MOVE t2, e2)
+    S2 --- S3((SEQ))
+    S3 --- s(s)
+    S3 --- Root(CALL)
+    Root --- t1(TEMP t1)
+    Root --- t2(TEMP t2)
+    Root --- e3(e3)</code></pre>
+<p><span class="arithmatex">\(e2\)</span> 可以与 <span class="arithmatex">\(s\)</span> 交换，但更左侧的 <span class="arithmatex">\(e1\)</span> 不行。根据 reorder 的保守原则，一旦左侧出现冲突，该位置及其左侧所有表达式都要移动到临时变量中 。</p>
+<pre class="mermaid"><code>graph TD
+    S1((SEQ)) --- M1(MOVE t1, e1)
+    S1 --- S2((SEQ))
+    S2 --- s(s)
+    S2 --- Root(CALL)
+    Root --- t1(TEMP t1)
+    Root --- e2(e2)
+    Root --- e3(e3)</code></pre>
+<p>算法包含两步：</p>
+<ol>
+<li>为每种节点制定“提取子表达式”方法，转为纯净版。</li>
+<li>制定“插入子表达式”方法，用干净的子表达式重建节点，并将抽出来的 <code>s</code> 用 <code>SEQ</code> 连在前面 。</li>
+</ol>
+<h3 id="814-call-move-calls-to-top-level">8.1.4. 将 CALL 移动到顶层 (Move CALLs to Top Level)</h3>
+<p>问题在于 <code>CALL</code> 节点可以作为子表达式，但函数总是将结果返回到<strong>同一个</strong>专用的返回值寄存器 <code>TEMP(RV)</code> 中。比如 <code>BINOP(PLUS, CALL(...), CALL(...))</code>，第二个函数的调用会把第一个函数的返回值寄存器给覆盖掉！</p>
+<p>当遇到有多个 <code>CALL</code> 的情况，对于每一格 <code>CALL</code>：</p>
+<pre class="mermaid"><code>graph TD
+    Root(EXP) --- CALL((CALL))
+    CALL --- f(f)
+    CALL --- args(args)</code></pre>
+<p>立刻将每个返回值分配给一个全新的临时寄存器：
+<code>CALL(f, args)</code> -&gt; <code>ESEQ(MOVE(TEMP t, CALL(f, args)), TEMP t)</code> 。</p>
+<pre class="mermaid"><code>graph TD
+    Top((ESEQ)) --- S(MOVE)
+    Top --- E(TEMP t)
+
+    S --- T1(TEMP t)
+    S --- C((CALL))
+    C --- f(f)
+    C --- args(args)
+
+    style S stroke:#ff0000,stroke-width:2px
+    style E stroke:#ff0000,stroke-width:2px</code></pre>
+<h3 id="815-seq">8.1.5. 消除 SEQ 形成线性列表</h3>
+<p>一旦处理完整个函数体，结果是一棵将所有 <code>SEQ</code> 节点都堆在顶部的树 <code>SEQ(SEQ(SEQ(..., sx), sy), sz)</code>。</p>
+<pre class="mermaid"><code>graph TD
+    SEQ1(SEQ) --- SEQ2(SEQ)
+    SEQ1 --- s3(s3)
+    SEQ2 --- SEQ3(SEQ)
+    SEQ2 --- s2(s2)
+    SEQ3 --- s0(...)
+    SEQ3 --- s1(s1)</code></pre>
+<p>我们重复应用规则：<code>SEQ(SEQ(a,b), c) = SEQ(a, SEQ(b,c))</code>。</p>
+<p>整个树被线性化为：<code>SEQ(s_1, SEQ(s_2, ..., SEQ(s_{n-1}, s_n)...))</code>。</p>
+<pre class="mermaid"><code>graph TD
+    S1(SEQ) --- s1(s1)
+    S1 --- S2(SEQ)
+    S2 --- s2(s2)
+    S2 --- S3(SEQ)
+    S3 --- s3(s3)
+    S3 --- sn(...)</code></pre>
+<p>这等价于一个纯粹的语句线性列表：<span class="arithmatex">\(S_1, S_2, ..., S_n\)</span>。所有的 <span class="arithmatex">\(S_i\)</span> 都不再包含 <code>SEQ</code> 或 <code>ESEQ</code> 节点 。</p>
+<h2 id="82-taming-conditional-branches-basic-blocks">8.2. 驯服条件分支 (Taming Conditional Branches)--&gt; 基本块 (Basic Blocks)</h2>
+<p>现在进入阶段2和3：将列表分组为“基本块”，并将块排序为“轨迹”，使得 <code>CJUMP</code> 后面立刻跟随着 <code>False</code> 标签。这使得可以直接在真机上将其翻译为单向的条件分支。</p>
+<h3 id="821-basic-blocks">8.2.1.  基本块 (Basic Blocks) 的动机与定义</h3>
+<p>在确定程序中的跳转指令指向何处时，我们实际上是在分析程序的控制流。</p>
+<p><strong>控制流</strong>是指<em>忽略寄存器和内存中的数据值</em>且<em>忽略算术运算</em>程序中指令的执行顺序。</p>
+<p>我们无法预知条件跳转指令会跳转到其标签为真还是假的位置；因此，我们简单地说，这类跳转指令
+可以跳转到任何位置。在分析程序的控制流时，任何非跳转指令的行为都完全不值得关注。将所有非分支指令序列归为基本块，并分析基本块之间的控制流。</p>
+<p>在分析程序的控制流时，我们只看程序指令的执行顺序，忽略数据值和算术计算。非跳转指令的控制流行是不起眼的。因此，把所有非分支指令捆绑在一起形成“基本块”，只去分析基本块之间的控制流 。</p>
+<h4 id="8212">8.2.1.2. 基本块的定义：</h4>
+<p>一段总是从开头进入、从结尾退出的语句序列。也就是：</p>
+<ul>
+<li>第一条语句是 <code>LABEL</code>。</li>
+<li>最后一条语句是 <code>JUMP</code> 或 <code>CJUMP</code>。</li>
+<li>中间绝对没有其他的 <code>LABEL</code>、<code>JUMP</code> 或 <code>CJUMP</code> 。</li>
+</ul>
+<blockquote>
+<p>只要你进入了这个块，在中途绝不会被任何 GOTO 打断，也绝对不能中途 GOTO 到别的地方去，必须一口气走到黑，直到最后一句跳出。编译器极其喜欢基本块，因为在里面做优化不用担心逻辑错乱。</p>
+</blockquote>
+<h3 id="822">8.2.2. 基本块的划分算法</h3>
+<h4 id="8221">8.2.2.1. 基本块划分算法</h4>
+<ol>
+<li>从头到尾扫描语句序列；</li>
+<li>每当发现一个 <code>LABEL</code>，就开始一个新块（前一个块结束）；</li>
+<li>每当发现一个 <code>JUMP</code> 或 <code>CJUMP</code>，就结束一个块（下一个块开始）；</li>
+<li>如果这导致任何块没有以 <code>JUMP</code> 或 <code>CJUMP</code> 结尾，就在该块后面追加一个指向下一个块标签的 <code>JUMP</code>；</li>
+<li>如果任何块开头没有 <code>LABEL</code>，就发明一个新的 label 贴在开头 。</li>
+</ol>
+<blockquote>
+<p>这个切分算法极其暴力且有效。看到入口（Label）就一刀切，看到出口（Jump）也一刀切。如果不符合“一头一尾”的标准，编译器就强行给你补上（自己造一个跳转或者标签）。</p>
+</blockquote>
+<h4 id="8222">8.2.2.2. 基本块划分示例</h4>
+<p>原始三地址码代码：</p>
+<p><code>pascal
+(1) x := input
+(2) y := x - 1
+(3) z := x * y
+(4) if z &lt; x goto (7)
+(5) p := x / y
+(6) q := p + y
+(7) a := q
+(8) b := x + a
+(9) c := a - b
+(10) if p == q goto (12)
+(11) goto (3)
+(12) return</code></p>
+<p>首先三地址码每条指令都是 label，但是真正的 label 是 <code>JUMP</code> 指令的目的地</p>
+<ol>
+<li>
+<p>找 Label 开头：由于指令(3), (7), (12)是被别人goto过来的，相当于隐含的Label，所以以它们为新块起点 。</p>
+</li>
+<li>
+<p>找 Jump 结尾：(4), (10), (11) 都是 jump 或 cjump，所以在这三处结束基本块，并在后面的 (5), (11), (12) 开启新块 。</p>
+</li>
+<li>
+<p>最终分出的基本块起点为：(1), (3), (5), (7), (11), (12) 。</p>
+<pre class="mermaid"><code>flowchart TD
+    I1["(1) x := input"] --&gt; I2["(2) y := x - 1"]
+    I2 --&gt; L3["(3) LABEL"]
+    L3 --&gt; I3["z := x * y"]
+    I3 --&gt; I4["(4) if z &lt; x goto (7)"]
+    I4 -. "结束块: 遇到CJUMP" .-&gt; I5["(5) p := x / y"]
+    I5 --&gt; I6["(6) q := p + y"]
+    I6 --&gt; L7["(7) LABEL"]
+    L7 --&gt; I7["a := q"]
+    I7 --&gt; I8["(8) b := x + a"]
+    I8 --&gt; I9["(9) c := a - b"]
+    I9 --&gt; I10["(10) if p == q goto (12)"]
+    I10 -. "结束块: 遇到CJUMP" .-&gt; I11["(11) goto (3)"]
+    I11 -. "结束块: 遇到JUMP" .-&gt; L12["(12) RETURN"]</code></pre>
+</li>
+<li>
+<p>给上述代码强行加入 Tree 语言的 <code>LABEL</code> 和 <code>JUMP</code> 后形成规范树节点形态。</p>
+<ul>
+<li>这是因为可以强制把执行顺序固定下来，从而方便后续随便换顺序。</li>
+</ul>
+<pre class="mermaid"><code>graph TD
+    subgraph TAC ["原始三地址码片段 (TAC)"]
+        direction TB
+        T1["(5) p := x / y&lt;br/&gt;(6) q := p + y"]
+        T2["(7) a := q&lt;br/&gt;(8) b := x + a&lt;br/&gt;(9) c := a - b&lt;br/&gt;(10) if p == q goto (12)"]
+    end
+
+    TAC ==&gt;|"变换为 Tree 语言"| TREE
+
+    subgraph TREE ["Tree 语言基本块 (Canonical Trees)"]
+        direction TB
+        B1["&lt;b&gt;LABEL(five)&lt;/b&gt;&lt;br/&gt;MOVE(TEMP p, BINOP(DIV, TEMP x, TEMP y))&lt;br/&gt;MOVE(TEMP q, BINOP(PLUS, TEMP p, TEMP y))&lt;br/&gt;JUMP(NAME seven)"]
+
+        B2["&lt;b&gt;LABEL(seven)&lt;/b&gt;&lt;br/&gt;MOVE(TEMP a, TEMP q)&lt;br/&gt;MOVE(TEMP b, BINOP(PLUS, TEMP x, TEMP a))&lt;br/&gt;MOVE(TEMP c, BINOP(MINUS, TEMP a, TEMP b))&lt;br/&gt;CJUMP(EQ, TEMP p, TEMP q, twelve, eleven)"]
+    end
+
+    %% 关键点染色
+    style B1 fill:#e3f2fd,stroke:#1976d2
+    style B2 fill:#e3f2fd,stroke:#1976d2</code></pre>
+</li>
+</ol>
+<h2 id="83-taming-conditional-branches-traces">8.3. 驯服条件分支 (Taming Conditional Branches)--&gt; 轨迹 (Traces)</h2>
+<blockquote>
+<p>再次强调最后阶段目标：重排基本块，确保 <code>CJUMP(cond, It, If)</code> 后面立即跟着 <code>LABEL(If)</code> 。基本块是散落的珠子，现在我们要把它们串起来，形成“轨迹”。</p>
+</blockquote>
+<h3 id="831">8.3.1. 轨迹的动机与定义</h3>
+<p>基本块可以按任意顺序排列，执行结果相同。基于此，我们可以选择一种顺序，满足：每个 <code>CJUMP</code> 后面紧跟着它的假标签。我们还可以让许多无条件 <code>JUMP</code> 后面紧跟着它们的目标标签，从而允许删除这些无用的 jump 语句，让程序跑得更快一点。</p>
+<p>轨迹的定义：可以在程序执行期间连续执行的一系列语句序列，可以包含条件分支。</p>
+<p>我们希望找出一个“完全覆盖 (exactly covers)”程序的轨迹集合：</p>
+<ul>
+<li>每个块必须且只能处于一条轨迹中。</li>
+<li>每条轨迹不能有循环。</li>
+<li>我们希望这个覆盖集合里的轨迹数量越少越好（以最小化跨轨迹的无条件跳转 JUMP） 。</li>
+</ul>
+<h3 id="832-dfs">8.3.2. 生成轨迹的算法 (DFS)</h3>
+<p>如何找到覆盖轨迹集？</p>
+<p>思路是从某个块开始（轨迹起点），沿着一条可能的执行路径一直摸索。如果 <code>b1</code> jump到 <code>b4</code>，<code>b4</code> jump到 <code>b6</code>，轨迹就是 <code>b1, b4, b6</code>。如果遇到条件分支 <code>CJUMP(cond, b7, b3)</code>，我们把假分支 <code>b3</code> 丢进当前轨迹，而真分支 <code>b7</code> 留给其他轨迹去串 。</p>
+<p>```pascal
+把程序所有的块放进列表 Q。</p>
+<p>while Q not empty：
+    启动一条新轨迹 T。
+    从 Q 中取出【第一个】未 marked 的块 b。
+    while b not marked：
+        mark b；
+        把 b 追加到 T 的末尾。
+        for (b 的所有后续块(它分支指向的块)):
+            if 任何未 marked 的后继块 c：
+                b -&gt; c
+    如果没有未标记的后继块了，结束当前轨迹 T。
+不断重复，直到所有块都被串联 。
+```</p>
+<h3 id="833-finishing-up">8.3.3. 最后的修整 (Finishing Up)</h3>
+<p>为了简化后续编译阶段的实现，Tiger 编译器会将整理好的轨迹列表重新展平为一个极长的语句列表。执行一些细微调整：</p>
+<ul>
+<li>
+<p>任何 <code>CJUMP</code> 后面紧跟着假标签：</p>
+<ul>
+<li>放着别动（符合预期）。</li>
+</ul>
+</li>
+<li>
+<p>任何 <code>CJUMP</code> 后面紧跟着真标签：</p>
+<ul>
+<li>反转条件（比如大于变小于等于），并交换真假标签。</li>
+</ul>
+</li>
+<li>
+<p>任何 <code>CJUMP(cond, a, b, It, If)</code> 后面既没跟真标签，也没跟假标签：</p>
+<ul>
+<li>发明一个新的假标签 <code>If'</code>。</li>
+<li>将这条语句重写为三条：
+    <code>CJUMP(cond, a, b, It, If')
+    LABEL If'
+    JUMP(NAME If)</code>
+    总有倒霉的时候：比如一个岔路口的两个目标分支都已经别分配到其他轨迹了。此时无论怎么排，<code>CJUMP</code> 后面都没法紧跟它的 False 标签。没办法，编译器只好强行在它下面“垫”一条指令，建一个虚拟的 False 标签，然后利用一个无条件 <code>JUMP</code> 把它硬生生地“弹射”回正确的 False 轨道。</li>
+</ul>
+</li>
+</ul>
+<h3 id="834-optimal-traces">8.3.4. 最优轨迹 (Optimal Traces)</h3>
+<p>任何频繁执行的指令序列（如循环体）都应占据属于自己的轨迹。这有助于尽量减少无条件跳转的数量，并且有助于其他的优化（寄存器分配、指令调度） 。</p>
+<p>三种 While 循环编译后的轨迹排布方案。</p>
+<ul>
+<li>循环体包含一个开头的 CJUMP(跳出) 和末尾的一个 JUMP(回开头)。</li>
+</ul>
+<pre class="mermaid"><code>graph TD
+
+LABEL---&gt;CJUMP--&gt;BODY---&gt;JUMP---&gt;LABEL
+CJUMP--&gt;exit</code></pre>
+<ul>
+<li>
+<p>将循环体放入和<code>CJUMP</code>不同的轨迹：仍然包含一个 CJUMP 和 JUMP。</p>
+</li>
+<li>
+<p>最优排布：在开头先执行一次 JUMP 跳转到条件测试。循环体结尾直接使用一个反向的 <code>CJUMP(≤)</code> 跳回开头。除了第一次迭代外，后续每次迭代只有1条 <code>CJUMP</code>，少执行了一条 <code>JUMP</code> 。</p>
+</li>
+</ul>
+<pre class="mermaid"><code>graph TD
+c2[CJUMP]--&gt;exit
+c2[CJUMP]--&gt;LABEL
+LABEL---&gt;BODY---&gt;CJUMP--&gt;LABEL
+CJUMP--&gt;exit</code></pre>
+<h2 id="84-summary">8.4核心总结 (Summary)</h2>
+<ul>
+<li>
+<p>问题：IR树与机器指令不匹配。</p>
+<ul>
+<li><code>CJUMP</code> vs 机器条件跳转</li>
+<li><code>ESEQ</code> 和 <code>CALL</code> 中的子树评估顺序问题。</li>
+<li><code>CALL</code> 作为另一个 <code>CALL</code> 的参数。</li>
+</ul>
+</li>
+<li>
+<p>解决：分三阶段转换树。</p>
+<ol>
+<li>重写为无 <code>SEQ/ESEQ</code> 的规范树列表（消灭 <code>ESEQ/CALL</code> 冲突）。</li>
+<li>将列表分组为基本块（无内部跳转/标签）。</li>
+<li>将基本块重排为轨迹，确保 <code>CJUMP</code> 紧跟假标签（消灭 <code>CJUMP</code> 冲突） 。</li>
+</ol>
+</li>
+</ul>
+<h2 id="85-canon-c">8.5 附录：Canon 模块的 C 语言源码解析</h2>
+<p><em>(以下为附录代码部分，详细展示了前面讲述的转换规则在C语言中的具体实现)</em></p>
+<h3 id="52">第52页：规范树构造规则汇总</h3>
+<p><strong>【完整翻译】</strong>
+以表格形式汇总了第14、16、17页提到的所有 <code>ESEQ</code>、<code>CALL</code> 等重写公式规则 。
+<strong>【讲解】</strong>
+这是一张 Cheat Sheet（备忘录），在写编译器代码时，对着这张表写递归即可。</p>
+<h3 id="53-62canon-c">第53-62页：Canon 模块的 C 语言源码解析</h3>
+<p><strong>【完整翻译与讲解整合】</strong>
+(第53页)：展示了 <code>Canon</code> 模块的核心接口：<code>linearize</code> (拔除 ESEQ，扁平化)、<code>basicBlocks</code> (生成基本块) 和 <code>traceSchedule</code> (轨迹排布) 的 C 语言函数签名定义 。
+(第54-56页)：展示了 <code>reorder</code>、<code>do_stm</code>、<code>do_exp</code> 的结构体和签名。<code>reorder</code> 的作用是从子表达式列表中提取语句，更新表达式为干净版本 。
+(第57-59页)：详细给出了 <code>do_stm</code> (处理语句) 的代码实现。使用巨大的 <code>switch-case</code> 匹配节点类型 (<code>T_SEQ</code>, <code>T_JUMP</code>, <code>T_MOVE</code> 等)。一旦发现嵌套，就调用 <code>reorder</code> 把副作提取出来，用纯净的表达式重新拼装 。
+(第60-62页)：给出了 <code>do_exp</code> (处理表达式) 的代码。当遇到 <code>ESEQ</code> 表达式时，会将其内部的 <code>stm</code> 提出，并通过 <code>StmExp</code> 结构返回给上一层，实现副作用语句的不断“向上传递” 。
+<strong>【讲解】</strong>
+如果您不打算亲手手写一套基于 C 语言的 Tiger 编译器，这几页的源码大致浏览其设计模式即可。其核心逻辑完全印证了前面“递归下降 + 节点重写 + 向上提权”的数学转换思路。</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.sections", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  </body>
+</html>
