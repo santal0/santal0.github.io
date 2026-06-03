@@ -57,6 +57,7 @@ nav:
       - chapter9 指令选择: ./courses/CompilerPrinciple/Chapter9.md
       - chapter10 Liveness Analysis（活跃分析）: ./courses/CompilerPrinciple/Chapter10.md
       - chapter11 寄存器分配: ./courses/CompilerPrinciple/Chapter11.md
+      - chapter13 垃圾回收: ./courses/CompilerPrinciple/Chapter13.md
       - Tiger 语言: ./courses/CompilerPrinciple/Tiger.md
   - cs 相关: 
     - Git 速查: ./cs/Git.md
