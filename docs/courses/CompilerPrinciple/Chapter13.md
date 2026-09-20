@@ -290,274 +290,316 @@ function DFS(x)
 
 原本：`A -> B`，遍历时临时改成：`B -> A`，用于“返回”。回来后再恢复。
 
+临时变量 T 用于储存当前节点的父节点
+
+临时变量 x 用于储存当前节点
 
 #### 13.2.7.2. pointer Reversal 示例
 
-这些页是在演示：
+##### 处理 root
 
-```text
-       Root
-         |
-         A
-       /   \
-      B     C
-             \
-              D
+T = NULL
+
+x = root
+
+```mermaid
+flowchart TB
+    Root["Root"] --> A["A"]
+    A --> B["B"]
+    A --> C["C"]
+    C --> D["D"]
+    D --> B
+
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style B fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style C fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style D fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
 ```
 
----
 
-# 思想
+##### 进入 A
 
-正常 DFS：
+T=root
 
-```text
-Root
- -> A
-   -> B
-返回
-   -> C
-      -> D
+x=A
+
+```mermaid
+flowchart TB
+    Root["Root"] --> nill
+    A["A"] --> B["B"]
+    A --> C["C"]
+    C --> D["D"]
+    D --> B
+
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style C fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style D fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
 ```
 
----
+##### 进入 B
 
-# Pointer Reversal
+T = A
 
-访问 B 时：
+x = B
 
-把：
+```mermaid
+flowchart TB
+    Root["Root"] --> nill
+    A["A"] -->  Root["Root"] 
+    B["B"]
+    A --> C["C"]
+    C --> D["D"]
+    D --> B
 
-```text
-A -> B
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style D fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
 ```
 
-临时变：
+B 没有子节点了，返回 A。
 
-```text
-B -> A
+
+T=root
+
+x=A
+
+```mermaid
+flowchart TB
+    Root["Root"] --> Nill
+    A["A"] --> B["B"]
+    A --> C["C"]
+    C --> D["D"]
+    D --> B
+
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
+    style D fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
 ```
 
-这样：
+##### 进入 C
 
-无需栈。
+T = A
 
-就能回去。
+x = C
 
----
 
-# 本质
 
-## “边”充当返回地址。
+```mermaid
+flowchart TB
+    Root["Root"] --> Nill
+    A["A"] --> B["B"]
+    A --> Root["Root"] 
+    C["C"]
+    C --> D["D"]
+    D --> B
 
----
-
-# 第34-43页：完整 Pointer Reversal 算法
-
----
-
-# done[x]
-
-表示：
-
-```text
-x 已处理多少字段
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style D fill:#ffffff,stroke:#000,stroke-width:2px,color:#000
 ```
 
-因为回溯后：
+##### 进入 D
 
-需要知道：
+T = C
 
-```text
-下一步处理哪个 child
+x = D
+
+
+
+```mermaid
+flowchart TB
+    Root["Root"] --> Nill
+    A["A"] --> B["B"]
+    A --> Root["Root"] 
+    C["C"]
+    C --> A["A"]
+    D --> B
+
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style D fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
 ```
 
----
+##### 回溯 C
+T = A
 
-# t
+x = C
 
-相当于：
+```mermaid
+flowchart TB
+    Root["Root"] --> Nill
+    A["A"] --> B["B"]
+    A --> Root["Root"] 
+    C["C"]
+    C -->D["D"]
+    D --> B
 
-```text
-stack top
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style D fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
 ```
 
-但：
+##### 回溯 A
+T = root
 
-不是实际栈。
+x = A
 
----
+```mermaid
+flowchart TB
+    Root["Root"] --> Nill
+    A["A"] --> C["C"]
+    A --> B
+    
+    C -->D["D"]
+    D --> B
 
-# 最核心语句
-
-```text
-x.fi ← t
-t ← x
-x ← y
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style D fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
 ```
 
----
+##### 回溯 Root
 
-# 含义
+T = NULL
 
-## Step1
+x = Root
 
-保存原链接。
+```mermaid
+flowchart TB
+    Root["Root"] --> A["A"]
+    A["A"] --> C["C"]
+    A --> B
+    
+    C -->D["D"]
+    D --> B
 
----
-
-## Step2
-
-把 parent 压入“隐式栈”。
-
----
-
-## Step3
-
-进入 child。
-
----
-
-# 回溯时
-
-```text
-t ← x.fi
-x.fi ← y
+    style Root fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style A fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style B fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style C fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
+    style D fill:#ffff00,stroke:#000,stroke-width:2px,color:#0066cc
 ```
 
-恢复原图。
+#### 13.2.7.3. pointer Reversal 代码
 
----
+```cpp
+function DFS(x)
+  if x is a pointer and record x is not marked
+    t ← nil
+    mark x; 
+    done[x] ← 0
+    while true
+      i ← done[x]
+      if i < # of fields in record x /* process the i_th field */
+        y ← x. fi
+        if y is a pointer and record y is not marked
+          x. fi ← t;
+          t ← x;
+          x ← y
+          mark x;
+          done[x] ← 0
+        else
+          done[x] ← i + 1
+  else
+    /* decide termination & back-track to parent.*/
+    y ← x; x ← t
+    if x = nil then return
+    i ← done[x]
+    t ← x. fi; x. fi ← y
+    done[x] ← i + 1
 
-# Pointer Reversal 最大意义
 
-## 优点
-
-不用：
-
-```text
-O(H)
 ```
 
-辅助栈。
+### 13.2.8. 碎片
 
----
+外部碎片：程序想分配大小为 n 的记录，堆中有许多小于 n 的空闲记录，但没有合适大小的空闲块。
 
-## 代价
+内部碎片：程序使用过大的记录且没有拆分，未使用空间位于记录内部而非外部。
 
-算法非常复杂。
+## 13.3. Reference Counting（引用计数）
 
-现实系统较少直接使用。
+### 13.3.1. Reference Counting（引用计数）： What
 
----
+与其等内存耗尽，不如当没有指针指向某记录时就收集它。
 
-# 第44页：Mark-Sweep 总结
+为每个记录维护有多少指针指向它，即 reference count；计数随记录存储。新引用建立时增加计数；当计数变为0时，该记录不可达，是垃圾，可被收集。
 
-## 优点
+引用计数：
 
-* GC 时对象不移动
-* 能处理循环引用
+* 每个对象有一个引用计数器
+* 每次引用对象时，计数器加一
+* 每次释放对象时，计数器减一
 
----
+当计数器为零时，对象被回收。
 
-## 缺点
+注意，释放对象可能连带导致子节点计数器减一
 
-* GC 时程序暂停
-* 堆碎片化
+### 13.3.2. Reference Counting： How
 
-导致：
 
-* cache miss
-* 分配复杂
 
----
+如何维护引用计数：
 
-# 讲解
+* 编译器在每次赋值操作中插入额外指令来操作 reference counts。
+* 每当 p 存入 x.fi，即 x.fi=p 时
+    * p 的计数增加，
+    * x.fi 原先指向对象的计数减少。
+* 若某记录 z 的计数变为0
+    * z 放入 freelist
+    *  z 指向的其他记录的计数也要减少。
 
----
 
-# 为什么“不移动对象”是优点？
+### 13.3.3. Reference Counting 的问题
 
-若对象地址改变：
+#### 13.3.3.1. 问题
 
-所有指针都要更新。
+处理链式的 free 会导致程序很慢
 
-很贵。
+#### 13.3.3.2. 解决
 
----
+当记录 z 放入 freelist 时，与其立即递减 z.fi 指向记录的计数，不如在 z 从 freelist 移出时再做这种“递归”递减。
 
-# 为什么会碎片化？
+理由：
 
-例如：
+* 把递归递减工作切成更短片段，使程序运行更平滑，对交互式或实时程序重要；
+* 递归递减只在 allocator 一个地方完成。例子：z.fi -> p，p.fi -> q。
 
-```text
-[活][死][活][死][活]
-```
+### 13.3.4. 难以解决的问题
 
-回收后：
+1. 无法处理循环引用
 
-```text
-[活][空][活][空][活]
-```
+2. 代价很大
 
-空闲空间不连续。
+## 13.4 Copying Collection（复制收集）
 
-大对象可能无法分配。
+复制收集基本思想：把内存分成两部分，通过复制进行收集。
 
----
+* from-space 是程序正在使用的区域；
+* to-space 在垃圾收集前未使用。
 
-# 总结整章核心
+当 from-space 用尽时，遍历程序变量与 from-space 构成的图，把所有 reachable records 复制到 to-space。复制完成后，roots 指向 to-space 副本；整个 from-space 不可达；交换 from-space 和 to-space 的角色。to-space 副本是 compact 的：占据连续内存，没有碎片。
 
----
 
-# GC 本质
 
-```text
-图遍历
-```
+TODO
 
----
+## 13.6. 垃圾收集的接口
 
-# Mark-Sweep
+虽然 garbage collector 属于 runtime，但带GC语言的编译器需要与GC交互：生成分配记录的代码；为每次GC描述 roots 的位置；描述 heap 上数据记录的布局；为某些增量收集生成 read/write barrier 指令；等等。
 
-## Mark
-
-找活对象
-
-## Sweep
-
-回收死对象
-
----
-
-# Reachability
-
-GC 的核心判定标准：
-
-```text
-从 Root 能否访问
-```
-
----
-
-# Pointer Reversal
-
-核心思想：
-
-```text
-利用图本身存储DFS返回路径
-```
-
-实现：
-
-```text
-O(1)额外空间
-```
-
-遍历。
-
----
-
-# 一句话理解整章
-
-> 垃圾回收本质上是在“对象引用图”中，从 Root 出发做图搜索，把未访问节点视为垃圾并回收。 
