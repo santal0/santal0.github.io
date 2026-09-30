@@ -1,7 +1,7 @@
 site_name: 沈檀的妙妙屋
 site_url: https://santal0.github.io/
 exclude_docs: |
-  /courses/ALMI/AGENT.md
+  AGENT.md
 markdown_extensions:
   - neoteroi.cards
   - pymdownx.arithmatex:

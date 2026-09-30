@@ -1,6 +1,6 @@
 # Chapter 2 微处理器体系结构与内存管理
 
-本笔记对应 [Chapter 2 – The Microprocessor and Its Architecture.pdf](Chapter%202-The%20Microprocessor%20and%20Its%20Architecture.pdf)（共 189 页）。内容包括程序可见寄存器、运行模式、实模式分段、保护模式、分页，以及 TLS、模式切换、地址翻译加速和页表自映射等附录。页码指 PDF 页序。
+本笔记依据课件《Chapter 2 – The Microprocessor and Its Architecture》（共 189 页）整理。内容包括程序可见寄存器、运行模式、实模式分段、保护模式、分页，以及 TLS、模式切换、地址翻译加速和页表自映射等附录。页码指原课件的 PDF 页序。
 
 前置阅读：[第 1 章：微处理器与数据表示](Chapter1.md)。下一章：[寻址方式](Chapter3.md)。计算内存容量时，KiB、MiB、GiB 分别代表 $2^{10}$、$2^{20}$、$2^{30}$ 字节。
 
