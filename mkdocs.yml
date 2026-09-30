@@ -1,5 +1,7 @@
 site_name: 沈檀的妙妙屋
 site_url: https://santal0.github.io/
+exclude_docs: |
+  /courses/ALMI/AGENT.md
 markdown_extensions:
   - neoteroi.cards
   - pymdownx.arithmatex:
@@ -46,6 +48,11 @@ theme:
 nav:
   - 首页: index.md
   - 课程: 
+    - 汇编语言与微机接口（ALMI）:
+      - Chapter 0 课程导论: courses/ALMI/Chapter0.md
+      - Chapter 1 微处理器与数据表示: courses/ALMI/Chapter1.md
+      - Chapter 2 微处理器体系结构与内存管理: courses/ALMI/Chapter2.md
+      - Chapter 3 寻址方式: courses/ALMI/Chapter3.md
     - 编译原理:
       - chapter2 词法分析: ./courses/CompilerPrinciple/chapter2.md
       - chapter3 语法分析: ./courses/CompilerPrinciple/Chapter3.md
